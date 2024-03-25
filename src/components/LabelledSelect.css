@@ -1,0 +1,14 @@
+label {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  width: max-content;
+  font-weight: bold;
+}
+
+select {
+  border: none;
+  background-color: whitesmoke;
+  padding: 1rem 0rem 1rem 1rem;
+  border-right: 1rem solid transparent;
+}

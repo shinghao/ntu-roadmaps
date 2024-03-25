@@ -1,0 +1,45 @@
+{
+  "Computer Science": {
+    "careers": [
+      "Cyber Security",
+      "AI Engineer",
+      "Full-stack Developer",
+      "Data Engineer",
+      "Business Analyst"
+    ]
+  },
+  "Computer Engineering": {
+    "careers": [
+      "Firmware Engineer",
+      "Computer Engineer",
+      "Computer Hardware Engineer",
+      "Embedded System Developer",
+      "System Architect"
+    ]
+  },
+  "Data Science and Artificial Intelligence": {
+    "careers": [
+      "Machine Learning Engineer",
+      "Data Scientist",
+      "Data Analyst",
+      "AI Engineer",
+      "AI Scientist"
+    ]
+  },
+  "Double Degree in Computer Science and Business": {
+    "careers": [
+      "Cybersecurity Consultant/Analyst",
+      "Project Manager",
+      "Software Engineer"
+    ]
+  },
+  "Double Degree in Computer Engineering and Business": {
+    "careers": ["Software Engineer"]
+  },
+  "Double Degree in Computer Science/Engineering and Economics": {
+    "careers": ["Software Engineer"]
+  },
+  "Double Degree in Computer Engineering and Economics": {
+    "careers": []
+  }
+}

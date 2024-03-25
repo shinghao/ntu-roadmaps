@@ -1,0 +1,14 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font: 1em / 1.55 Lato, Arial, sans-serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}

@@ -1,0 +1,358 @@
+{
+  "SC1003": {
+    "title": "Introduction to Computational Thinking & Programming",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["Nil"]
+  },
+  "SC1005": {
+    "title": "Digital Logic",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["Nil"]
+  },
+  "SC1013": {
+    "title": "Physics For Computing",
+    "type": "Core",
+    "AU": 2,
+    "prerequisites": ["Nil"]
+  },
+  "MH1810": {
+    "title": "Mathematics I",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["Nil"]
+  },
+  "MH1812": {
+    "title": "Discrete Mathematics",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["Nil"]
+  },
+  "CC0003": {
+    "title": "Ethics & Civics in a Multicultural World",
+    "type": "C-Core",
+    "AU": 2,
+    "prerequisites": ["Nil"]
+  },
+  "CC0005": {
+    "title": "Healthy Living & Wellbeing",
+    "type": "C-Core",
+    "AU": 3,
+    "prerequisites": ["Nil"]
+  },
+  "HW0001": {
+    "title": "Introduction to Academic Communication",
+    "type": "-",
+    "AU": "-",
+    "prerequisites": ["For student who failed QET"]
+  },
+  "SC1004": {
+    "title": "Linear Algebra for Computing",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC1003", "MH1810"]
+  },
+  "SC1006": {
+    "title": "Computer Organisation & Architecture",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC1005"]
+  },
+  "SC1007": {
+    "title": "Data Structures & Algorithms",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC1003"]
+  },
+  "EG1001": {
+    "title": "Engineers in Society",
+    "type": "Core",
+    "AU": 2,
+    "prerequisites": []
+  },
+  "SC1015": {
+    "title": "Introduction to Data Science & Artificial Intelligence",
+    "type": "F-Core",
+    "AU": 3,
+    "prerequisites": ["SC1003"]
+  },
+  "CC0001": {
+    "title": "Inquiry & Communication in an Interdisciplinary World",
+    "type": "C-Core",
+    "AU": 2,
+    "prerequisites": []
+  },
+  "CC0002": {
+    "title": "Navigating the Digital World",
+    "type": "C-Core",
+    "AU": 2,
+    "prerequisites": []
+  },
+  "SC2000": {
+    "title": "Probability & Statistics for Computing",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["MH1810"]
+  },
+  "SC2001": {
+    "title": "Algorithm Design & Analysis",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC1007", "MH1812"]
+  },
+  "SC2002": {
+    "title": "Object Oriented Design & Programming",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC1003 OR SC1007"]
+  },
+  "SC2005": {
+    "title": "Operating Systems",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC1006", "SC1007"]
+  },
+  "CC0007": {
+    "title": "Science & Technology for Humanity",
+    "type": "C-Core",
+    "AU": 3,
+    "prerequisites": []
+  },
+  "SC2006": {
+    "title": "Software Engineering",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC2002"]
+  },
+  "SC2008": {
+    "title": "Computer Network",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC2000", "SC1004"]
+  },
+  "SC2207": {
+    "title": "Introduction to Databases",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC2001"]
+  },
+  "SC3000": {
+    "title": "Artificial Intelligence",
+    "type": "MPE-1",
+    "AU": 3,
+    "prerequisites": ["SC1007", "SC1015", "SC2000"]
+  },
+  "CC0006": {
+    "title": "Sustainability: Society, Economy & Environment",
+    "type": "C-Core",
+    "AU": 3,
+    "prerequisites": []
+  },
+  "ML0004": {
+    "title": "Career & Innovative Enterprise for the Future World",
+    "type": "C-Core",
+    "AU": 2,
+    "prerequisites": []
+  },
+  "SC3010": {
+    "title": "Computing Security",
+    "type": "MPE-1",
+    "AU": 3,
+    "prerequisites": ["SC2005"]
+  },
+  "SC3xxx": {
+    "title": "Major Prescribe Elective (Choose within SC3xxx)",
+    "type": "MPE-1",
+    "AU": 3,
+    "prerequisites": ["Year 3 Standing"]
+  },
+  "SC2079": {
+    "title": "Multidisciplinary Design Project",
+    "type": "Core",
+    "AU": 4,
+    "prerequisites": ["Year 3 Standing"]
+  },
+  "HW0288": {
+    "title": "Engineering Communication",
+    "type": "F-Core",
+    "AU": 2,
+    "prerequisites": ["CC0001 & Year 3 standing"]
+  },
+  "SC3079": {
+    "title": "Professional Internship",
+    "type": "F-Core",
+    "AU": 10,
+    "prerequisites": ["Year 3 Standing"]
+  },
+  "SC4079": {
+    "title": "Final Year Project (Part 1)",
+    "type": "Core",
+    "AU": 4,
+    "prerequisites": ["Year 4 Standing"]
+  },
+  "SC4xxx": {
+    "title": "Major Prescribe Elective (Choose within SC4xxx)",
+    "type": "MPE-2",
+    "AU": 3,
+    "prerequisites": ["Year 3 Standing"]
+  },
+  "SC4079_2": {
+    "title": "Final Year Project (Part 2)",
+    "type": "Core",
+    "AU": 4,
+    "prerequisites": ["Year 4 Standing"]
+  },
+  "Broadening and Deepening Elective": {
+    "title": "Broadening and Deepening Elective",
+    "type": "BDE",
+    "AU": 3,
+    "prerequisites": ["Refer to Class Schedule"]
+  },
+  "SC2104": {
+    "title": "Sensors, Interfacing & Digital Control",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC1006"]
+  },
+  "SC2107": {
+    "title": "Microprocessor System Design and Development",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC1006"]
+  },
+  "SC2103": {
+    "title": "Digital Systems Design",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC1005"]
+  },
+  "SC3102": {
+    "title": "Signals, Systems and Transforms",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC1004"]
+  },
+  "SC3103": {
+    "title": "Embedded Programming",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC2107"]
+  },
+
+  "MH1805": {
+    "title": "Linear Algebra for Scientists",
+    "type": "Core",
+    "AU": 4,
+    "prerequisites": []
+  },
+  "MH3500": {
+    "title": "Mathematics III",
+    "type": "Core",
+    "AU": 4,
+    "prerequisites": ["MH2500"]
+  },
+  "MH3511": {
+    "title": "Mathematics IV",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["MH2500"]
+  },
+  "MH2100": {
+    "title": "Statistics",
+    "type": "Core",
+    "AU": 4,
+    "prerequisites": ["MH1805"]
+  },
+  "SC4020": {
+    "title": "Algorithms and Data Structures",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["SC2001"]
+  },
+
+  "AB1202": {
+    "title": "Organisational Behaviour and Design",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": []
+  },
+  "AB1301": {
+    "title": "Communication Across the Sciences",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": []
+  },
+  "AD1102": {
+    "title": "Financial Accounting",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": []
+  },
+  "AB1601": {
+    "title": "Introduction to Data Science & Artificial Intelligence",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": []
+  },
+  "AB0602": {
+    "title": "Careers II",
+    "type": "F-Core",
+    "AU": 4,
+    "prerequisites": ["CC0001"]
+  },
+  "AB2008": {
+    "title": "Designing & Developing Database",
+    "type": "F-Core",
+    "AU": 1,
+    "prerequisites": []
+  },
+  "BC2402": {
+    "title": "Linear Algebra for Computing",
+    "type": "Core",
+    "AU": 4,
+    "prerequisites": []
+  },
+  "BC2406": {
+    "title": "Computer Organisation & Architecture",
+    "type": "Core",
+    "AU": 4,
+    "prerequisites": []
+  },
+  "AB1201": {
+    "title": "Financial Management",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": []
+  },
+  "BC2407": {
+    "title": "Probability & Statistics for Computing",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["MH1810"]
+  },
+  "AB1501": {
+    "title": "Science & Technology for Humanity",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": []
+  },
+  "AD2102": {
+    "title": "Communication Management Strategies",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": []
+  },
+  "AB3602": {
+    "title": "Business Law",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": ["AB1501", "AB1601"]
+  },
+  "HE5091": {
+    "title": "Digital Logic",
+    "type": "Core",
+    "AU": 3,
+    "prerequisites": []
+  }
+}

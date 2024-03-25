@@ -1,0 +1,22 @@
+.legend-container {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-prerequisite-line {
+  width: 30px;
+  border-top: 2px solid #2b78e4;
+}
+
+.legend-prerequisite-dotted {
+  width: 30px;
+  border-top: 2px dotted #2b78e4;
+}
