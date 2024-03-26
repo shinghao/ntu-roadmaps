@@ -17,9 +17,17 @@ export default function Flow() {
   const [degree, setDegree] = useState<string>(
     Object.keys(typedDegreeProgrammes)[0]
   );
-
   const careers = typedDegreeProgrammes[degree].careers;
   const [career, setCareer] = useState<string>(careers[0] || "");
+  const cohorts = [
+    "AY2018",
+    "AY2019",
+    "AY2020",
+    "AY2021",
+    "AY2022",
+    "AY2023 & later",
+  ];
+  const [selectedCohort, setSelectedCohort] = useState(cohorts[0] || "");
 
   return (
     <div className="app">
@@ -30,7 +38,7 @@ export default function Flow() {
             onChangeFn={(e) => setDegree(e.target.value)}
             options={Object.keys(degreeProgrammes)}
             selectName={"select-degree"}
-            label={"Degree Programme"}
+            label={"Degree"}
           />
           <LabelledSelect
             onChangeFn={(e) => setCareer(e.target.value)}
@@ -38,8 +46,18 @@ export default function Flow() {
             selectName={"select-career"}
             label={"Career"}
           />
+          <LabelledSelect
+            onChangeFn={(e) => setSelectedCohort(e.target.value)}
+            options={cohorts}
+            selectName={"select-cohort"}
+            label={"Cohort"}
+          />
         </div>
-        <RoadmapFlowchart degree={degree} career={career} />
+        <RoadmapFlowchart
+          degree={degree}
+          career={career}
+          cohort={selectedCohort}
+        />
       </main>
       <Footer />
     </div>

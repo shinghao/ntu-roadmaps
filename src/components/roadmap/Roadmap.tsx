@@ -47,12 +47,13 @@ interface CourseData {
 export default function RoadmapFlowchart({
   degree,
   career,
+  cohort,
 }: {
   degree: string;
   career: string;
+  cohort: string;
 }) {
-  const chosenDegreeRoadmap: Record<string, string[]> =
-    roadmapData?.[degree] || roadmapData["Computer Science"];
+  const chosenDegreeRoadmap: Record<string, string[]> = roadmapData[degree];
   const typedCourseData: CourseData = coursesData;
 
   const courseCodes = Object.values(chosenDegreeRoadmap).reduce(
@@ -77,7 +78,7 @@ export default function RoadmapFlowchart({
     className: "node-title",
     position: { x: 300, y: 30 },
     data: {
-      label: <h1>{`${degree} - ${career}`}</h1>,
+      label: <h1>{`${cohort} - ${degree} - ${career}`}</h1>,
     },
     draggable: false,
     selectable: false,

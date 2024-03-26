@@ -13,8 +13,8 @@
 
 .selects-container {
   display: flex;
-  column-gap: 4rem;
-  row-gap: 1rem;
+  column-gap: 2rem;
+  row-gap: 2rem;
   flex-wrap: wrap;
   margin: 3rem 0rem;
 }
