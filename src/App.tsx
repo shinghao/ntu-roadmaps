@@ -1,11 +1,12 @@
 import "reactflow/dist/style.css";
 import "./App.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Navbar from "./components/Navbar";
 import degreeProgrammes from "./data/degreeProgrammes.json";
 import RoadmapFlowchart from "./components/roadmap/Roadmap";
 import LabelledSelect from "./components/LabelledSelect";
 import Footer from "./components/Footer";
+import CourseModal from "./components/roadmap/CourseModal";
 
 const typedDegreeProgrammes: {
   [degree: string]: {
@@ -28,9 +29,16 @@ export default function Flow() {
     "AY2023 & later",
   ];
   const [selectedCohort, setSelectedCohort] = useState(cohorts[0] || "");
+  const [selectedCourseId, setSelectedCourseId] = useState("");
+  const dialogRef = useRef(null);
+  const handleShowModal = (courseId: string): void => {
+    dialogRef.current.showModal();
+    setSelectedCourseId(courseId);
+  };
 
   return (
     <div className="app">
+      <CourseModal courseId={selectedCourseId} dialogRef={dialogRef} />
       <Navbar />
       <main className="content">
         <div className="selects-container">
@@ -57,6 +65,7 @@ export default function Flow() {
           degree={degree}
           career={career}
           cohort={selectedCohort}
+          handleShowModal={handleShowModal}
         />
       </main>
       <Footer />

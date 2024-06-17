@@ -1,0 +1,34 @@
+.courseNode {
+  display: flex;
+  gap: 1rem;
+}
+
+.courseNode-btn {
+  text-align: left;
+  font-size: 1em;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid rgb(212, 212, 216);
+  cursor: pointer;
+  padding: 0rem 1rem;
+}
+
+.courseNode-btn:hover {
+  border: 1px solid gray;
+}
+
+.arrow {
+  margin-left: auto;
+}
+
+input[type="checkbox"] {
+  cursor: pointer;
+  z-index: 100;
+  accent-color: grey;
+}
+
+input[type="checkbox"]:checked {
+  color: grey;
+}

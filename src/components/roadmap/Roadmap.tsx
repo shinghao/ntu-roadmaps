@@ -1,37 +1,27 @@
-import ReactFlow, {
-  Controls,
-  Background,
-  MiniMap,
-  Node,
-  Edge,
-  MarkerType,
-} from "reactflow";
+import ReactFlow, { Controls, Node, Edge, MarkerType, Panel } from "reactflow";
+import CourseNode from "../../customNodes/CourseNode";
 import roadmapData from "../../data/roadmapdata.json";
 import coursesData from "../../data/courses.json";
 import "./Roadmap.css";
 import RoadmapLegend from "./Legend";
+import { useMemo } from "react";
 
-const CHILD_NODE_WIDTH = 100;
-const CHILD_NODE_HEIGHT = 40;
-const CHILD_YPOS_START = 40;
-const CHILD_XPOS_START = 20;
-const XPOS_BETWEEN_CHILD = 10;
+const CHILD_NODE_WIDTH = 600;
+const CHILD_NODE_HEIGHT = 50;
+const CHILD_YPOS_START = 60;
+const CHILD_XPOS_START = 50;
+// const XPOS_BETWEEN_CHILD = 10;
+const YPOS_BETWEEN_CHILD = 12;
 
-const PARENT_NODE_HEIGHT = 100;
 const PARENT_XPOS_START = 100;
 const PARENT_YPOS_START = 120;
-const YPOS_BETWEEN_PARENTS = 30;
+const YPOS_BETWEEN_PARENTS = 40;
 
-const legendNode: Node = {
-  id: "legendNode",
-  position: { x: 15, y: 15 },
-  data: {
-    label: <RoadmapLegend />,
-  },
-  style: {
-    width: "max-content",
-  },
-};
+const INITIAL_EDGE_OFFSET = 20;
+const EDGE_OFFSET = 10;
+
+const childHeightAndSpace = YPOS_BETWEEN_CHILD + CHILD_NODE_HEIGHT;
+const parentWidth = CHILD_XPOS_START + CHILD_NODE_WIDTH + CHILD_XPOS_START;
 
 interface Course {
   title: string;
@@ -44,17 +34,22 @@ interface CourseData {
   [courseCode: string]: Course;
 }
 
+const typedCourseData: CourseData = coursesData;
+
 export default function RoadmapFlowchart({
   degree,
   career,
   cohort,
+  handleShowModal,
 }: {
   degree: string;
   career: string;
   cohort: string;
+  handleShowModal: (id: string) => void;
 }) {
+  const nodeTypes = useMemo(() => ({ courseNode: CourseNode }), []);
+
   const chosenDegreeRoadmap: Record<string, string[]> = roadmapData[degree];
-  const typedCourseData: CourseData = coursesData;
 
   const courseCodes = Object.values(chosenDegreeRoadmap).reduce(
     (prev, cur) => [...prev, ...cur],
@@ -67,11 +62,12 @@ export default function RoadmapFlowchart({
   );
 
   const parentNodes = generateParentNodes(chosenDegreeRoadmap);
-  const parentEdges = generateParentEdges(parentNodes);
-  const childNodes = generateChildNodes(chosenDegreeRoadmap, parentNodes);
+  const childNodes = generateChildNodes(
+    chosenDegreeRoadmap,
+    parentNodes,
+    handleShowModal
+  );
   const prerequisitesEdges = generateprerequisitesEdges(courses, childNodes);
-
-  console.log({ prerequisitesEdges });
 
   const titleNode: Node = {
     id: "titleNode",
@@ -90,24 +86,41 @@ export default function RoadmapFlowchart({
     target: `${parentNodes[0].id}`,
   };
 
-  const nodes = [legendNode, titleNode, ...parentNodes, ...childNodes];
-  const edges = [edgeFromTitle, ...parentEdges, ...prerequisitesEdges];
+  const nodes = [titleNode, ...parentNodes, ...childNodes];
+  const edges = [edgeFromTitle, ...prerequisitesEdges];
 
-  const flowchartHeight =
-    PARENT_YPOS_START +
-    (PARENT_NODE_HEIGHT + YPOS_BETWEEN_PARENTS) * parentNodes.length;
+  const flowchartHeight = Object.values(chosenDegreeRoadmap).reduce(
+    (accumulator, courses) => {
+      return (
+        accumulator +
+        CHILD_YPOS_START +
+        courses.length * childHeightAndSpace +
+        YPOS_BETWEEN_PARENTS
+      );
+    },
+    PARENT_YPOS_START * 2
+  );
 
   return (
     <div
       className="flowchart"
       style={{
         height: `${flowchartHeight}px`,
+        display: "flex",
+        justifyContent: "center",
       }}
     >
-      <ReactFlow nodes={nodes} edges={edges}>
-        <Background />
+      <ReactFlow
+        nodeTypes={nodeTypes}
+        nodes={nodes}
+        edges={edges}
+        zoomOnScroll={false}
+      >
+        <Panel position="top-left">
+          <RoadmapLegend />
+        </Panel>
         <Controls position="top-right" />
-        <MiniMap position="bottom-right" />
+        {/* <MiniMap position="bottom-right" /> */}
       </ReactFlow>
     </div>
   );
@@ -117,42 +130,34 @@ function generateParentNodes(roadmapData: Record<string, string[]>): Node[] {
   const nodes: Node[] = [];
   const xPos = PARENT_XPOS_START;
   let yPos = PARENT_YPOS_START;
-  const childWidthAndSpace = XPOS_BETWEEN_CHILD + CHILD_NODE_WIDTH;
-  const backgroundColors = [
-    "beige",
-    "lightblue",
-    "pink",
-    "lightsalmon",
-    "lightcoral",
-  ];
 
   Object.entries(roadmapData).forEach(
     ([yearSemester, courses], parentIndex) => {
       const parentNodeId = `${parentIndex}`;
-      const parentWidth =
-        courses.length * childWidthAndSpace +
-        XPOS_BETWEEN_CHILD +
-        CHILD_XPOS_START;
-      const year = parseInt(yearSemester.split(" ")[1]) - 1;
 
-      console.log(year, backgroundColors[year]);
+      const parentHeight =
+        CHILD_YPOS_START +
+        courses.length * childHeightAndSpace +
+        YPOS_BETWEEN_CHILD;
+
       nodes.push({
         id: parentNodeId,
-        // type: "group",
         data: { label: yearSemester },
         position: { x: xPos, y: yPos },
         style: {
           width: parentWidth,
           minWidth: "max-content",
-          height: PARENT_NODE_HEIGHT,
-          backgroundColor: backgroundColors[year],
+          height: parentHeight,
           fontWeight: "bold",
           textAlign: "left",
-          margin: "0 auto",
+          padding: "1rem",
           zIndex: -1,
+          fontSize: "1em",
+          borderColor: "rgb(228 228 231)",
+          borderRadius: "0.5rem",
         },
       });
-      yPos += YPOS_BETWEEN_PARENTS + PARENT_NODE_HEIGHT;
+      yPos += YPOS_BETWEEN_PARENTS + parentHeight;
     }
   );
 
@@ -161,58 +166,41 @@ function generateParentNodes(roadmapData: Record<string, string[]>): Node[] {
 
 function generateChildNodes(
   roadmapData: Record<string, string[]>,
-  parentNodes: Node[]
+  parentNodes: Node[],
+  handleShowModal: (id: string) => void
 ): Node[] {
   const childNodes: Node[] = [];
 
   Object.values(roadmapData).forEach((courses, parentIndex) => {
-    let childNodeX = CHILD_XPOS_START;
-    const childNodeY = CHILD_YPOS_START;
+    const childNodeX = CHILD_XPOS_START;
+    let childNodeY = CHILD_YPOS_START;
 
-    courses.forEach((course, childIndex) => {
-      const childNodeId = childNodes.map((child) => child.id).includes(course)
-        ? `${parentIndex}-${course}-${childIndex}`
-        : `${course}`;
+    courses.forEach((courseCode, childIndex) => {
+      const childNodeId = childNodes
+        .map((child) => child.id)
+        .includes(courseCode)
+        ? `${parentIndex}-${courseCode}-${childIndex}`
+        : `${courseCode}`;
 
       childNodes.push({
         id: childNodeId,
-        data: { label: course },
+        data: {
+          courseCode,
+          courseName: typedCourseData[courseCode]?.title || "",
+          id: childNodeId,
+          handleShowModal: () => handleShowModal(childNodeId),
+        },
         position: { x: childNodeX, y: childNodeY },
         parentNode: parentNodes[parentIndex].id,
         extent: "parent",
-        style: {
-          width: CHILD_NODE_WIDTH,
-          height: CHILD_NODE_HEIGHT,
-        },
+        type: "courseNode",
       });
 
-      childNodeX += XPOS_BETWEEN_CHILD + CHILD_NODE_WIDTH;
+      childNodeY += YPOS_BETWEEN_CHILD + CHILD_NODE_HEIGHT;
     });
   });
 
   return childNodes;
-}
-
-function generateParentEdges(parentNodes: Node[]): Edge[] {
-  const edges = parentNodes.slice(0, -1).map((sourceNode, index) => {
-    const destinationNode = parentNodes[index + 1];
-    return {
-      id: `${sourceNode.id}-${destinationNode.id}`,
-      source: `${sourceNode.id}`,
-      target: `${destinationNode.id}`,
-      type: "straight",
-      style: {
-        strokeWidth: 2,
-        stroke: "#1C1C62",
-      },
-      markerEnd: {
-        type: MarkerType.ArrowClosed,
-        color: "#1C1C62",
-      },
-    };
-  });
-
-  return [];
 }
 
 function generateprerequisitesEdges(
@@ -221,6 +209,7 @@ function generateprerequisitesEdges(
 ): Edge[] {
   const edges: Edge[] = [];
   const childNodesId = childNodes.map((child) => child.id);
+  let curOffset = INITIAL_EDGE_OFFSET;
 
   for (const [courseCode, { prerequisites }] of Object.entries(courses)) {
     prerequisites.forEach((prereq) => {
@@ -238,8 +227,13 @@ function generateprerequisitesEdges(
             type: MarkerType.ArrowClosed,
             color: "#2B78E4",
           },
+          type: "smoothstep",
+          pathOptions: {
+            offset: curOffset,
+          },
         };
         edges.push(edge);
+        curOffset += EDGE_OFFSET;
       }
     });
   }

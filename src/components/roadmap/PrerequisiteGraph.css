@@ -1,0 +1,14 @@
+.prerequisite-graph-container {
+  width: 100%;
+  height: min-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.prerequisite-graph,
+.react-flow {
+  width: 100%;
+  height: 16rem;
+  border: 1px solid rgb(212, 212, 216);
+}

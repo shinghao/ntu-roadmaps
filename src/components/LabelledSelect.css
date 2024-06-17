@@ -11,4 +11,5 @@ select {
   background-color: whitesmoke;
   padding: 1rem 0rem 1rem 1rem;
   border-right: 1rem solid transparent;
+  cursor: pointer;
 }
