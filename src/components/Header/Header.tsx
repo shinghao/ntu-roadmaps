@@ -1,6 +1,6 @@
-import "./Navbar.css";
+import "./Header.css";
 
-export default function Navbar() {
+export default function Header() {
   return (
     <div className="navbar">
       <img
@@ -8,7 +8,7 @@ export default function Navbar() {
         alt="ntu logo"
         className="ntu-logo"
       ></img>
-      <hr/>
+      <hr />
     </div>
   );
 }

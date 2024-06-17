@@ -8,8 +8,10 @@ import ReactFlow, {
 } from "reactflow";
 import roadmapData from "../../data/roadmapdata.json";
 import coursesData from "../../data/courses.json";
+import Legend from "./Legend";
+
 import "./Roadmap.css";
-import RoadmapLegend from "./Legend";
+import "reactflow/dist/style.css";
 
 const CHILD_NODE_WIDTH = 100;
 const CHILD_NODE_HEIGHT = 40;
@@ -26,7 +28,7 @@ const legendNode: Node = {
   id: "legendNode",
   position: { x: 15, y: 15 },
   data: {
-    label: <RoadmapLegend />,
+    label: <Legend />,
   },
   style: {
     width: "max-content",
@@ -44,7 +46,7 @@ interface CourseData {
   [courseCode: string]: Course;
 }
 
-export default function RoadmapFlowchart({
+export default function Roadmap({
   degree,
   career,
   cohort,

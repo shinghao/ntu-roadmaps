@@ -2,19 +2,3 @@
   height: max-content;
   min-height: 100vh;
 }
-
-.content {
-  height: max-content;
-  margin: 0 auto;
-  max-width: 1200px;
-  padding: 0rem 1rem;
-  margin-bottom: 3rem;
-}
-
-.selects-container {
-  display: flex;
-  column-gap: 2rem;
-  row-gap: 2rem;
-  flex-wrap: wrap;
-  margin: 3rem 0rem;
-}

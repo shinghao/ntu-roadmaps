@@ -1,6 +1,6 @@
 import "./Legend.css";
 
-export default function RoadmapLegend() {
+export default function Legend() {
   return (
     <div className="legend-container">
       <div className="legend-item">
