@@ -1,7 +1,7 @@
 import { useState } from "react";
 import degreeProgrammes from "../data/degreeProgrammes.json";
-import Roadmap from "../components/Roadmap";
-import LabelledSelect from "../components/Roadmap/LabelledSelect";
+import Roadmap from "@components/Roadmap";
+import LabelledSelect from "@components/Roadmap/LabelledSelect";
 import "./roadmapPage.css";
 
 const typedDegreeProgrammes: {
