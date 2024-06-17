@@ -9,20 +9,10 @@ import ReactFlow, {
 import roadmapData from "../../data/roadmapdata.json";
 import coursesData from "../../data/courses.json";
 import Legend from "./Legend";
+import * as RoadmapConstants from "./Roadmap.constants";
 
 import "./Roadmap.css";
 import "reactflow/dist/style.css";
-
-const CHILD_NODE_WIDTH = 100;
-const CHILD_NODE_HEIGHT = 40;
-const CHILD_YPOS_START = 40;
-const CHILD_XPOS_START = 20;
-const XPOS_BETWEEN_CHILD = 10;
-
-const PARENT_NODE_HEIGHT = 100;
-const PARENT_XPOS_START = 100;
-const PARENT_YPOS_START = 120;
-const YPOS_BETWEEN_PARENTS = 30;
 
 const legendNode: Node = {
   id: "legendNode",
@@ -73,8 +63,6 @@ export default function Roadmap({
   const childNodes = generateChildNodes(chosenDegreeRoadmap, parentNodes);
   const prerequisitesEdges = generateprerequisitesEdges(courses, childNodes);
 
-  console.log({ prerequisitesEdges });
-
   const titleNode: Node = {
     id: "titleNode",
     className: "node-title",
@@ -96,8 +84,10 @@ export default function Roadmap({
   const edges = [edgeFromTitle, ...parentEdges, ...prerequisitesEdges];
 
   const flowchartHeight =
-    PARENT_YPOS_START +
-    (PARENT_NODE_HEIGHT + YPOS_BETWEEN_PARENTS) * parentNodes.length;
+    RoadmapConstants.PARENT_YPOS_START +
+    (RoadmapConstants.PARENT_NODE_HEIGHT +
+      RoadmapConstants.YPOS_BETWEEN_PARENTS) *
+      parentNodes.length;
 
   return (
     <div
@@ -117,9 +107,10 @@ export default function Roadmap({
 
 function generateParentNodes(roadmapData: Record<string, string[]>): Node[] {
   const nodes: Node[] = [];
-  const xPos = PARENT_XPOS_START;
-  let yPos = PARENT_YPOS_START;
-  const childWidthAndSpace = XPOS_BETWEEN_CHILD + CHILD_NODE_WIDTH;
+  const xPos = RoadmapConstants.PARENT_XPOS_START;
+  let yPos = RoadmapConstants.PARENT_YPOS_START;
+  const childWidthAndSpace =
+    RoadmapConstants.XPOS_BETWEEN_CHILD + RoadmapConstants.CHILD_NODE_WIDTH;
   const backgroundColors = [
     "beige",
     "lightblue",
@@ -133,11 +124,10 @@ function generateParentNodes(roadmapData: Record<string, string[]>): Node[] {
       const parentNodeId = `${parentIndex}`;
       const parentWidth =
         courses.length * childWidthAndSpace +
-        XPOS_BETWEEN_CHILD +
-        CHILD_XPOS_START;
+        RoadmapConstants.XPOS_BETWEEN_CHILD +
+        RoadmapConstants.CHILD_XPOS_START;
       const year = parseInt(yearSemester.split(" ")[1]) - 1;
 
-      console.log(year, backgroundColors[year]);
       nodes.push({
         id: parentNodeId,
         // type: "group",
@@ -146,7 +136,7 @@ function generateParentNodes(roadmapData: Record<string, string[]>): Node[] {
         style: {
           width: parentWidth,
           minWidth: "max-content",
-          height: PARENT_NODE_HEIGHT,
+          height: RoadmapConstants.PARENT_NODE_HEIGHT,
           backgroundColor: backgroundColors[year],
           fontWeight: "bold",
           textAlign: "left",
@@ -154,7 +144,9 @@ function generateParentNodes(roadmapData: Record<string, string[]>): Node[] {
           zIndex: -1,
         },
       });
-      yPos += YPOS_BETWEEN_PARENTS + PARENT_NODE_HEIGHT;
+      yPos +=
+        RoadmapConstants.YPOS_BETWEEN_PARENTS +
+        RoadmapConstants.PARENT_NODE_HEIGHT;
     }
   );
 
@@ -168,8 +160,8 @@ function generateChildNodes(
   const childNodes: Node[] = [];
 
   Object.values(roadmapData).forEach((courses, parentIndex) => {
-    let childNodeX = CHILD_XPOS_START;
-    const childNodeY = CHILD_YPOS_START;
+    let childNodeX = RoadmapConstants.CHILD_XPOS_START;
+    const childNodeY = RoadmapConstants.CHILD_YPOS_START;
 
     courses.forEach((course, childIndex) => {
       const childNodeId = childNodes.map((child) => child.id).includes(course)
@@ -183,12 +175,13 @@ function generateChildNodes(
         parentNode: parentNodes[parentIndex].id,
         extent: "parent",
         style: {
-          width: CHILD_NODE_WIDTH,
-          height: CHILD_NODE_HEIGHT,
+          width: RoadmapConstants.CHILD_NODE_WIDTH,
+          height: RoadmapConstants.CHILD_NODE_HEIGHT,
         },
       });
 
-      childNodeX += XPOS_BETWEEN_CHILD + CHILD_NODE_WIDTH;
+      childNodeX +=
+        RoadmapConstants.XPOS_BETWEEN_CHILD + RoadmapConstants.CHILD_NODE_WIDTH;
     });
   });
 
