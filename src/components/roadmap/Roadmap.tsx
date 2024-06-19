@@ -10,6 +10,8 @@ import roadmapData from "../../data/roadmapdata.json";
 import coursesData from "../../data/courses.json";
 import Legend from "./Legend";
 import * as RoadmapConstants from "./Roadmap.constants";
+import { useMemo } from "react";
+import CourseNode from "./nodes/CourseNode";
 
 import "./Roadmap.css";
 import "reactflow/dist/style.css";
@@ -47,7 +49,6 @@ export default function Roadmap({
 }) {
   const chosenDegreeRoadmap: Record<string, string[]> = roadmapData[degree];
   const typedCourseData: CourseData = coursesData;
-
   const courseCodes = Object.values(chosenDegreeRoadmap).reduce(
     (prev, cur) => [...prev, ...cur],
     []
@@ -58,12 +59,13 @@ export default function Roadmap({
     )
   );
 
+  const nodeTypes = useMemo(() => ({ courseNode: CourseNode }), []);
+
   const parentNodes = generateParentNodes(chosenDegreeRoadmap);
-  const parentEdges = generateParentEdges(parentNodes);
   const childNodes = generateChildNodes(chosenDegreeRoadmap, parentNodes);
   const prerequisitesEdges = generateprerequisitesEdges(courses, childNodes);
 
-  const titleNode: Node = {
+  const titleNode = {
     id: "titleNode",
     className: "node-title",
     position: { x: 300, y: 30 },
@@ -80,9 +82,6 @@ export default function Roadmap({
     target: `${parentNodes[0].id}`,
   };
 
-  const nodes = [legendNode, titleNode, ...parentNodes, ...childNodes];
-  const edges = [edgeFromTitle, ...parentEdges, ...prerequisitesEdges];
-
   const flowchartHeight =
     RoadmapConstants.PARENT_YPOS_START +
     (RoadmapConstants.PARENT_NODE_HEIGHT +
@@ -96,7 +95,11 @@ export default function Roadmap({
         height: `${flowchartHeight}px`,
       }}
     >
-      <ReactFlow nodes={nodes} edges={edges}>
+      <ReactFlow
+        nodes={[legendNode, titleNode, ...parentNodes, ...childNodes]}
+        edges={[edgeFromTitle, ...prerequisitesEdges]}
+        nodeTypes={nodeTypes}
+      >
         <Background />
         <Controls position="top-right" />
         <MiniMap position="bottom-right" />
@@ -130,7 +133,7 @@ function generateParentNodes(roadmapData: Record<string, string[]>): Node[] {
 
       nodes.push({
         id: parentNodeId,
-        // type: "group",
+        type: "default",
         data: { label: yearSemester },
         position: { x: xPos, y: yPos },
         style: {
@@ -161,23 +164,21 @@ function generateChildNodes(
 
   Object.values(roadmapData).forEach((courses, parentIndex) => {
     let childNodeX = RoadmapConstants.CHILD_XPOS_START;
-    const childNodeY = RoadmapConstants.CHILD_YPOS_START;
 
-    courses.forEach((course, childIndex) => {
-      const childNodeId = childNodes.map((child) => child.id).includes(course)
-        ? `${parentIndex}-${course}-${childIndex}`
-        : `${course}`;
+    courses.forEach((courseCode, childIndex) => {
+      const childNodeId = childNodes
+        .map((child) => child.id)
+        .includes(courseCode)
+        ? `${parentIndex}-${courseCode}-${childIndex}`
+        : `${courseCode}`;
 
       childNodes.push({
         id: childNodeId,
-        data: { label: course },
-        position: { x: childNodeX, y: childNodeY },
+        data: { courseCode, id: childNodeId },
+        position: { x: childNodeX, y: RoadmapConstants.CHILD_YPOS_START },
         parentNode: parentNodes[parentIndex].id,
         extent: "parent",
-        style: {
-          width: RoadmapConstants.CHILD_NODE_WIDTH,
-          height: RoadmapConstants.CHILD_NODE_HEIGHT,
-        },
+        type: "courseNode",
       });
 
       childNodeX +=
@@ -186,28 +187,6 @@ function generateChildNodes(
   });
 
   return childNodes;
-}
-
-function generateParentEdges(parentNodes: Node[]): Edge[] {
-  const edges = parentNodes.slice(0, -1).map((sourceNode, index) => {
-    const destinationNode = parentNodes[index + 1];
-    return {
-      id: `${sourceNode.id}-${destinationNode.id}`,
-      source: `${sourceNode.id}`,
-      target: `${destinationNode.id}`,
-      type: "straight",
-      style: {
-        strokeWidth: 2,
-        stroke: "#1C1C62",
-      },
-      markerEnd: {
-        type: MarkerType.ArrowClosed,
-        color: "#1C1C62",
-      },
-    };
-  });
-
-  return [];
 }
 
 function generateprerequisitesEdges(
