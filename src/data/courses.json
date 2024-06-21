@@ -44,7 +44,7 @@
   "HW0001": {
     "title": "Introduction to Academic Communication",
     "type": "-",
-    "AU": "-",
+    "AU": 0,
     "prerequisites": ["For student who failed QET"]
   },
   "SC1004": {

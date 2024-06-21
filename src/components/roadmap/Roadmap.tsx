@@ -3,15 +3,16 @@ import ReactFlow, {
   Background,
   MiniMap,
   Node,
-  Edge,
-  MarkerType,
+  useNodesState,
+  useEdgesState,
 } from "reactflow";
-import roadmapData from "../../data/roadmapdata.json";
-import coursesData from "../../data/courses.json";
+
 import Legend from "./Legend";
 import * as RoadmapConstants from "./Roadmap.constants";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import CourseNode from "./nodes/CourseNode";
+import { fetchRoadmap } from "@api/index";
+import buildRoadmap from "./util/buildRoadmap.util";
 
 import "./Roadmap.css";
 import "reactflow/dist/style.css";
@@ -27,16 +28,24 @@ const legendNode: Node = {
   },
 };
 
-interface Course {
-  title: string;
-  type: string;
-  AU: string | number;
-  prerequisites: string[];
-}
+const getTitleNode = (cohort: string, degree: string, career: string) => {
+  return {
+    id: "titleNode",
+    className: "node-title",
+    position: { x: 300, y: 30 },
+    data: {
+      label: <h1>{`${cohort} - ${degree} - ${career}`}</h1>,
+    },
+    draggable: false,
+    selectable: false,
+  };
+};
 
-interface CourseData {
-  [courseCode: string]: Course;
-}
+const getRoadmapHeight = (NumOfSemesters: number) =>
+  RoadmapConstants.PARENT_YPOS_START +
+  (RoadmapConstants.PARENT_NODE_HEIGHT +
+    RoadmapConstants.YPOS_BETWEEN_PARENTS) *
+    NumOfSemesters;
 
 export default function Roadmap({
   degree,
@@ -47,57 +56,58 @@ export default function Roadmap({
   career: string;
   cohort: string;
 }) {
-  const chosenDegreeRoadmap: Record<string, string[]> = roadmapData[degree];
-  const typedCourseData: CourseData = coursesData;
-  const courseCodes = Object.values(chosenDegreeRoadmap).reduce(
-    (prev, cur) => [...prev, ...cur],
-    []
-  );
-  const courses = Object.fromEntries(
-    Object.entries(typedCourseData).filter(([courseCode]) =>
-      courseCodes.includes(courseCode)
-    )
-  );
+  const [nodes, setNodes] = useNodesState([]);
+  const [edges, setEdges] = useEdgesState([]);
+  const [fetchedRoadmapData, setFetchedRoadmapData] = useState({});
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const nodeTypes = useMemo(() => ({ courseNode: CourseNode }), []);
 
-  const parentNodes = generateParentNodes(chosenDegreeRoadmap);
-  const childNodes = generateChildNodes(chosenDegreeRoadmap, parentNodes);
-  const prerequisitesEdges = generateprerequisitesEdges(courses, childNodes);
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      setError("");
+      try {
+        const response = await fetchRoadmap(degree, career, cohort);
+        setFetchedRoadmapData(response);
+      } catch (error) {
+        console.error("Error fetching roadmap data", error);
+        setError("Error fetching roadmap data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const titleNode = {
-    id: "titleNode",
-    className: "node-title",
-    position: { x: 300, y: 30 },
-    data: {
-      label: <h1>{`${cohort} - ${degree} - ${career}`}</h1>,
-    },
-    draggable: false,
-    selectable: false,
-  };
+    fetchData();
+  }, [degree, career, cohort]);
 
-  const edgeFromTitle = {
-    id: `${titleNode.id}-${parentNodes[0].id}`,
-    source: `${titleNode.id}`,
-    target: `${parentNodes[0].id}`,
-  };
+  useEffect(() => {
+    if (fetchedRoadmapData) {
+      const { nodes, edges } = buildRoadmap(fetchedRoadmapData);
+      setNodes(nodes);
+      setEdges(edges);
+    }
+  }, [fetchedRoadmapData, setNodes, setEdges]);
 
-  const flowchartHeight =
-    RoadmapConstants.PARENT_YPOS_START +
-    (RoadmapConstants.PARENT_NODE_HEIGHT +
-      RoadmapConstants.YPOS_BETWEEN_PARENTS) *
-      parentNodes.length;
+  const titleNode = getTitleNode(cohort, degree, career);
+
+  const roadmapHeight = getRoadmapHeight(
+    Object.keys(fetchedRoadmapData).length
+  );
 
   return (
     <div
       className="flowchart"
       style={{
-        height: `${flowchartHeight}px`,
+        height: `${roadmapHeight}px`,
       }}
     >
+      {error && <p>{error}</p>}
+      {isLoading && <p>Loading...</p>}
       <ReactFlow
-        nodes={[legendNode, titleNode, ...parentNodes, ...childNodes]}
-        edges={[edgeFromTitle, ...prerequisitesEdges]}
+        nodes={[legendNode, titleNode, ...nodes]}
+        edges={edges}
         nodeTypes={nodeTypes}
       >
         <Background />
@@ -106,117 +116,4 @@ export default function Roadmap({
       </ReactFlow>
     </div>
   );
-}
-
-function generateParentNodes(roadmapData: Record<string, string[]>): Node[] {
-  const nodes: Node[] = [];
-  const xPos = RoadmapConstants.PARENT_XPOS_START;
-  let yPos = RoadmapConstants.PARENT_YPOS_START;
-  const childWidthAndSpace =
-    RoadmapConstants.XPOS_BETWEEN_CHILD + RoadmapConstants.CHILD_NODE_WIDTH;
-  const backgroundColors = [
-    "beige",
-    "lightblue",
-    "pink",
-    "lightsalmon",
-    "lightcoral",
-  ];
-
-  Object.entries(roadmapData).forEach(
-    ([yearSemester, courses], parentIndex) => {
-      const parentNodeId = `${parentIndex}`;
-      const parentWidth =
-        courses.length * childWidthAndSpace +
-        RoadmapConstants.XPOS_BETWEEN_CHILD +
-        RoadmapConstants.CHILD_XPOS_START;
-      const year = parseInt(yearSemester.split(" ")[1]) - 1;
-
-      nodes.push({
-        id: parentNodeId,
-        type: "default",
-        data: { label: yearSemester },
-        position: { x: xPos, y: yPos },
-        style: {
-          width: parentWidth,
-          minWidth: "max-content",
-          height: RoadmapConstants.PARENT_NODE_HEIGHT,
-          backgroundColor: backgroundColors[year],
-          fontWeight: "bold",
-          textAlign: "left",
-          margin: "0 auto",
-          zIndex: -1,
-        },
-      });
-      yPos +=
-        RoadmapConstants.YPOS_BETWEEN_PARENTS +
-        RoadmapConstants.PARENT_NODE_HEIGHT;
-    }
-  );
-
-  return nodes;
-}
-
-function generateChildNodes(
-  roadmapData: Record<string, string[]>,
-  parentNodes: Node[]
-): Node[] {
-  const childNodes: Node[] = [];
-
-  Object.values(roadmapData).forEach((courses, parentIndex) => {
-    let childNodeX = RoadmapConstants.CHILD_XPOS_START;
-
-    courses.forEach((courseCode, childIndex) => {
-      const childNodeId = childNodes
-        .map((child) => child.id)
-        .includes(courseCode)
-        ? `${parentIndex}-${courseCode}-${childIndex}`
-        : `${courseCode}`;
-
-      childNodes.push({
-        id: childNodeId,
-        data: { courseCode, id: childNodeId },
-        position: { x: childNodeX, y: RoadmapConstants.CHILD_YPOS_START },
-        parentNode: parentNodes[parentIndex].id,
-        extent: "parent",
-        type: "courseNode",
-      });
-
-      childNodeX +=
-        RoadmapConstants.XPOS_BETWEEN_CHILD + RoadmapConstants.CHILD_NODE_WIDTH;
-    });
-  });
-
-  return childNodes;
-}
-
-function generateprerequisitesEdges(
-  courses: CourseData,
-  childNodes: Node[]
-): Edge[] {
-  const edges: Edge[] = [];
-  const childNodesId = childNodes.map((child) => child.id);
-
-  for (const [courseCode, { prerequisites }] of Object.entries(courses)) {
-    prerequisites.forEach((prereq) => {
-      if (childNodesId.includes(prereq)) {
-        const source = prereq;
-        const target = courseCode;
-        const edge = {
-          id: `${source}-${target}`,
-          source,
-          target,
-          style: {
-            stroke: "#2B78E4",
-          },
-          markerEnd: {
-            type: MarkerType.ArrowClosed,
-            color: "#2B78E4",
-          },
-        };
-        edges.push(edge);
-      }
-    });
-  }
-
-  return edges;
 }
