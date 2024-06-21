@@ -40,6 +40,7 @@ function generateParentNodes(roadmapData: Record<string, string[]>): Node[] {
           textAlign: "left",
           margin: "0 auto",
           zIndex: -1,
+          fontSize: "0.8em",
         },
       });
       yPos +=

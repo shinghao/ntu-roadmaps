@@ -19,12 +19,13 @@ import "reactflow/dist/style.css";
 
 const legendNode: Node = {
   id: "legendNode",
-  position: { x: 15, y: 15 },
+  position: { x: RoadmapConstants.PARENT_XPOS_START, y: 15 },
   data: {
     label: <Legend />,
   },
   style: {
     width: "max-content",
+    fontSize: "1em",
   },
 };
 
