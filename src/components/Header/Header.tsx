@@ -3,12 +3,15 @@ import "./Header.css";
 export default function Header() {
   return (
     <div className="navbar">
-      <img
-        src="src\assets\ntu_logo.png"
-        alt="ntu logo"
-        className="ntu-logo"
-      ></img>
-      <hr />
+      <div className="navbar-content">
+        <a href="/" className="navbar-logo">
+          NTUROADMAPS
+        </a>
+        <div>
+          <button className="navbar-btn">Roadmaps</button>
+          <button className="navbar-btn">Courses</button>
+        </div>
+      </div>
     </div>
   );
 }
