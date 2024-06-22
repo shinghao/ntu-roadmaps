@@ -11,7 +11,7 @@ import Legend from "./Legend";
 import * as RoadmapConstants from "./Roadmap.constants";
 import { useMemo, useState, useEffect, useCallback } from "react";
 import CourseNode from "./nodes/CourseNode";
-import { fetchRoadmap } from "@api/index";
+import useFetchRoadmap from "./hooks/useFetchRoadmap";
 import { buildRoadmap, updateNodesOnCheck } from "./util/buildRoadmap.util";
 
 import "./Roadmap.css";
@@ -29,7 +29,7 @@ const legendNode: Node = {
   },
 };
 
-const getTitleNode = (cohort: string, degree: string, career: string) => {
+const createTitleNode = (cohort: string, degree: string, career: string) => {
   return {
     id: "titleNode",
     className: "node-title",
@@ -42,7 +42,7 @@ const getTitleNode = (cohort: string, degree: string, career: string) => {
   };
 };
 
-const getRoadmapHeight = (NumOfSemesters: number) =>
+const calculateRoadmapHeight = (NumOfSemesters: number) =>
   RoadmapConstants.PARENT_YPOS_START +
   (RoadmapConstants.PARENT_NODE_HEIGHT +
     RoadmapConstants.YPOS_BETWEEN_PARENTS) *
@@ -59,35 +59,19 @@ export default function Roadmap({
 }) {
   const [nodes, setNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
-  const [fetchedRoadmapData, setFetchedRoadmapData] = useState({});
   const [completedCourses, setCompletedCourses] = useState<Set<string>>(() => {
     const storedCompletedCourses = localStorage.getItem("completedCourses");
     return storedCompletedCourses
       ? new Set(JSON.parse(storedCompletedCourses))
       : new Set();
   });
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
+    degree,
+    career,
+    cohort
+  );
 
   const nodeTypes = useMemo(() => ({ courseNode: CourseNode }), []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      setError("");
-      try {
-        const roadmapResponse = await fetchRoadmap(degree, career, cohort);
-        setFetchedRoadmapData(roadmapResponse);
-      } catch (error) {
-        console.error("Error fetching roadmap data", error);
-        setError("Error fetching roadmap data");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [degree, career, cohort]);
 
   const handleNodeCheck = useCallback((id: string) => {
     setCompletedCourses((prevCompletedCourses) => {
@@ -122,9 +106,9 @@ export default function Roadmap({
     setNodes(updatedNodes);
   }, [completedCourses, setNodes]); //TODO: fix dependencies
 
-  const titleNode = getTitleNode(cohort, degree, career);
+  const titleNode = createTitleNode(cohort, degree, career);
 
-  const roadmapHeight = getRoadmapHeight(
+  const roadmapHeight = calculateRoadmapHeight(
     Object.keys(fetchedRoadmapData).length
   );
 
