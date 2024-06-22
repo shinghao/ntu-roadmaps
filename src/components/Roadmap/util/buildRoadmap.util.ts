@@ -38,7 +38,7 @@ export function buildRoadmap(
   handleNodeCheck: (id: string) => void,
   completedCourses: Set<string>
 ) {
-  const generateParentNodes = (): Node[] => {
+  const generateSemesterNodes = (): Node[] => {
     const nodes: Node[] = [];
     let yPos = RoadmapConstants.PARENT_YPOS_START;
     const childWidthAndSpace =
@@ -62,7 +62,7 @@ export function buildRoadmap(
 
         nodes.push({
           id: parentNodeId,
-          type: "default",
+          type: "semesterNode",
           data: { label: yearSemester },
           position: { x: RoadmapConstants.PARENT_XPOS_START, y: yPos },
           style: {
@@ -76,6 +76,9 @@ export function buildRoadmap(
             zIndex: -1,
             fontSize: "0.8em",
           },
+          draggable: false,
+          selectable: false,
+          focusable: false,
         });
         yPos +=
           RoadmapConstants.YPOS_BETWEEN_PARENTS +
@@ -86,20 +89,20 @@ export function buildRoadmap(
     return nodes;
   };
 
-  const generateChildNodes = (parentNodes: Node[]): Node[] => {
-    const childNodes: Node[] = [];
+  const generateCourseNodes = (semesterNodes: Node[]): Node[] => {
+    const courseNodes: Node[] = [];
 
     Object.values(roadmapData).forEach((courses, parentIndex) => {
       let childNodeX = RoadmapConstants.CHILD_XPOS_START;
 
       courses.forEach((courseCode, childIndex) => {
-        const childNodeId = childNodes
+        const childNodeId = courseNodes
           .map((child) => child.id)
           .includes(courseCode)
           ? `${parentIndex}-${courseCode}-${childIndex}`
           : `${courseCode}`;
 
-        childNodes.push({
+        courseNodes.push({
           id: childNodeId,
           data: {
             courseCode,
@@ -107,9 +110,12 @@ export function buildRoadmap(
             onCheck: handleNodeCheck,
           },
           position: { x: childNodeX, y: RoadmapConstants.CHILD_YPOS_START },
-          parentNode: parentNodes[parentIndex].id,
+          parentNode: semesterNodes[parentIndex].id,
           extent: "parent",
           type: "courseNode",
+          draggable: false,
+          connectable: false,
+          zIndex: 1,
         });
 
         childNodeX +=
@@ -118,17 +124,17 @@ export function buildRoadmap(
       });
     });
 
-    return childNodes;
+    return courseNodes;
   };
 
-  const generatePrerequisitesEdges = (childNodes: Node[]): Edge[] => {
+  const generateEdges = (courseNodes: Node[]): Edge[] => {
     const edges: Edge[] = [];
-    const childNodesId = childNodes.map((child) => child.id);
+    const courseNodesId = courseNodes.map((child) => child.id);
     const courses = coursesData as CourseData;
 
     for (const [courseCode, { prerequisites }] of Object.entries(courses)) {
       prerequisites.forEach((prereq) => {
-        if (childNodesId.includes(prereq)) {
+        if (courseNodesId.includes(prereq)) {
           const source = prereq;
           const target = courseCode;
           const edge = {
@@ -151,14 +157,30 @@ export function buildRoadmap(
     return edges;
   };
 
-  const parentNodes = generateParentNodes();
-  const childNodes = generateChildNodes(parentNodes);
+  const updateCourseNodesForHandles = (
+    courseNodes: Node[],
+    edges: Edge[]
+  ): Node[] => {
+    return courseNodes.map((node) => {
+      node.data.hasSourceHandle = edges.some(
+        ({ source }) => node.id === source
+      );
+      node.data.hasTargetHandle = edges.some(
+        ({ target }) => node.id === target
+      );
+      return node;
+    });
+  };
+
+  const semesterNodes = generateSemesterNodes();
+  const courseNodes = generateCourseNodes(semesterNodes);
+  const edges = generateEdges(courseNodes);
+  const updatedCourseNodes = updateCourseNodesForHandles(courseNodes, edges);
 
   const nodes = [
-    ...parentNodes,
-    ...updateNodesOnCheck(childNodes, completedCourses),
+    ...semesterNodes,
+    ...updateNodesOnCheck(updatedCourseNodes, completedCourses),
   ];
-  const edges = generatePrerequisitesEdges(childNodes);
 
   return { nodes, edges };
 }

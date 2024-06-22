@@ -1,6 +1,6 @@
-import "./Legend.css";
+import "./LegendNode.css";
 
-export default function Legend() {
+const LegendNode = () => {
   return (
     <div className="legend-container">
       <div className="legend-item">
@@ -13,4 +13,6 @@ export default function Legend() {
       </div>
     </div>
   );
-}
+};
+
+export default LegendNode;

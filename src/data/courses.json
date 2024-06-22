@@ -165,43 +165,43 @@
     "title": "Major Prescribe Elective (Choose within SC3xxx)",
     "type": "MPE-1",
     "AU": 3,
-    "prerequisites": ["Year 3 Standing"]
+    "prerequisites": []
   },
   "SC2079": {
     "title": "Multidisciplinary Design Project",
     "type": "Core",
     "AU": 4,
-    "prerequisites": ["Year 3 Standing"]
+    "prerequisites": []
   },
   "HW0288": {
     "title": "Engineering Communication",
     "type": "F-Core",
     "AU": 2,
-    "prerequisites": ["CC0001 & Year 3 standing"]
+    "prerequisites": ["CC0001"]
   },
   "SC3079": {
     "title": "Professional Internship",
     "type": "F-Core",
     "AU": 10,
-    "prerequisites": ["Year 3 Standing"]
+    "prerequisites": []
   },
   "SC4079": {
     "title": "Final Year Project (Part 1)",
     "type": "Core",
     "AU": 4,
-    "prerequisites": ["Year 4 Standing"]
+    "prerequisites": []
   },
   "SC4xxx": {
     "title": "Major Prescribe Elective (Choose within SC4xxx)",
     "type": "MPE-2",
     "AU": 3,
-    "prerequisites": ["Year 3 Standing"]
+    "prerequisites": []
   },
   "SC4079_2": {
     "title": "Final Year Project (Part 2)",
     "type": "Core",
     "AU": 4,
-    "prerequisites": ["Year 4 Standing"]
+    "prerequisites": []
   },
   "Broadening and Deepening Elective": {
     "title": "Broadening and Deepening Elective",

@@ -8,6 +8,8 @@ interface CourseNodeProps {
     courseCode: string;
     isAvailable: boolean;
     isCompleted: boolean;
+    hasSourceHandle: boolean;
+    hasTargetHandle: boolean;
     onCheck: (id: string) => void;
   };
 }
@@ -18,6 +20,8 @@ const CourseNode = ({ data }: CourseNodeProps) => {
     courseCode,
     isAvailable = false,
     isCompleted = false,
+    hasSourceHandle = false,
+    hasTargetHandle = false,
     onCheck,
   } = data;
 
@@ -61,21 +65,22 @@ const CourseNode = ({ data }: CourseNodeProps) => {
           </span>
         </button>
       </div>
-
-      <Handle
-        type="target"
-        position={Position.Top}
-        style={{
-          stroke: "#2B78E4",
-        }}
-      />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        style={{
-          stroke: "#2B78E4",
-        }}
-      />
+      {hasTargetHandle && (
+        <Handle
+          type="target"
+          position={Position.Top}
+          style={{ background: "#2B78E4" }}
+          isConnectable={false}
+        />
+      )}
+      {hasSourceHandle && (
+        <Handle
+          type="source"
+          position={Position.Bottom}
+          style={{ background: "#2B78E4" }}
+          isConnectable={false}
+        />
+      )}
     </>
   );
 };

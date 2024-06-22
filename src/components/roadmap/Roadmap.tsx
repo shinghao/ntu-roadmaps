@@ -7,10 +7,11 @@ import ReactFlow, {
   useEdgesState,
 } from "reactflow";
 
-import Legend from "./Legend";
 import * as RoadmapConstants from "./Roadmap.constants";
 import { useMemo, useState, useEffect, useCallback } from "react";
 import CourseNode from "./nodes/CourseNode";
+import SemesterNode from "./nodes/SemesterNode";
+import LegendNode from "./nodes/LegendNode";
 import useFetchRoadmap from "./hooks/useFetchRoadmap";
 import { buildRoadmap, updateNodesOnCheck } from "./util/buildRoadmap.util";
 
@@ -20,13 +21,10 @@ import "reactflow/dist/style.css";
 const legendNode: Node = {
   id: "legendNode",
   position: { x: RoadmapConstants.PARENT_XPOS_START, y: 15 },
-  data: {
-    label: <Legend />,
-  },
-  style: {
-    width: "max-content",
-    fontSize: "1em",
-  },
+  data: {},
+  draggable: false,
+  selectable: false,
+  type: "legendNode",
 };
 
 const createTitleNode = (cohort: string, degree: string, career: string) => {
@@ -71,7 +69,14 @@ export default function Roadmap({
     cohort
   );
 
-  const nodeTypes = useMemo(() => ({ courseNode: CourseNode }), []);
+  const nodeTypes = useMemo(
+    () => ({
+      courseNode: CourseNode,
+      semesterNode: SemesterNode,
+      legendNode: LegendNode,
+    }),
+    []
+  );
 
   const handleNodeCheck = useCallback((id: string) => {
     setCompletedCourses((prevCompletedCourses) => {
