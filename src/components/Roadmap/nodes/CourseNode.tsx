@@ -1,14 +1,37 @@
 import { Handle, Position } from "reactflow";
-import { useState } from "react";
 import { CHILD_NODE_WIDTH, CHILD_NODE_HEIGHT } from "../Roadmap.constants";
 import "./CourseNode.css";
 
-const CourseNode = ({ data }: { data: { courseCode: string; id: string } }) => {
-  const [isChecked, setIsChecked] = useState(false);
+interface CourseNodeProps {
+  data: {
+    id: string;
+    courseCode: string;
+    isAvailable: boolean;
+    isCompleted: boolean;
+    onCheck: (id: string) => void;
+  };
+}
 
-  const nodeLabel = data.courseCode;
-  const backgroundColor = isChecked ? "whitesmoke" : "white";
-  const color = isChecked ? "grey" : "black";
+const CourseNode = ({ data }: CourseNodeProps) => {
+  const {
+    id,
+    courseCode,
+    isAvailable = false,
+    isCompleted = false,
+    onCheck,
+  } = data;
+
+  const handleCheck = () => {
+    onCheck(id);
+  };
+
+  const nodeLabel = courseCode;
+  const backgroundColor = isAvailable
+    ? isCompleted
+      ? "whitesmoke"
+      : "white"
+    : "grey";
+  const color = isCompleted ? "grey" : "black";
 
   return (
     <>
@@ -24,17 +47,18 @@ const CourseNode = ({ data }: { data: { courseCode: string; id: string } }) => {
       >
         <input
           type="checkbox"
-          name={`checkbox-${data.id}`}
-          onChange={() => setIsChecked(!isChecked)}
+          name={`checkbox-${id}`}
+          checked={isCompleted}
+          onChange={handleCheck}
+          disabled={!isAvailable}
         />
         <button className="courseNode-btn">
           <span
             className="label"
-            style={{ textDecoration: isChecked ? "line-through" : "none" }}
+            style={{ textDecoration: isCompleted ? "line-through" : "none" }}
           >
             {nodeLabel}
           </span>
-          <span className="arrow">→</span>
         </button>
       </div>
 

@@ -12,7 +12,7 @@ import * as RoadmapConstants from "./Roadmap.constants";
 import { useMemo, useState, useEffect, useCallback } from "react";
 import CourseNode from "./nodes/CourseNode";
 import { fetchRoadmap } from "@api/index";
-import { buildRoadmap, updateNodeAvailability } from "./util/buildRoadmap.util";
+import { buildRoadmap, updateNodesOnCheck } from "./util/buildRoadmap.util";
 
 import "./Roadmap.css";
 import "reactflow/dist/style.css";
@@ -60,9 +60,12 @@ export default function Roadmap({
   const [nodes, setNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
   const [fetchedRoadmapData, setFetchedRoadmapData] = useState({});
-  const [completedCourses, setCompletedCourses] = useState<Set<string>>(
-    new Set()
-  );
+  const [completedCourses, setCompletedCourses] = useState<Set<string>>(() => {
+    const storedCompletedCourses = localStorage.getItem("completedCourses");
+    return storedCompletedCourses
+      ? new Set(JSON.parse(storedCompletedCourses))
+      : new Set();
+  });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -94,6 +97,10 @@ export default function Roadmap({
       } else {
         newCompletedCourses.add(id);
       }
+      localStorage.setItem(
+        "completedCourses",
+        JSON.stringify(Array.from(newCompletedCourses))
+      );
       return newCompletedCourses;
     });
   }, []);
@@ -102,18 +109,17 @@ export default function Roadmap({
     if (fetchedRoadmapData) {
       const { nodes, edges } = buildRoadmap(
         fetchedRoadmapData,
-        handleNodeCheck
+        handleNodeCheck,
+        completedCourses
       );
       setNodes(nodes);
       setEdges(edges);
-      console.log("useEffect2");
     }
   }, [fetchedRoadmapData]); //TODO: fix dependencies
 
   useEffect(() => {
-    const updatedNodes = updateNodeAvailability(nodes, completedCourses);
+    const updatedNodes = updateNodesOnCheck(nodes, completedCourses);
     setNodes(updatedNodes);
-    console.log(updatedNodes);
   }, [completedCourses, setNodes]); //TODO: fix dependencies
 
   const titleNode = getTitleNode(cohort, degree, career);

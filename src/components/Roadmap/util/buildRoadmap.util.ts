@@ -16,7 +16,7 @@ function isPrerequisitesCompleted(
   return course.prerequisites.every((prereq) => completedCourses.has(prereq));
 }
 
-export function updateNodeAvailability(
+export function updateNodesOnCheck(
   nodes: Node[],
   completedCourses: Set<string>
 ) {
@@ -27,6 +27,7 @@ export function updateNodeAvailability(
         courseCode,
         completedCourses
       );
+      node.data.isCompleted = completedCourses.has(node.data.id);
     }
     return node;
   });
@@ -34,7 +35,8 @@ export function updateNodeAvailability(
 
 export function buildRoadmap(
   roadmapData: Roadmap,
-  handleNodeCheck: (id: string) => void
+  handleNodeCheck: (id: string) => void,
+  completedCourses: Set<string>
 ) {
   const generateParentNodes = (): Node[] => {
     const nodes: Node[] = [];
@@ -102,7 +104,6 @@ export function buildRoadmap(
           data: {
             courseCode,
             id: childNodeId,
-            isAvailable: isPrerequisitesCompleted(courseCode),
             onCheck: handleNodeCheck,
           },
           position: { x: childNodeX, y: RoadmapConstants.CHILD_YPOS_START },
@@ -153,7 +154,10 @@ export function buildRoadmap(
   const parentNodes = generateParentNodes();
   const childNodes = generateChildNodes(parentNodes);
 
-  const nodes = [...parentNodes, ...childNodes];
+  const nodes = [
+    ...parentNodes,
+    ...updateNodesOnCheck(childNodes, completedCourses),
+  ];
   const edges = generatePrerequisitesEdges(childNodes);
 
   return { nodes, edges };
