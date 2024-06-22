@@ -9,10 +9,10 @@ import ReactFlow, {
 
 import Legend from "./Legend";
 import * as RoadmapConstants from "./Roadmap.constants";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import CourseNode from "./nodes/CourseNode";
 import { fetchRoadmap } from "@api/index";
-import buildRoadmap from "./util/buildRoadmap.util";
+import { buildRoadmap, updateNodeAvailability } from "./util/buildRoadmap.util";
 
 import "./Roadmap.css";
 import "reactflow/dist/style.css";
@@ -60,6 +60,9 @@ export default function Roadmap({
   const [nodes, setNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
   const [fetchedRoadmapData, setFetchedRoadmapData] = useState({});
+  const [completedCourses, setCompletedCourses] = useState<Set<string>>(
+    new Set()
+  );
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -70,8 +73,8 @@ export default function Roadmap({
       setIsLoading(true);
       setError("");
       try {
-        const response = await fetchRoadmap(degree, career, cohort);
-        setFetchedRoadmapData(response);
+        const roadmapResponse = await fetchRoadmap(degree, career, cohort);
+        setFetchedRoadmapData(roadmapResponse);
       } catch (error) {
         console.error("Error fetching roadmap data", error);
         setError("Error fetching roadmap data");
@@ -83,13 +86,35 @@ export default function Roadmap({
     fetchData();
   }, [degree, career, cohort]);
 
+  const handleNodeCheck = useCallback((id: string) => {
+    setCompletedCourses((prevCompletedCourses) => {
+      const newCompletedCourses = new Set(prevCompletedCourses);
+      if (newCompletedCourses.has(id)) {
+        newCompletedCourses.delete(id);
+      } else {
+        newCompletedCourses.add(id);
+      }
+      return newCompletedCourses;
+    });
+  }, []);
+
   useEffect(() => {
     if (fetchedRoadmapData) {
-      const { nodes, edges } = buildRoadmap(fetchedRoadmapData);
+      const { nodes, edges } = buildRoadmap(
+        fetchedRoadmapData,
+        handleNodeCheck
+      );
       setNodes(nodes);
       setEdges(edges);
+      console.log("useEffect2");
     }
-  }, [fetchedRoadmapData, setNodes, setEdges]);
+  }, [fetchedRoadmapData]); //TODO: fix dependencies
+
+  useEffect(() => {
+    const updatedNodes = updateNodeAvailability(nodes, completedCourses);
+    setNodes(updatedNodes);
+    console.log(updatedNodes);
+  }, [completedCourses, setNodes]); //TODO: fix dependencies
 
   const titleNode = getTitleNode(cohort, degree, career);
 

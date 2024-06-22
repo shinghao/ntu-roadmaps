@@ -3,49 +3,49 @@
     "title": "Introduction to Computational Thinking & Programming",
     "type": "Core",
     "AU": 3,
-    "prerequisites": ["Nil"]
+    "prerequisites": []
   },
   "SC1005": {
     "title": "Digital Logic",
     "type": "Core",
     "AU": 3,
-    "prerequisites": ["Nil"]
+    "prerequisites": []
   },
   "SC1013": {
     "title": "Physics For Computing",
     "type": "Core",
     "AU": 2,
-    "prerequisites": ["Nil"]
+    "prerequisites": []
   },
   "MH1810": {
     "title": "Mathematics I",
     "type": "Core",
     "AU": 3,
-    "prerequisites": ["Nil"]
+    "prerequisites": []
   },
   "MH1812": {
     "title": "Discrete Mathematics",
     "type": "Core",
     "AU": 3,
-    "prerequisites": ["Nil"]
+    "prerequisites": []
   },
   "CC0003": {
     "title": "Ethics & Civics in a Multicultural World",
     "type": "C-Core",
     "AU": 2,
-    "prerequisites": ["Nil"]
+    "prerequisites": []
   },
   "CC0005": {
     "title": "Healthy Living & Wellbeing",
     "type": "C-Core",
     "AU": 3,
-    "prerequisites": ["Nil"]
+    "prerequisites": []
   },
   "HW0001": {
     "title": "Introduction to Academic Communication",
     "type": "-",
     "AU": 0,
-    "prerequisites": ["For student who failed QET"]
+    "prerequisites": []
   },
   "SC1004": {
     "title": "Linear Algebra for Computing",

@@ -31,6 +31,7 @@ input[type="checkbox"] {
   cursor: pointer;
   z-index: 100;
   accent-color: grey;
+  width: 1em;
 }
 
 input[type="checkbox"]:checked {
