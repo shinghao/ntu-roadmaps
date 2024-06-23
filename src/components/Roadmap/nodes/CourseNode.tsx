@@ -48,7 +48,6 @@ const CourseNode = ({ data }: CourseNodeProps) => {
           maxWidth: "auto",
           height: CHILD_NODE_HEIGHT,
           backgroundColor: backgroundColor,
-          color: color,
         }}
       >
         <input
@@ -61,7 +60,10 @@ const CourseNode = ({ data }: CourseNodeProps) => {
         <button className="courseNode-btn">
           <span
             className="label"
-            style={{ textDecoration: isCompleted ? "line-through" : "none" }}
+            style={{
+              textDecoration: isCompleted ? "line-through" : "none",
+              color: color,
+            }}
           >
             {nodeLabel}
           </span>
