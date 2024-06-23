@@ -14,7 +14,16 @@ import SemesterNode from "./nodes/SemesterNode";
 import LegendNode from "./nodes/LegendNode";
 import useFetchRoadmap from "./hooks/useFetchRoadmap";
 import { buildRoadmap, updateNodesOnCheck } from "./util/buildRoadmap.util";
-import { Stack, FormGroup, FormControlLabel, Switch } from "@mui/material";
+import {
+  Button,
+  Stack,
+  FormGroup,
+  FormControlLabel,
+  Switch,
+} from "@mui/material";
+import DownloadIcon from "@mui/icons-material/Download";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import DownloadButton from "./DownloadButton";
 
 import "./Roadmap.css";
 import "reactflow/dist/style.css";
@@ -137,6 +146,13 @@ export default function Roadmap({
   return (
     <div>
       <Stack spacing={2} direction="row" flexWrap="wrap" useFlexGap marginY={4}>
+        <Button variant="contained" startIcon={<FileUploadOutlinedIcon />}>
+          Import
+        </Button>
+        <Button variant="contained" startIcon={<DownloadIcon />}>
+          Export
+        </Button>
+        <DownloadButton nodes={nodes} />
         <FormGroup>
           <FormControlLabel
             control={
