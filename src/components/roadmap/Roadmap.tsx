@@ -55,13 +55,13 @@ export default function Roadmap({
   degree,
   career,
   cohort,
-  handleOnSelectCourseNode,
+  handleOnOpenCourseModal,
   updateSelects,
 }: {
   degree: string;
   career: string;
   cohort: string;
-  handleOnSelectCourseNode: (id: string) => void;
+  handleOnOpenCourseModal: (id: string) => void;
   updateSelects: (degree: string, career: string, cohort: string) => void;
 }) {
   const [nodes, setNodes] = useNodesState([]);
@@ -111,7 +111,7 @@ export default function Roadmap({
         handleNodeCheck,
         completedCourses,
         isEdgesHidden,
-        handleOnSelectCourseNode
+        handleOnOpenCourseModal
       );
       setNodes(nodes);
       setEdges(edges);

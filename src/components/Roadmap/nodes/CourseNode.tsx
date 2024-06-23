@@ -15,7 +15,7 @@ interface CourseNodeProps {
     hasTargetHandle: boolean;
     isHandlesHidden: boolean;
     onCheck: (id: string) => void;
-    handleOnSelectCourseNode: (id: string) => void;
+    handleOnOpenCourseModal: (id: string) => void;
   };
 }
 
@@ -29,7 +29,7 @@ const CourseNode = ({ data }: CourseNodeProps) => {
     hasTargetHandle = false,
     isHandlesHidden,
     onCheck,
-    handleOnSelectCourseNode,
+    handleOnOpenCourseModal,
   } = data;
 
   const handleCheck = () => {
@@ -93,7 +93,7 @@ const CourseNode = ({ data }: CourseNodeProps) => {
         <IconButton
           aria-label="view course details"
           size="small"
-          onClick={() => handleOnSelectCourseNode(id)}
+          onClick={() => handleOnOpenCourseModal(id)}
           sx={{
             borderLeft: iconButtonBorderLeft,
             paddingX: "0.6rem",

@@ -35,7 +35,7 @@ export default function RoadmapPage() {
     setCareer(firstCareer);
   };
 
-  const handleOnSelectCourseNode = (id: string) => {
+  const handleOnOpenCourseModal = (id: string) => {
     setSelectedCourseId(id);
     setIsCourseModalOpen(true);
   };
@@ -96,7 +96,7 @@ export default function RoadmapPage() {
         degree={degree}
         career={career}
         cohort={cohort}
-        handleOnSelectCourseNode={handleOnSelectCourseNode}
+        handleOnOpenCourseModal={handleOnOpenCourseModal}
         updateSelects={updateSelects}
       />
     </main>
