@@ -37,7 +37,8 @@ export function buildRoadmap(
   handleNodeCheck: (id: string) => void,
   completedCourses: Set<string>,
   isEdgesHidden: boolean,
-  handleOnOpenCourseModal: (id: string) => void
+  handleOnOpenCourseModal: (id: string) => void,
+  onSelectCourseNode: (id: string, isSelected: boolean) => void
 ) {
   const generateSemesterNodes = (): Node[] => {
     const nodes: Node[] = [];
@@ -87,6 +88,7 @@ export function buildRoadmap(
             onCheck: handleNodeCheck,
             isHandlesHidden: isEdgesHidden,
             handleOnOpenCourseModal,
+            onSelectCourseNode,
           },
           position: { x: childNodeX, y: RoadmapConstants.CHILD_YPOS_START },
           parentNode: semesterNodes[parentIndex].id,

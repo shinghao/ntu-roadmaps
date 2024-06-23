@@ -16,6 +16,8 @@ interface CourseNodeProps {
     isHandlesHidden: boolean;
     onCheck: (id: string) => void;
     handleOnOpenCourseModal: (id: string) => void;
+    onSelectCourseNode: (id: string, isSelected: boolean) => void;
+    isSelected: boolean;
   };
 }
 
@@ -30,6 +32,8 @@ const CourseNode = ({ data }: CourseNodeProps) => {
     isHandlesHidden,
     onCheck,
     handleOnOpenCourseModal,
+    onSelectCourseNode,
+    isSelected = false,
   } = data;
 
   const handleCheck = () => {
@@ -37,7 +41,9 @@ const CourseNode = ({ data }: CourseNodeProps) => {
   };
 
   const nodeLabel = courseCode;
-  const backgroundColor = isAvailable
+  const backgroundColor = isSelected
+    ? "#1976d2"
+    : isAvailable
     ? isCompleted
       ? "whitesmoke"
       : "white"
@@ -79,7 +85,10 @@ const CourseNode = ({ data }: CourseNodeProps) => {
         ) : (
           <LockIcon color="disabled" fontSize="small" />
         )}
-        <button className="courseNode-btn">
+        <button
+          className="courseNode-btn"
+          onClick={() => onSelectCourseNode(id, !isSelected)}
+        >
           <Typography
             className="label"
             style={{

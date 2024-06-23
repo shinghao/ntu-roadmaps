@@ -16,12 +16,13 @@ import useFetchRoadmap from "./hooks/useFetchRoadmap";
 import { buildRoadmap, updateNodesOnCheck } from "./util/buildRoadmap.util";
 import { Stack, FormGroup, FormControlLabel, Switch } from "@mui/material";
 import DownloadButton from "./DownloadButton";
-
-import "./Roadmap.css";
-import "reactflow/dist/style.css";
 import ExportButton from "./ExportButton";
 import ImportButton from "./ImportButton";
 import ResetButton from "./ResetButton";
+import { getAllConnectedNodes } from "./util/util";
+
+import "./Roadmap.css";
+import "reactflow/dist/style.css";
 
 const legendNode: Node = {
   id: "legendNode",
@@ -78,6 +79,7 @@ export default function Roadmap({
     career,
     cohort
   );
+  const [selectedCourse, setSelectedCourse] = useState("");
 
   const nodeTypes = useMemo(
     () => ({
@@ -87,6 +89,10 @@ export default function Roadmap({
     }),
     []
   );
+
+  const onSelectCourseNode = useCallback((id: string, isSelected: boolean) => {
+    setSelectedCourse(isSelected ? id : "");
+  }, []);
 
   const handleNodeCheck = useCallback((id: string) => {
     setCompletedCourses((prevCompletedCourses) => {
@@ -111,7 +117,8 @@ export default function Roadmap({
         handleNodeCheck,
         completedCourses,
         isEdgesHidden,
-        handleOnOpenCourseModal
+        handleOnOpenCourseModal,
+        onSelectCourseNode
       );
       setNodes(nodes);
       setEdges(edges);
@@ -123,6 +130,24 @@ export default function Roadmap({
     setNodes(updatedNodes);
   }, [completedCourses, setNodes]); //TODO: fix dependencies
 
+  useEffect(() => {
+    const updatedNodes = nodes.map((node) => {
+      node.data.isSelected = node.data.id === selectedCourse;
+      return node;
+    });
+
+    const connectedNodes = getAllConnectedNodes(selectedCourse, edges);
+    const updatedEdges = edges.map((edge) => {
+      edge.hidden = selectedCourse
+        ? !connectedNodes?.includes(edge.source)
+        : false;
+      return edge;
+    });
+
+    setEdges(updatedEdges);
+    setNodes(updatedNodes);
+  }, [selectedCourse]);
+
   const handleOnShowEdges = () => {
     const updatedEdges = edges.map((edge) => {
       edge.hidden = !isEdgesHidden;
@@ -130,6 +155,7 @@ export default function Roadmap({
     });
     const updatedNodes = nodes.map((node) => {
       node.data.isHandlesHidden = !isEdgesHidden;
+      node.data.isSelected = false;
       return node;
     });
     setEdges(updatedEdges);
@@ -156,6 +182,23 @@ export default function Roadmap({
     updateSelects(data.degree, data.career, data.cohort);
   };
 
+  const onReset = () => {
+    localStorage.setItem("completedCourses", JSON.stringify([]));
+    setCompletedCourses(new Set([]));
+    setNodes(
+      nodes.map((node) => {
+        node.data.isSelected = false;
+        return node;
+      })
+    );
+    setEdges(
+      edges.map((edge) => {
+        edge.hidden = false;
+        return edge;
+      })
+    );
+  };
+
   return (
     <div>
       <Stack spacing={2} direction="row" flexWrap="wrap" useFlexGap marginY={4}>
@@ -167,7 +210,7 @@ export default function Roadmap({
           completedCourses={[...completedCourses]}
         />
         <DownloadButton nodes={nodes} />
-        <ResetButton setCompletedCourses={setCompletedCourses} />
+        <ResetButton onReset={onReset} />
         <FormGroup>
           <FormControlLabel
             control={

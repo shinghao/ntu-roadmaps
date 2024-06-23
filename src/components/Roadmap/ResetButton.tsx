@@ -4,15 +4,10 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 const TOOLTIP_TEXT = "Reset all completed courses";
 
 interface ResetButtonProps {
-  setCompletedCourses: (val: Set<string>) => void;
+  onReset: () => void;
 }
 
-export default function ResetButton({ setCompletedCourses }: ResetButtonProps) {
-  const onReset = () => {
-    localStorage.setItem("completedCourses", JSON.stringify([]));
-    setCompletedCourses(new Set([]));
-  };
-
+export default function ResetButton({ onReset }: ResetButtonProps) {
   return (
     <Tooltip title={TOOLTIP_TEXT} arrow placement="top">
       <Button
