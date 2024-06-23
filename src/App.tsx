@@ -3,10 +3,10 @@ import "./App.css";
 import { useState, useRef } from "react";
 import Navbar from "./components/Navbar";
 import degreeProgrammes from "./data/degreeProgrammes.json";
-import RoadmapFlowchart from "./components/roadmap/Roadmap";
+import RoadmapFlowchart from "./components/Roadmap/Roadmap";
 import LabelledSelect from "./components/LabelledSelect";
 import Footer from "./components/Footer";
-import CourseModal from "./components/roadmap/CourseModal";
+import CourseModal from "./components/Roadmap/CourseModal";
 
 const typedDegreeProgrammes: {
   [degree: string]: {
