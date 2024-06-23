@@ -7,6 +7,10 @@
   padding-left: 0.5rem;
 }
 
+.courseNode:hover {
+  border: 1px solid gray;
+}
+
 .courseNode-btn {
   width: 100%;
   text-align: left;
@@ -19,21 +23,17 @@
   justify-content: space-between;
 }
 
-.courseNode:hover {
-  border: 1px solid gray;
+.courseNode-btn:hover {
+  border-bottom: none;
 }
 
-.arrow {
-  padding: 0 0.5rem;
-}
-
-input[type="checkbox"] {
+.courseNode > input[type="checkbox"] {
   cursor: pointer;
   z-index: 100;
   accent-color: grey;
   width: 1em;
 }
 
-input[type="checkbox"]:checked {
+.courseNode > input[type="checkbox"]:checked {
   color: grey;
 }

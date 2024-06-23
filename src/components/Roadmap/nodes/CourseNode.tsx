@@ -1,6 +1,8 @@
 import { Handle, Position } from "reactflow";
 import { CHILD_NODE_WIDTH, CHILD_NODE_HEIGHT } from "../Roadmap.constants";
 import "./CourseNode.css";
+import { IconButton } from "@mui/material";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
 interface CourseNodeProps {
   data: {
@@ -12,6 +14,7 @@ interface CourseNodeProps {
     hasTargetHandle: boolean;
     isHandlesHidden: boolean;
     onCheck: (id: string) => void;
+    handleOnSelectCourseNode: (id: string) => void;
   };
 }
 
@@ -25,6 +28,7 @@ const CourseNode = ({ data }: CourseNodeProps) => {
     hasTargetHandle = false,
     isHandlesHidden,
     onCheck,
+    handleOnSelectCourseNode,
   } = data;
 
   const handleCheck = () => {
@@ -68,6 +72,19 @@ const CourseNode = ({ data }: CourseNodeProps) => {
             {nodeLabel}
           </span>
         </button>
+        <IconButton
+          aria-label="view course details"
+          size="small"
+          onClick={() => handleOnSelectCourseNode(id)}
+          sx={{
+            borderLeft: "1px solid rgb(212, 212, 216)",
+            paddingX: "0.6rem",
+            borderRadius: "0",
+            "&:hover": { borderBottom: "none" },
+          }}
+        >
+          <ArrowCircleRightIcon />
+        </IconButton>
       </div>
       {hasTargetHandle && (
         <Handle

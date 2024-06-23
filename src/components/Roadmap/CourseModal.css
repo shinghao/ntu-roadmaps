@@ -1,0 +1,9 @@
+.modal-container {
+  width: 46rem;
+  max-width: 100vw;
+  padding: 1rem 1.5rem;
+}
+
+.modal-container .bold {
+  font-weight: bold;
+}

@@ -1,5 +1,5 @@
-export const CHILD_NODE_WIDTH = 130;
-export const CHILD_NODE_HEIGHT = 40;
+export const CHILD_NODE_WIDTH = 150;
+export const CHILD_NODE_HEIGHT = 50;
 export const CHILD_YPOS_START = 40;
 export const CHILD_XPOS_START = 20;
 export const XPOS_BETWEEN_CHILD = 10;

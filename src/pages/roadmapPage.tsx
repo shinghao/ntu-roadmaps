@@ -1,8 +1,9 @@
 import { useState } from "react";
 import degreeProgrammes from "../data/degreeProgrammes.json";
 import Roadmap from "@components/Roadmap";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField, Stack, Modal } from "@mui/material";
 import "./roadmapPage.css";
+import CourseModal from "@components/Roadmap/CourseModal";
 
 const typedDegreeProgrammes: {
   [degree: string]: {
@@ -25,10 +26,18 @@ export default function RoadmapPage() {
   const [career, setCareer] = useState<string>(careers[0] || "");
   const [cohort, setCohort] = useState(cohorts[0] || "");
 
+  const [selectedCourseId, setSelectedCourseId] = useState("");
+  const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
+
   const handleDegreeChange = (value: string) => {
     setDegree(value);
     const firstCareer = typedDegreeProgrammes[value]?.careers[0] || "";
     setCareer(firstCareer);
+  };
+
+  const handleOnSelectCourseNode = (id: string) => {
+    setSelectedCourseId(id);
+    setIsCourseModalOpen(true);
   };
 
   const selectsConfig = [
@@ -55,7 +64,12 @@ export default function RoadmapPage() {
 
   return (
     <main className="content">
-      <div className="selects-container">
+      <CourseModal
+        courseId={selectedCourseId}
+        isModalOpen={isCourseModalOpen}
+        setIsModalOpen={setIsCourseModalOpen}
+      />
+      <Stack spacing={3} direction="row" flexWrap="wrap" useFlexGap>
         {selectsConfig.map((config) => (
           <Autocomplete
             key={`select-${config.label}`}
@@ -71,8 +85,13 @@ export default function RoadmapPage() {
             disableClearable
           />
         ))}
-      </div>
-      <Roadmap degree={degree} career={career} cohort={cohort} />
+      </Stack>
+      <Roadmap
+        degree={degree}
+        career={career}
+        cohort={cohort}
+        handleOnSelectCourseNode={handleOnSelectCourseNode}
+      />
     </main>
   );
 }

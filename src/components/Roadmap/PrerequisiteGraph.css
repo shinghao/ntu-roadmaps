@@ -1,0 +1,14 @@
+.prerequisite-graph-container {
+  width: 100%;
+  height: min-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.prerequisite-graph {
+  width: 100%;
+  height: 16rem;
+  border-width: 0;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}

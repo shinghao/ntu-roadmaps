@@ -3,7 +3,15 @@
     "title": "Introduction to Computational Thinking & Programming",
     "type": "Core",
     "AU": 3,
-    "prerequisites": []
+    "prerequisites": [],
+    "Course Aims": "Computational thinking (CT) is the process of analysing a problem then designing and expressing its solution in such a way that a computer can effectively carry it out. It includes a number of characteristics, such as breaking a problem into small and repetitive ordered steps, logically ordering and analyzing data and creating solutions that can be effectively implemented as programs running on a computer.\nThe aim of this course is hence to take students with no prior experience of thinking in a computational manner to a point where you can derive simple algorithms and code the programs to solve some basic problems in your domain of studies. Students will also learn about basic program constructs and simple data structures. In addition, the course will include topics to appreciate the internal operations of a processor.",
+    "Intended Learning Outcomes": [
+      "Describe the internal operation of a basic processor, how a program is executed by a computer and computing trends.",
+      "Analyse a problem then design and express its solution in such a way that a computer can effectively carry it out. (i.e. equip you with CT skills)",
+      "Implement problem solutions as programs using basic control structures (sequence, conditional, iterative).",
+      "Implement problem solutions as programs using basic data types and aggregate data types.",
+      "Apply the CT concepts on case studies/problem‐based scenarios through hands‐on practice of the CT processes."
+    ]
   },
   "SC1005": {
     "title": "Digital Logic",
