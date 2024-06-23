@@ -21,6 +21,7 @@ import "./Roadmap.css";
 import "reactflow/dist/style.css";
 import ExportButton from "./ExportButton";
 import ImportButton from "./ImportButton";
+import ResetButton from "./ResetButton";
 
 const legendNode: Node = {
   id: "legendNode",
@@ -166,6 +167,7 @@ export default function Roadmap({
           completedCourses={[...completedCourses]}
         />
         <DownloadButton nodes={nodes} />
+        <ResetButton setCompletedCourses={setCompletedCourses} />
         <FormGroup>
           <FormControlLabel
             control={
