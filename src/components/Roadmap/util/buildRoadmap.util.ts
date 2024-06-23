@@ -36,7 +36,8 @@ export function updateNodesOnCheck(
 export function buildRoadmap(
   roadmapData: Roadmap,
   handleNodeCheck: (id: string) => void,
-  completedCourses: Set<string>
+  completedCourses: Set<string>,
+  isEdgesHidden: boolean
 ) {
   const generateSemesterNodes = (): Node[] => {
     const nodes: Node[] = [];
@@ -108,6 +109,7 @@ export function buildRoadmap(
             courseCode,
             id: childNodeId,
             onCheck: handleNodeCheck,
+            isHandlesHidden: isEdgesHidden,
           },
           position: { x: childNodeX, y: RoadmapConstants.CHILD_YPOS_START },
           parentNode: semesterNodes[parentIndex].id,
@@ -148,6 +150,7 @@ export function buildRoadmap(
               type: MarkerType.ArrowClosed,
               color: "#2B78E4",
             },
+            hidden: isEdgesHidden,
           };
           edges.push(edge);
         }

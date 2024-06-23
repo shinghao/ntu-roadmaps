@@ -10,6 +10,7 @@ interface CourseNodeProps {
     isCompleted: boolean;
     hasSourceHandle: boolean;
     hasTargetHandle: boolean;
+    isHandlesHidden: boolean;
     onCheck: (id: string) => void;
   };
 }
@@ -22,6 +23,7 @@ const CourseNode = ({ data }: CourseNodeProps) => {
     isCompleted = false,
     hasSourceHandle = false,
     hasTargetHandle = false,
+    isHandlesHidden,
     onCheck,
   } = data;
 
@@ -71,6 +73,7 @@ const CourseNode = ({ data }: CourseNodeProps) => {
           position={Position.Top}
           style={{ background: "#2B78E4" }}
           isConnectable={false}
+          hidden={isHandlesHidden}
         />
       )}
       {hasSourceHandle && (
@@ -79,6 +82,7 @@ const CourseNode = ({ data }: CourseNodeProps) => {
           position={Position.Bottom}
           style={{ background: "#2B78E4" }}
           isConnectable={false}
+          hidden={isHandlesHidden}
         />
       )}
     </>

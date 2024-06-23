@@ -14,6 +14,7 @@ import SemesterNode from "./nodes/SemesterNode";
 import LegendNode from "./nodes/LegendNode";
 import useFetchRoadmap from "./hooks/useFetchRoadmap";
 import { buildRoadmap, updateNodesOnCheck } from "./util/buildRoadmap.util";
+import { Stack, FormGroup, FormControlLabel, Switch } from "@mui/material";
 
 import "./Roadmap.css";
 import "reactflow/dist/style.css";
@@ -63,6 +64,7 @@ export default function Roadmap({
       ? new Set(JSON.parse(storedCompletedCourses))
       : new Set();
   });
+  const [isEdgesHidden, setisEdgesHidden] = useState(false);
   const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
     degree,
     career,
@@ -99,7 +101,8 @@ export default function Roadmap({
       const { nodes, edges } = buildRoadmap(
         fetchedRoadmapData,
         handleNodeCheck,
-        completedCourses
+        completedCourses,
+        isEdgesHidden
       );
       setNodes(nodes);
       setEdges(edges);
@@ -111,6 +114,20 @@ export default function Roadmap({
     setNodes(updatedNodes);
   }, [completedCourses, setNodes]); //TODO: fix dependencies
 
+  const handleOnShowEdges = () => {
+    const updatedEdges = edges.map((edge) => {
+      edge.hidden = !isEdgesHidden;
+      return edge;
+    });
+    const updatedNodes = nodes.map((node) => {
+      node.data.isHandlesHidden = !isEdgesHidden;
+      return node;
+    });
+    setEdges(updatedEdges);
+    setNodes(updatedNodes);
+    setisEdgesHidden(!isEdgesHidden);
+  };
+
   const titleNode = createTitleNode(cohort, degree, career);
 
   const roadmapHeight = calculateRoadmapHeight(
@@ -118,23 +135,39 @@ export default function Roadmap({
   );
 
   return (
-    <div
-      className="flowchart"
-      style={{
-        height: `${roadmapHeight}px`,
-      }}
-    >
-      {error && <p>{error}</p>}
-      {isLoading && <p>Loading...</p>}
-      <ReactFlow
-        nodes={[legendNode, titleNode, ...nodes]}
-        edges={edges}
-        nodeTypes={nodeTypes}
+    <div>
+      <Stack spacing={2} direction="row" flexWrap="wrap" useFlexGap marginY={4}>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Switch
+                defaultChecked
+                value={isEdgesHidden}
+                onChange={handleOnShowEdges}
+              />
+            }
+            label="Show Arrows"
+          />
+        </FormGroup>
+      </Stack>
+      <div
+        className="flowchart"
+        style={{
+          height: `${roadmapHeight}px`,
+        }}
       >
-        <Background />
-        <Controls position="top-right" />
-        <MiniMap position="bottom-right" />
-      </ReactFlow>
+        {error && <p>{error}</p>}
+        {isLoading && <p>Loading...</p>}
+        <ReactFlow
+          nodes={[legendNode, titleNode, ...nodes]}
+          edges={edges}
+          nodeTypes={nodeTypes}
+        >
+          <Background />
+          <Controls position="top-right" />
+          <MiniMap position="bottom-right" />
+        </ReactFlow>
+      </div>
     </div>
   );
 }
