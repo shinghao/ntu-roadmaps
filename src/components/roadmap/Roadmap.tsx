@@ -14,19 +14,13 @@ import SemesterNode from "./nodes/SemesterNode";
 import LegendNode from "./nodes/LegendNode";
 import useFetchRoadmap from "./hooks/useFetchRoadmap";
 import { buildRoadmap, updateNodesOnCheck } from "./util/buildRoadmap.util";
-import {
-  Button,
-  Stack,
-  FormGroup,
-  FormControlLabel,
-  Switch,
-} from "@mui/material";
-import DownloadIcon from "@mui/icons-material/Download";
-import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import { Stack, FormGroup, FormControlLabel, Switch } from "@mui/material";
 import DownloadButton from "./DownloadButton";
 
 import "./Roadmap.css";
 import "reactflow/dist/style.css";
+import ExportButton from "./ExportButton";
+import ImportButton from "./ImportButton";
 
 const legendNode: Node = {
   id: "legendNode",
@@ -61,11 +55,13 @@ export default function Roadmap({
   career,
   cohort,
   handleOnSelectCourseNode,
+  updateSelects,
 }: {
   degree: string;
   career: string;
   cohort: string;
   handleOnSelectCourseNode: (id: string) => void;
+  updateSelects: (degree: string, career: string, cohort: string) => void;
 }) {
   const [nodes, setNodes] = useNodesState([]);
   const [edges, setEdges] = useEdgesState([]);
@@ -146,15 +142,29 @@ export default function Roadmap({
     Object.keys(fetchedRoadmapData).length
   );
 
+  const onImport = (data: {
+    degree: string;
+    career: string;
+    cohort: string;
+    completedCourses: string[];
+  }) => {
+    localStorage.setItem(
+      "completedCourses",
+      JSON.stringify(data.completedCourses)
+    );
+    updateSelects(data.degree, data.career, data.cohort);
+  };
+
   return (
     <div>
       <Stack spacing={2} direction="row" flexWrap="wrap" useFlexGap marginY={4}>
-        <Button variant="contained" startIcon={<FileUploadOutlinedIcon />}>
-          Import
-        </Button>
-        <Button variant="contained" startIcon={<DownloadIcon />}>
-          Export
-        </Button>
+        <ImportButton onImport={onImport} />
+        <ExportButton
+          degree={degree}
+          career={career}
+          cohort={cohort}
+          completedCourses={[...completedCourses]}
+        />
         <DownloadButton nodes={nodes} />
         <FormGroup>
           <FormControlLabel

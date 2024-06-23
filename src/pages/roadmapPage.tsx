@@ -1,7 +1,7 @@
 import { useState } from "react";
 import degreeProgrammes from "../data/degreeProgrammes.json";
 import Roadmap from "@components/Roadmap";
-import { Autocomplete, TextField, Stack, Modal } from "@mui/material";
+import { Autocomplete, TextField, Stack } from "@mui/material";
 import "./roadmapPage.css";
 import CourseModal from "@components/Roadmap/CourseModal";
 
@@ -38,6 +38,12 @@ export default function RoadmapPage() {
   const handleOnSelectCourseNode = (id: string) => {
     setSelectedCourseId(id);
     setIsCourseModalOpen(true);
+  };
+
+  const updateSelects = (degree: string, career: string, cohort: string) => {
+    setDegree(degree);
+    setCareer(career);
+    setCohort(cohort);
   };
 
   const selectsConfig = [
@@ -91,6 +97,7 @@ export default function RoadmapPage() {
         career={career}
         cohort={cohort}
         handleOnSelectCourseNode={handleOnSelectCourseNode}
+        updateSelects={updateSelects}
       />
     </main>
   );
