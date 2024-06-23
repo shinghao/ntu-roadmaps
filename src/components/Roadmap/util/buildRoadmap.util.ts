@@ -1,7 +1,6 @@
 import { Node, Edge, MarkerType } from "reactflow";
 import * as RoadmapConstants from "../Roadmap.constants";
 import type { Roadmap, CourseData } from "@api/index";
-
 import coursesData from "../../../data/courses.json";
 
 function isPrerequisitesCompleted(
@@ -43,44 +42,20 @@ export function buildRoadmap(
   const generateSemesterNodes = (): Node[] => {
     const nodes: Node[] = [];
     let yPos = RoadmapConstants.PARENT_YPOS_START;
-    const childWidthAndSpace =
-      RoadmapConstants.XPOS_BETWEEN_CHILD + RoadmapConstants.CHILD_NODE_WIDTH;
-    const backgroundColors = [
-      "beige",
-      "lightblue",
-      "pink",
-      "lightsalmon",
-      "lightcoral",
-    ];
 
     Object.entries(roadmapData).forEach(
       ([yearSemester, courses], parentIndex) => {
         const parentNodeId = `${parentIndex}`;
-        const parentWidth =
-          courses.length * childWidthAndSpace +
-          RoadmapConstants.XPOS_BETWEEN_CHILD +
-          RoadmapConstants.CHILD_XPOS_START;
-        const year = parseInt(yearSemester.split(" ")[1]) - 1;
 
         nodes.push({
           id: parentNodeId,
           type: "semesterNode",
-          data: { label: yearSemester },
+          data: { label: yearSemester, noOfCourses: courses.length },
           position: { x: RoadmapConstants.PARENT_XPOS_START, y: yPos },
-          style: {
-            width: parentWidth,
-            minWidth: "max-content",
-            height: RoadmapConstants.PARENT_NODE_HEIGHT,
-            backgroundColor: backgroundColors[year],
-            fontWeight: "bold",
-            textAlign: "left",
-            margin: "0 auto",
-            zIndex: -1,
-            fontSize: "0.8em",
-          },
           draggable: false,
           selectable: false,
           focusable: false,
+          zIndex: -2,
         });
         yPos +=
           RoadmapConstants.YPOS_BETWEEN_PARENTS +
@@ -119,7 +94,7 @@ export function buildRoadmap(
           type: "courseNode",
           draggable: false,
           connectable: false,
-          zIndex: 1,
+          zIndex: 10,
         });
 
         childNodeX +=
@@ -153,6 +128,7 @@ export function buildRoadmap(
               color: "#2B78E4",
             },
             hidden: isEdgesHidden,
+            zIndex: 1,
           };
           edges.push(edge);
         }

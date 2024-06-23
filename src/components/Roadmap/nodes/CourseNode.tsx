@@ -1,8 +1,9 @@
 import { Handle, Position } from "reactflow";
 import { CHILD_NODE_WIDTH, CHILD_NODE_HEIGHT } from "../Roadmap.constants";
 import "./CourseNode.css";
-import { IconButton } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import LockIcon from "@mui/icons-material/Lock";
 
 interface CourseNodeProps {
   data: {
@@ -40,29 +41,46 @@ const CourseNode = ({ data }: CourseNodeProps) => {
     ? isCompleted
       ? "whitesmoke"
       : "white"
-    : "grey";
-  const color = isCompleted ? "grey" : "black";
+    : "rgb(175, 175, 175)";
+  const color = isAvailable
+    ? isCompleted
+      ? "grey"
+      : "black"
+    : "rgba(0, 0, 0, 0.4)";
+  const border = isAvailable
+    ? "1px solid rgb(212, 212, 216)"
+    : "1px solid grey";
+  const iconButtonBorderLeft = isAvailable
+    ? "1px solid rgb(212, 212, 216)"
+    : "1px solid rgba(0, 0, 0, 0.2)";
+  const borderOnHover = "1px solid #1976d2";
 
   return (
     <>
-      <div
+      <Box
         className="courseNode"
-        style={{
+        sx={{
           width: CHILD_NODE_WIDTH,
           maxWidth: "auto",
           height: CHILD_NODE_HEIGHT,
           backgroundColor: backgroundColor,
+          border,
+          "&:hover": { border: borderOnHover },
         }}
       >
-        <input
-          type="checkbox"
-          name={`checkbox-${id}`}
-          checked={isCompleted}
-          onChange={handleCheck}
-          disabled={!isAvailable}
-        />
+        {isAvailable ? (
+          <input
+            type="checkbox"
+            name={`checkbox-${id}`}
+            checked={isCompleted}
+            onChange={handleCheck}
+            disabled={!isAvailable}
+          />
+        ) : (
+          <LockIcon color="disabled" fontSize="small" />
+        )}
         <button className="courseNode-btn">
-          <span
+          <Typography
             className="label"
             style={{
               textDecoration: isCompleted ? "line-through" : "none",
@@ -70,22 +88,23 @@ const CourseNode = ({ data }: CourseNodeProps) => {
             }}
           >
             {nodeLabel}
-          </span>
+          </Typography>
         </button>
         <IconButton
           aria-label="view course details"
           size="small"
           onClick={() => handleOnSelectCourseNode(id)}
           sx={{
-            borderLeft: "1px solid rgb(212, 212, 216)",
+            borderLeft: iconButtonBorderLeft,
             paddingX: "0.6rem",
             borderRadius: "0",
             "&:hover": { borderBottom: "none" },
+            height: "100%",
           }}
         >
           <ArrowCircleRightIcon />
         </IconButton>
-      </div>
+      </Box>
       {hasTargetHandle && (
         <Handle
           type="target"
