@@ -1,4 +1,9 @@
-import { getRectOfNodes, getTransformForBounds, Node } from "reactflow";
+import {
+  getNodesBounds,
+  getRectOfNodes,
+  getTransformForBounds,
+  Node,
+} from "reactflow";
 import { DOWNLOAD_IMAGE } from "./Roadmap.constants";
 import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -7,6 +12,7 @@ import { toPng } from "html-to-image";
 export default function DownloadButton({ nodes }: { nodes: Node[] }) {
   const handleDownloadRoadmap = () => {
     const nodesBounds = getRectOfNodes(nodes);
+    const { width, height, x, y } = getNodesBounds(nodes);
     const transform = getTransformForBounds(
       nodesBounds,
       DOWNLOAD_IMAGE.WIDTH,
@@ -17,12 +23,12 @@ export default function DownloadButton({ nodes }: { nodes: Node[] }) {
     );
     toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
       backgroundColor: "white",
-      width: DOWNLOAD_IMAGE.WIDTH,
-      height: DOWNLOAD_IMAGE.HEIGHT,
+      width: width * 1.8,
+      height: height * 1.8,
       style: {
-        width: `${DOWNLOAD_IMAGE.WIDTH}`,
-        height: `${DOWNLOAD_IMAGE.HEIGHT}`,
-        transform: `translate(${transform[0]}px, ${transform[1]}px) scale(${transform[2]})`,
+        width: `${width * 1.8}`,
+        height: `${height * 1.8}`,
+        transform: `translate(${x}px, ${y}px) scale(${transform[2]})`,
       },
     }).then((dataUrl) => {
       const a = document.createElement("a");
