@@ -14,13 +14,14 @@ import SemesterNode from "./nodes/SemesterNode";
 import LegendNode from "./nodes/LegendNode";
 import useFetchRoadmap from "./hooks/useFetchRoadmap";
 import { buildRoadmap, updateNodesOnCheck } from "./util/buildRoadmap.util";
-import { Stack, FormGroup, FormControlLabel, Switch } from "@mui/material";
+import { getAllConnectedNodes } from "./util/util";
 import DownloadButton from "./DownloadButton";
 import ExportButton from "./ExportButton";
 import ImportButton from "./ImportButton";
 import ResetButton from "./ResetButton";
-import { getAllConnectedNodes } from "./util/util";
+import ShowEdgesToggle from "./ShowEdgesToggle";
 
+import { Stack } from "@mui/material";
 import "./Roadmap.css";
 import "reactflow/dist/style.css";
 
@@ -148,7 +149,7 @@ export default function Roadmap({
     setNodes(updatedNodes);
   }, [selectedCourse]);
 
-  const handleOnShowEdges = () => {
+  const handleOnShowAllEdges = () => {
     const updatedEdges = edges.map((edge) => {
       edge.hidden = !isEdgesHidden;
       return edge;
@@ -162,12 +163,6 @@ export default function Roadmap({
     setNodes(updatedNodes);
     setisEdgesHidden(!isEdgesHidden);
   };
-
-  const titleNode = createTitleNode(cohort, degree, career);
-
-  const roadmapHeight = calculateRoadmapHeight(
-    Object.keys(fetchedRoadmapData).length
-  );
 
   const onImport = (data: {
     degree: string;
@@ -199,6 +194,11 @@ export default function Roadmap({
     );
   };
 
+  const titleNode = createTitleNode(cohort, degree, career);
+  const roadmapHeight = calculateRoadmapHeight(
+    Object.keys(fetchedRoadmapData).length
+  );
+
   return (
     <div>
       <Stack spacing={2} direction="row" flexWrap="wrap" useFlexGap marginY={4}>
@@ -211,18 +211,10 @@ export default function Roadmap({
         />
         <DownloadButton nodes={nodes} />
         <ResetButton onReset={onReset} />
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch
-                defaultChecked
-                value={isEdgesHidden}
-                onChange={handleOnShowEdges}
-              />
-            }
-            label="Show Arrows"
-          />
-        </FormGroup>
+        <ShowEdgesToggle
+          handleOnShowAllEdges={handleOnShowAllEdges}
+          isEdgesHidden={isEdgesHidden}
+        />
       </Stack>
       <div
         className="flowchart"
