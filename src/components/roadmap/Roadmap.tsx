@@ -142,6 +142,9 @@ export default function Roadmap({
       edge.hidden = selectedCourse
         ? !connectedNodes?.includes(edge.source)
         : false;
+      edge.animated = selectedCourse
+        ? connectedNodes?.includes(edge.source)
+        : false;
       return edge;
     });
 
@@ -188,7 +191,7 @@ export default function Roadmap({
     );
     setEdges(
       edges.map((edge) => {
-        edge.hidden = false;
+        edge.hidden = edge.animated = false;
         return edge;
       })
     );
