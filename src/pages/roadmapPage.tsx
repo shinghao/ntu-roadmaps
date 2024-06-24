@@ -1,7 +1,7 @@
 import { useState } from "react";
 import degreeProgrammes from "../data/degreeProgrammes.json";
 import Roadmap from "@components/Roadmap";
-import { Autocomplete, TextField, Stack } from "@mui/material";
+import { Autocomplete, TextField, Stack, Container } from "@mui/material";
 import "./roadmapPage.css";
 import CourseModal from "@components/Roadmap/CourseModal";
 
@@ -69,7 +69,7 @@ export default function RoadmapPage() {
   ];
 
   return (
-    <main className="content">
+    <Container className="content">
       <CourseModal
         courseId={selectedCourseId}
         isModalOpen={isCourseModalOpen}
@@ -99,6 +99,6 @@ export default function RoadmapPage() {
         handleOnOpenCourseModal={handleOnOpenCourseModal}
         updateSelects={updateSelects}
       />
-    </main>
+    </Container>
   );
 }
