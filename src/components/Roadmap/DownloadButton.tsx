@@ -43,6 +43,11 @@ export default function DownloadButton({ nodes }: { nodes: Node[] }) {
       variant="contained"
       startIcon={<DownloadIcon />}
       onClick={handleDownloadRoadmap}
+      sx={{
+        "&:hover": {
+          borderBottom: "none",
+        },
+      }}
     >
       Download (PNG)
     </Button>

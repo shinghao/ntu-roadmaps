@@ -27,6 +27,11 @@ export default function ExportButton(data: ExportButtonProps) {
         variant="contained"
         startIcon={<DownloadIcon />}
         onClick={onExport}
+        sx={{
+          "&:hover": {
+            borderBottom: "none",
+          },
+        }}
       >
         Export
       </Button>
