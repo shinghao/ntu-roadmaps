@@ -36,6 +36,7 @@ export const fetchRoadmap = async (
   career: string,
   cohort: string
 ): Promise<Roadmap> => {
+  console.log(degree, career, cohort);
   const roadmap = roadmapData as RoadmapData;
   return new Promise((resolve) => resolve(roadmap[degree]));
 };

@@ -1,0 +1,22 @@
+.flowchart {
+  border: 1px solid grey;
+  background-color: whitesmoke;
+}
+
+.react-flow__node.node-title {
+  background: none;
+  border: none;
+  width: max-content;
+  padding: 0px;
+  margin: 0px;
+}
+
+.react-flow__node.node-title,
+.node-title > h1 {
+  padding: 0px;
+  margin: 0px;
+}
+
+.react-flow__node.node-title .react-flow__handle {
+  opacity: 0;
+}
