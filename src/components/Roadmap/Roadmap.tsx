@@ -178,6 +178,7 @@ export default function Roadmap({
       JSON.stringify(data.completedCourses)
     );
     updateSelects(data.degree, data.career, data.cohort);
+    setCompletedCourses(new Set(data.completedCourses));
   };
 
   const onReset = () => {
