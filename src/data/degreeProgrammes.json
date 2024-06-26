@@ -30,16 +30,36 @@
     "careers": [
       "Cybersecurity Consultant/Analyst",
       "Project Manager",
-      "Software Engineer"
+      "Software Engineer",
+      "Technical Product Manager",
+      "Entrepreneur"
     ]
   },
   "Double Degree in Computer Engineering and Business": {
-    "careers": ["Software Engineer"]
+    "careers": [
+      "Computer Engineer",
+      "Business Analyst",
+      "Technical Product Manager",
+      "Systems Architect",
+      "Entrepreneur"
+    ]
   },
-  "Double Degree in Computer Science/Engineering and Economics": {
-    "careers": ["Software Engineer"]
+  "Double Degree in Computer Science and Economics": {
+    "careers": [
+      "Software Engineer",
+      "Data Scientist",
+      "Quantitative Analyst",
+      "Economic Modeler",
+      "Quantitative Developer"
+    ]
   },
   "Double Degree in Computer Engineering and Economics": {
-    "careers": []
+    "careers": [
+      "Software Engineer",
+      "Financial Engineer",
+      "Economic Systems Designer",
+      "Tech-focused Economic Consultant",
+      "Operations Research Analyst"
+    ]
   }
 }

@@ -63,7 +63,7 @@ export default function Roadmap({
   degree: string;
   career: string;
   cohort: string;
-  handleOnOpenCourseModal: (id: string) => void;
+  handleOnOpenCourseModal: (courseCode: string) => void;
   updateSelects: (degree: string, career: string, cohort: string) => void;
 }) {
   const [nodes, setNodes] = useNodesState([]);

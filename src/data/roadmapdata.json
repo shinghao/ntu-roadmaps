@@ -262,28 +262,127 @@
   },
 
   "Double Degree in Computer Science and Economics": {
-    "YEAR 1 SEMESTER 1": [],
-    "YEAR 1 SEMESTER 2": [],
-    "YEAR 2 SEMESTER 1": [],
-    "YEAR 2 SEMESTER 2": [],
-    "YEAR 3 SEMESTER 1": [],
-    "YEAR 3 SEMESTER 2": [],
-    "YEAR 4 SEMESTER 1": [],
-    "YEAR 4 SEMESTER 2": [],
-    "YEAR 5 SEMESTER 1": [],
-    "YEAR 5 SEMESTER 2": []
+    "YEAR 1 SEMESTER 1": [
+      "SC1003",
+      "SC1013",
+      "MH1810",
+      "EG1001",
+      "HE1001",
+      "HE1002",
+      "CC0003",
+      "CC0005"
+    ],
+    "YEAR 1 SEMESTER 2": [
+      "SC1005",
+      "SC1007",
+      "MH1812",
+      "SC1015",
+      "HE2001",
+      "CC0001",
+      "CC0002"
+    ],
+    "YEAR 2 SEMESTER 1": [
+      "SC1004",
+      "SC1006",
+      "SC2000",
+      "SC2002",
+      "HE3001",
+      "CC0006",
+      "ML0004"
+    ],
+    "YEAR 2 SEMESTER 2": [
+      "SC2001",
+      "SC2005",
+      "SC2006",
+      "HE2002",
+      "MH1820",
+      "CC0007"
+    ],
+    "YEAR 3 SEMESTER 1": [
+      "SC2207",
+      "SC2008",
+      "SC3000",
+      "SC3xxx",
+      "HE2003",
+      "HE3002"
+    ],
+    "YEAR 3 SEMESTER 2": [
+      "SC2079",
+      "SC3010",
+      "HE3003",
+      "HE3xxx",
+      "HE3xxx",
+      "HW0288"
+    ],
+    "YEAR 4 SEMESTER 1": ["SC3xxx", "SC4xxx", "SC4xxx", "HE3xxx", "HE3xxx"],
+    "YEAR 4 SEMESTER 2": ["SC3079"],
+    "YEAR 5 SEMESTER 1": ["SC4079", "SC4xxx", "SC4xxx", "HE3xxx", "HE3xxx"],
+    "YEAR 5 SEMESTER 2": ["SC4079", "HE4xxx", "HE4xxx", "HE4xxx", "BDE"]
   },
 
   "Double Degree in Computer Engineering and Economics": {
-    "YEAR 1 SEMESTER 1": [],
-    "YEAR 1 SEMESTER 2": [],
-    "YEAR 2 SEMESTER 1": [],
-    "YEAR 2 SEMESTER 2": [],
-    "YEAR 3 SEMESTER 1": [],
-    "YEAR 3 SEMESTER 2": [],
-    "YEAR 4 SEMESTER 1": [],
-    "YEAR 4 SEMESTER 2": [],
-    "YEAR 5 SEMESTER 1": [],
-    "YEAR 5 SEMESTER 2": []
+    "YEAR 1 SEMESTER 1": [
+      "SC1003",
+      "SC1013",
+      "MH1810",
+      "EG1001",
+      "HE1001",
+      "HE1002",
+      "CC0003",
+      "CC0005"
+    ],
+    "YEAR 1 SEMESTER 2": [
+      "SC1005",
+      "SC1006",
+      "MH1812",
+      "SC1015",
+      "HE2001",
+      "CC0001",
+      "CC0002"
+    ],
+    "YEAR 2 SEMESTER 1": [
+      "SC1004",
+      "SC1007",
+      "SC2000",
+      "SC2107",
+      "HE3001",
+      "CC0006",
+      "ML0004"
+    ],
+    "YEAR 2 SEMESTER 2": [
+      "SC2001",
+      "SC2002",
+      "SC2103",
+      "HE2002",
+      "MH1820",
+      "CC0007"
+    ],
+    "YEAR 3 SEMESTER 1": [
+      "SC2005",
+      "SC2006",
+      "SC2008",
+      "SC2104",
+      "HE2003",
+      "HE3002"
+    ],
+    "YEAR 3 SEMESTER 2": [
+      "SC2079",
+      "SC3103",
+      "SC3xxx/SC4xxx",
+      "HE3003",
+      "HE3xxx",
+      "HW0288"
+    ],
+    "YEAR 4 SEMESTER 1": [
+      "SC3102",
+      "SC3xxx/SC4xxx",
+      "SC3xxx/SC4xxx",
+      "HE3xxx",
+      "HE3xxx",
+      "HE3xxx"
+    ],
+    "YEAR 4 SEMESTER 2": ["SC3079"],
+    "YEAR 5 SEMESTER 1": ["SC4079", "SC3xxx/SC4xxx", "HE3xxx", "HE3xxx"],
+    "YEAR 5 SEMESTER 2": ["SC4079", "HE4xxx", "HE4xxx", "HE4xxx"]
   }
 }

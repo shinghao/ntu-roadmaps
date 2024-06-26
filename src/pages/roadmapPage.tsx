@@ -11,14 +11,7 @@ const typedDegreeProgrammes: {
   };
 } = degreeProgrammes;
 
-const cohorts = [
-  "AY2023 & later",
-  "AY2022",
-  "AY2021",
-  "AY2020",
-  "AY2019",
-  "AY2018",
-];
+const cohorts = ["AY2023 & later"];
 
 export default function RoadmapPage() {
   const [degree, setDegree] = useState(Object.keys(typedDegreeProgrammes)[0]);
@@ -26,7 +19,7 @@ export default function RoadmapPage() {
   const [career, setCareer] = useState<string>(careers[0] || "");
   const [cohort, setCohort] = useState(cohorts[0] || "");
 
-  const [selectedCourseId, setSelectedCourseId] = useState("");
+  const [selectedCourseCode, setSelectedCourseCode] = useState("");
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
 
   const handleDegreeChange = (value: string) => {
@@ -35,8 +28,8 @@ export default function RoadmapPage() {
     setCareer(firstCareer);
   };
 
-  const handleOnOpenCourseModal = (id: string) => {
-    setSelectedCourseId(id);
+  const handleOnOpenCourseModal = (courseCode: string) => {
+    setSelectedCourseCode(courseCode);
     setIsCourseModalOpen(true);
   };
 
@@ -71,7 +64,7 @@ export default function RoadmapPage() {
   return (
     <Container className="content">
       <CourseModal
-        courseId={selectedCourseId}
+        courseCode={selectedCourseCode}
         isModalOpen={isCourseModalOpen}
         setIsModalOpen={setIsCourseModalOpen}
       />

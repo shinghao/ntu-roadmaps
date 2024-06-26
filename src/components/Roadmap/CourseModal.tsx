@@ -1,30 +1,29 @@
 import "./CourseModal.css";
-import courses from "../../data/courses.json";
 import PrerequisiteGraph from "./PrerequisiteGraph";
 import { Button, Drawer, Divider } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
-interface CourseData {
-  title: string;
-  AU: string | number;
-  "Course Aims"?: string;
-  "Intended Learning Outcomes"?: string[];
-  prerequisites?: string[];
-}
+import useFetchCourseDetails from "@hooks/useFetchCourseDetails";
 
 interface Props {
-  courseId: string;
+  courseCode: string;
   isModalOpen: boolean;
   setIsModalOpen: (val: boolean) => void;
 }
 
 export default function CourseModal({
-  courseId,
+  courseCode,
   isModalOpen,
   setIsModalOpen,
 }: Props) {
-  const typedCourses: Record<string, CourseData> = courses;
-  const courseData: CourseData = typedCourses[courseId];
+  const { fetchedCourseDetails } = useFetchCourseDetails(courseCode);
+  const {
+    au = "",
+    title = "",
+    description = "",
+    intendedLearningOutcomes = [],
+    semesters = [],
+    prerequisites = [[]],
+  } = fetchedCourseDetails || {};
 
   return (
     <Drawer
@@ -41,22 +40,24 @@ export default function CourseModal({
         >
           ESC
         </Button>
+
         <h2>
-          {courseId} - {courseData?.title || ""}
+          {courseCode} - {title || ""}
         </h2>
-        <p>{courseData?.AU || "?"} AU</p>
-        {courseData?.["Course Aims"] && (
+        <p>{au || "?"} AU</p>
+        {semesters.length > 0 && <p>Semesters: {semesters.join(", ")}</p>}
+        {description && (
           <>
             <Divider />
-            <p>{courseData["Course Aims"]}</p>
+            <p>{description}</p>
           </>
         )}
-        {courseData?.["Intended Learning Outcomes"] && (
+        {intendedLearningOutcomes?.length > 0 && (
           <div>
             <Divider />
             <h3>Intended Learning Outcomes</h3>
             <ol>
-              {courseData["Intended Learning Outcomes"].map((item, index) => (
+              {intendedLearningOutcomes.map((item, index) => (
                 <li key={index}>{item}</li>
               ))}
             </ol>
@@ -64,8 +65,8 @@ export default function CourseModal({
         )}
         <Divider />
         <PrerequisiteGraph
-          courseId={courseId}
-          prerequisites={courseData?.prerequisites || []}
+          courseId={courseCode}
+          prerequisites={prerequisites.map((prereq) => prereq[0]) || []}
         />
       </div>
     </Drawer>

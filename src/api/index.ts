@@ -1,17 +1,6 @@
 import roadmapData from "../data/roadmapdata.json";
 import coursesData from "../data/courses.json";
 
-interface Course {
-  title: string;
-  type: string;
-  AU: number;
-  prerequisites: string[];
-}
-
-export interface CourseData {
-  [courseCode: string]: Course;
-}
-
 interface RoadmapData {
   [degree: string]: Roadmap;
 }
@@ -20,15 +9,17 @@ export interface Roadmap {
   [yearsem: string]: string[];
 }
 
-export const fetchCourses = async (): Promise<CourseData> => {
-  return new Promise((resolve) => resolve(coursesData as CourseData));
+export const fetchCourses = async (): Promise<Models.Course[]> => {
+  return new Promise((resolve) => resolve(coursesData as Models.Course[]));
 };
 
 export const fetchCourseDetails = async (
   courseCode: string
-): Promise<Course> => {
-  const courseData = coursesData as CourseData;
-  return new Promise((resolve) => resolve(courseData[courseCode]));
+): Promise<Models.Course | null> => {
+  const courseData = coursesData as Models.Course[];
+  const courseFound =
+    courseData.find((course) => course.courseCode === courseCode) || null;
+  return new Promise((resolve) => resolve(courseFound));
 };
 
 export const fetchRoadmap = async (

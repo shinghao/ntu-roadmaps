@@ -1,18 +1,22 @@
 import { Node, Edge, MarkerType } from "reactflow";
 import * as RoadmapConstants from "../Roadmap.constants";
-import type { Roadmap, CourseData } from "@api/index";
+import type { Roadmap } from "@api/index";
 import coursesData from "../../../data/courses.json";
 
 function isPrerequisitesCompleted(
   courseCode: string,
   completedCourses = new Set()
 ): boolean {
-  const courses = coursesData as CourseData;
-  const course = courses[courseCode];
+  const courses = coursesData as Models.Course[];
+  const course =
+    courses.find((course) => course.courseCode === courseCode) || null;
   if (!course || !course.prerequisites) {
     return true;
   }
-  return course.prerequisites.every((prereq) => completedCourses.has(prereq));
+  // Check each set of prerequisites (OR conditions)
+  return course.prerequisites.every((prereqGroup) =>
+    prereqGroup.some((prereq) => completedCourses.has(prereq))
+  );
 }
 
 export function updateNodesOnCheck(
@@ -37,7 +41,7 @@ export function buildRoadmap(
   handleNodeCheck: (id: string) => void,
   completedCourses: Set<string>,
   isEdgesHidden: boolean,
-  handleOnOpenCourseModal: (id: string) => void,
+  handleOnOpenCourseModal: (courseCode: string) => void,
   onSelectCourseNode: (id: string, isSelected: boolean) => void
 ) {
   const generateSemesterNodes = (): Node[] => {
@@ -110,32 +114,34 @@ export function buildRoadmap(
 
   const generateEdges = (courseNodes: Node[]): Edge[] => {
     const edges: Edge[] = [];
-    const courseNodesId = courseNodes.map((child) => child.id);
-    const courses = coursesData as CourseData;
+    const coursesInRoadmap = courseNodes.map((child) => child.data.courseCode);
+    const courses = coursesData as Models.Course[];
 
-    for (const [courseCode, { prerequisites }] of Object.entries(courses)) {
-      prerequisites.forEach((prereq) => {
-        if (courseNodesId.includes(prereq)) {
-          const source = prereq;
-          const target = courseCode;
-          const edge = {
-            id: `${source}-${target}`,
-            source,
-            target,
-            style: {
-              stroke: "#2B78E4",
-            },
-            markerEnd: {
-              type: MarkerType.ArrowClosed,
-              color: "#2B78E4",
-            },
-            hidden: isEdgesHidden,
-            zIndex: 1,
-          };
-          edges.push(edge);
-        }
-      });
-    }
+    courses.forEach(({ prerequisites, courseCode }) => {
+      prerequisites?.flatMap((prereqGroup) =>
+        prereqGroup.forEach((prereq) => {
+          if (coursesInRoadmap.includes(prereq)) {
+            const source = prereq;
+            const target = courseCode;
+            const edge = {
+              id: `${source}-${target}`,
+              source,
+              target,
+              style: {
+                stroke: "#2B78E4",
+              },
+              markerEnd: {
+                type: MarkerType.ArrowClosed,
+                color: "#2B78E4",
+              },
+              hidden: isEdgesHidden,
+              zIndex: 1,
+            };
+            edges.push(edge);
+          }
+        })
+      );
+    });
 
     return edges;
   };
