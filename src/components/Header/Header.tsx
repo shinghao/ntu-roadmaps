@@ -13,7 +13,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import "./Header.css";
 
-const pages = ["Roadmap", "Courses"];
+const pages = ["👣 Roadmap", "📚 Courses"];
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
