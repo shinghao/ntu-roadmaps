@@ -14,7 +14,10 @@ import SemesterNode from "./nodes/SemesterNode";
 import LegendNode from "./nodes/LegendNode";
 import useFetchRoadmap from "./hooks/useFetchRoadmap";
 import { buildRoadmap, updateNodesOnCheck } from "./util/buildRoadmap.util";
-import { getAllConnectedNodes } from "./util/util";
+import {
+  setEdgesOnSelectCourse,
+  setEdgesOnUnselectCourse,
+} from "./util/selectCourse.util";
 import DownloadButton from "./DownloadButton";
 import ExportButton from "./ExportButton";
 import ImportButton from "./ImportButton";
@@ -136,21 +139,12 @@ export default function Roadmap({
       node.data.isSelected = node.data.id === selectedCourse;
       return node;
     });
-
-    const connectedNodes = getAllConnectedNodes(selectedCourse, edges);
-    const updatedEdges = edges.map((edge) => {
-      edge.hidden = selectedCourse
-        ? !connectedNodes?.includes(edge.source)
-        : false;
-      edge.animated = selectedCourse
-        ? connectedNodes?.includes(edge.source)
-        : false;
-      return edge;
-    });
-
-    setEdges(updatedEdges);
     setNodes(updatedNodes);
-  }, [selectedCourse]);
+
+    selectedCourse === ""
+      ? setEdgesOnUnselectCourse(edges, setEdges)
+      : setEdgesOnSelectCourse(edges, setEdges, selectedCourse);
+  }, [selectedCourse]); //TODO: fix dependencies
 
   const handleOnShowAllEdges = () => {
     const updatedEdges = edges.map((edge) => {
