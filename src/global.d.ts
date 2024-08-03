@@ -31,17 +31,9 @@ declare namespace Models {
     courses: CourseInRoadmap[];
   }
 
-  interface RecommendedElectives {
-    career: string;
-    electives: string[];
-  }
-
   interface Roadmap {
-    id: string;
-    degreeCohort: string;
     degree: string;
     cohort: string;
     coursesByYearSemester: YearSemester[];
-    recommendedElectivesByCareer: RecommendedElectives[];
   }
 }

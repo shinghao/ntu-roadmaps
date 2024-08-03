@@ -194,7 +194,7 @@ export default function Roadmap({
 
   const titleNode = createTitleNode(cohort, degree, career);
   const roadmapHeight = calculateRoadmapHeight(
-    Object.keys(fetchedRoadmapData).length
+    Object.keys(fetchedRoadmapData.coursesByYearSemester).length
   );
 
   return (

@@ -1,6 +1,5 @@
 import { Node, Edge, MarkerType } from "reactflow";
 import * as RoadmapConstants from "../Roadmap.constants";
-import type { Roadmap } from "@api/index";
 import coursesData from "../../../data/courses.json";
 
 function isPrerequisitesCompleted(
@@ -37,36 +36,36 @@ export function updateNodesOnCheck(
 }
 
 export function buildRoadmap(
-  roadmapData: Roadmap,
+  roadmapData: Models.Roadmap,
   handleNodeCheck: (id: string) => void,
   completedCourses: Set<string>,
   isEdgesHidden: boolean,
-  handleOnOpenCourseModal: (courseCode: string) => void,
+  handleOnOpenCourseModal: (courseCode: string, isElective: boolean) => void,
   onSelectCourseNode: (id: string, isSelected: boolean) => void
 ) {
   const generateSemesterNodes = (): Node[] => {
     const nodes: Node[] = [];
     let yPos = RoadmapConstants.PARENT_YPOS_START;
+    roadmapData.coursesByYearSemester.forEach(({ year, semester, courses }) => {
+      const label = `YEAR ${year} SEMESTER ${semester}`;
+      const id = label;
 
-    Object.entries(roadmapData).forEach(
-      ([yearSemester, courses], parentIndex) => {
-        const parentNodeId = `${parentIndex}`;
+      const node = {
+        id,
+        type: "semesterNode",
+        data: { label, noOfCourses: courses.length },
+        position: { x: RoadmapConstants.PARENT_XPOS_START, y: yPos },
+        draggable: false,
+        selectable: false,
+        focusable: false,
+        zIndex: -2,
+      };
+      yPos +=
+        RoadmapConstants.YPOS_BETWEEN_PARENTS +
+        RoadmapConstants.PARENT_NODE_HEIGHT;
 
-        nodes.push({
-          id: parentNodeId,
-          type: "semesterNode",
-          data: { label: yearSemester, noOfCourses: courses.length },
-          position: { x: RoadmapConstants.PARENT_XPOS_START, y: yPos },
-          draggable: false,
-          selectable: false,
-          focusable: false,
-          zIndex: -2,
-        });
-        yPos +=
-          RoadmapConstants.YPOS_BETWEEN_PARENTS +
-          RoadmapConstants.PARENT_NODE_HEIGHT;
-      }
-    );
+      nodes.push(node);
+    });
 
     return nodes;
   };
@@ -74,14 +73,14 @@ export function buildRoadmap(
   const generateCourseNodes = (semesterNodes: Node[]): Node[] => {
     const courseNodes: Node[] = [];
 
-    Object.values(roadmapData).forEach((courses, parentIndex) => {
+    roadmapData.coursesByYearSemester.forEach(({ courses }, parentIndex) => {
       let childNodeX = RoadmapConstants.CHILD_XPOS_START;
 
-      courses.forEach((courseCode, childIndex) => {
+      courses.forEach(({ courseCode }, childIndex) => {
         const childNodeId = courseNodes
           .map((child) => child.id)
           .includes(courseCode)
-          ? `${parentIndex}-${courseCode}-${childIndex}`
+          ? `${courseCode}-${childIndex}`
           : `${courseCode}`;
 
         courseNodes.push({
@@ -93,6 +92,7 @@ export function buildRoadmap(
             isHandlesHidden: isEdgesHidden,
             handleOnOpenCourseModal,
             onSelectCourseNode,
+            isElective: childNodeId.includes("xxx"),
           },
           position: { x: childNodeX, y: RoadmapConstants.CHILD_YPOS_START },
           parentNode: semesterNodes[parentIndex].id,

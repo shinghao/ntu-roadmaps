@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { fetchRoadmap } from "@api/index";
 
-export default function useFetchRoadmap(
-  degree: string,
-  career: string,
-  cohort: string
-) {
-  const [fetchedRoadmapData, setFetchedRoadmapData] = useState({});
+export default function useFetchRoadmap(degree: string, cohort: string) {
+  const [fetchedRoadmapData, setFetchedRoadmapData] = useState<Models.Roadmap>({
+    degree,
+    cohort,
+    coursesByYearSemester: [],
+  });
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -15,7 +15,7 @@ export default function useFetchRoadmap(
       setIsLoading(true);
       setError("");
       try {
-        const roadmapResponse = await fetchRoadmap(degree, career, cohort);
+        const roadmapResponse = await fetchRoadmap(degree, cohort);
         setFetchedRoadmapData(roadmapResponse);
       } catch (error) {
         console.error("Error fetching roadmap data", error);
@@ -26,7 +26,7 @@ export default function useFetchRoadmap(
     };
 
     fetchData();
-  }, [degree, career, cohort]);
+  }, [degree, cohort]);
 
   return { fetchedRoadmapData, error, isLoading };
 }

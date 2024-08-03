@@ -11,7 +11,7 @@ const typedDegreeProgrammes: {
   };
 } = degreeProgrammes;
 
-const cohorts = ["AY2023 & later"];
+const cohorts = ["2023"];
 
 export default function RoadmapPage() {
   const [degree, setDegree] = useState(Object.keys(typedDegreeProgrammes)[0]);
