@@ -1,4 +1,4 @@
-import { Edge } from "reactflow";
+import { Edge } from "@xyflow/react";
 
 function getAllConnectedEdges(
   selectedCourse: string,
@@ -36,32 +36,27 @@ function getAllConnectedEdges(
 }
 
 export const setEdgesOnUnselectCourse = (
-  edges: Edge[],
-  setEdges: (edges: Edge[]) => void
+  setEdges: (payload: Edge[] | ((edges: Edge[]) => Edge[])) => void
 ) => {
-  const updatedEdges = edges.map((edge) => {
-    edge.hidden = edge.animated = false;
-    return edge;
-  });
-  setEdges(updatedEdges);
-  return;
+  setEdges((currentEdges) =>
+    currentEdges.map((edge) => ({
+      ...edge,
+      hidden: false,
+      animated: false,
+    }))
+  );
 };
 
 export const setEdgesOnSelectCourse = (
-  edges: Edge[],
-  setEdges: (edges: Edge[]) => void,
+  setEdges: (payload: Edge[] | ((edges: Edge[]) => Edge[])) => void,
   selectedCourse: string
 ) => {
-  const edgesToHighlight = getAllConnectedEdges(selectedCourse, edges);
-  const updatedEdges = edges.map((edge) => {
-    if (edgesToHighlight.has(edge.id)) {
-      edge.hidden = false;
-      edge.animated = true;
-    } else {
-      edge.hidden = true;
-      edge.animated = false;
-    }
-    return edge;
+  setEdges((currentEdges) => {
+    const edgesToHighlight = getAllConnectedEdges(selectedCourse, currentEdges);
+    return currentEdges.map((edge) => ({
+      ...edge,
+      hidden: edgesToHighlight.has(edge.id) ? false : true,
+      animated: edgesToHighlight.has(edge.id) ? true : false,
+    }));
   });
-  setEdges(updatedEdges);
 };

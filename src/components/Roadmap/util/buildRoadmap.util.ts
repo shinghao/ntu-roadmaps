@@ -1,8 +1,8 @@
-import { Node, Edge, MarkerType } from "reactflow";
+import { Node, Edge, MarkerType } from "@xyflow/react";
 import * as RoadmapConstants from "../Roadmap.constants";
 import coursesData from "../../../data/courses.json";
 
-function isPrerequisitesCompleted(
+export function isPrerequisitesCompleted(
   courseCode: string,
   completedCourses = new Set()
 ): boolean {
@@ -24,12 +24,11 @@ export function updateNodesOnCheck(
 ) {
   return nodes.map((node) => {
     if (node.type === "courseNode") {
-      const { courseCode } = node.data;
       node.data.isAvailable = isPrerequisitesCompleted(
-        courseCode,
+        node.data.courseCode as string,
         completedCourses
       );
-      node.data.isCompleted = completedCourses.has(node.data.id);
+      node.data.isCompleted = completedCourses.has(node.id);
     }
     return node;
   });
@@ -80,7 +79,7 @@ export function buildRoadmap(
         const childNodeId = courseNodes
           .map((child) => child.id)
           .includes(courseCode)
-          ? `${courseCode}-${childIndex}`
+          ? `${parentIndex}-${courseCode}-${childIndex}`
           : `${courseCode}`;
 
         courseNodes.push({
@@ -95,7 +94,7 @@ export function buildRoadmap(
             isElective: childNodeId.includes("xxx"),
           },
           position: { x: childNodeX, y: RoadmapConstants.CHILD_YPOS_START },
-          parentNode: semesterNodes[parentIndex].id,
+          parentId: semesterNodes[parentIndex].id,
           extent: "parent",
           type: "courseNode",
           draggable: false,

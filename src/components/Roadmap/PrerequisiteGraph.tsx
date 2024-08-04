@@ -1,4 +1,10 @@
-import ReactFlow, { Node, Edge, MarkerType } from "reactflow";
+import {
+  ReactFlow,
+  Node,
+  Edge,
+  MarkerType,
+  ReactFlowProvider,
+} from "@xyflow/react";
 import "./PrerequisiteGraph.css";
 
 interface Props {

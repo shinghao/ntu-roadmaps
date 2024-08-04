@@ -1,11 +1,12 @@
-import ReactFlow, {
+import {
+  ReactFlow,
   Controls,
   Background,
-  MiniMap,
-  Node,
   useNodesState,
   useEdgesState,
-} from "reactflow";
+  type Node,
+  type Edge,
+} from "@xyflow/react";
 
 import * as RoadmapConstants from "./Roadmap.constants";
 import { useMemo, useState, useEffect, useCallback } from "react";
@@ -13,7 +14,10 @@ import CourseNode from "./nodes/CourseNode";
 import SemesterNode from "./nodes/SemesterNode";
 import LegendNode from "./nodes/LegendNode";
 import useFetchRoadmap from "./hooks/useFetchRoadmap";
-import { buildRoadmap, updateNodesOnCheck } from "./util/buildRoadmap.util";
+import {
+  buildRoadmap,
+  isPrerequisitesCompleted,
+} from "./util/buildRoadmap.util";
 import {
   setEdgesOnSelectCourse,
   setEdgesOnUnselectCourse,
@@ -26,7 +30,7 @@ import ShowEdgesToggle from "./ShowEdgesToggle";
 
 import { Stack } from "@mui/material";
 import "./Roadmap.css";
-import "reactflow/dist/style.css";
+import "@xyflow/react/dist/style.css";
 
 const legendNode: Node = {
   id: "legendNode",
@@ -69,8 +73,8 @@ export default function Roadmap({
   handleOnOpenCourseModal: (courseCode: string) => void;
   updateSelects: (degree: string, career: string, cohort: string) => void;
 }) {
-  const [nodes, setNodes] = useNodesState([]);
-  const [edges, setEdges] = useEdgesState([]);
+  const [nodes, setNodes] = useNodesState<Node>([]);
+  const [edges, setEdges] = useEdgesState<Edge>([]);
   const [completedCourses, setCompletedCourses] = useState<Set<string>>(() => {
     const storedCompletedCourses = localStorage.getItem("completedCourses");
     return storedCompletedCourses
@@ -130,34 +134,58 @@ export default function Roadmap({
   }, [fetchedRoadmapData]); //TODO: fix dependencies
 
   useEffect(() => {
-    const updatedNodes = updateNodesOnCheck(nodes, completedCourses);
-    setNodes(updatedNodes);
-  }, [completedCourses, setNodes]); //TODO: fix dependencies
+    setNodes((currentNodes) =>
+      currentNodes.map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          ...(node.type === "courseNode"
+            ? {
+                isAvailable: isPrerequisitesCompleted(
+                  node.data.courseCode as string,
+                  completedCourses
+                ),
+                isCompleted: completedCourses.has(node.id),
+              }
+            : {}),
+        },
+      }))
+    );
+  }, [completedCourses, setNodes]);
 
   useEffect(() => {
-    const updatedNodes = nodes.map((node) => {
-      node.data.isSelected = node.data.id === selectedCourse;
-      return node;
-    });
-    setNodes(updatedNodes);
+    setNodes((currentNodes) =>
+      currentNodes.map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          isSelected: node.data.id === selectedCourse,
+        },
+      }))
+    );
 
     selectedCourse === ""
-      ? setEdgesOnUnselectCourse(edges, setEdges)
-      : setEdgesOnSelectCourse(edges, setEdges, selectedCourse);
+      ? setEdgesOnUnselectCourse(setEdges)
+      : setEdgesOnSelectCourse(setEdges, selectedCourse);
   }, [selectedCourse]); //TODO: fix dependencies
 
   const handleOnShowAllEdges = () => {
-    const updatedEdges = edges.map((edge) => {
-      edge.hidden = !isEdgesHidden;
-      return edge;
-    });
-    const updatedNodes = nodes.map((node) => {
-      node.data.isHandlesHidden = !isEdgesHidden;
-      node.data.isSelected = false;
-      return node;
-    });
-    setEdges(updatedEdges);
-    setNodes(updatedNodes);
+    setEdges((currentEdges) =>
+      currentEdges.map((edge) => ({
+        ...edge,
+        hidden: !isEdgesHidden,
+      }))
+    );
+    setNodes((currentNodes) =>
+      currentNodes.map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          isHandlesHidden: !isEdgesHidden,
+          isSelected: false,
+        },
+      }))
+    );
     setisEdgesHidden(!isEdgesHidden);
   };
 
@@ -178,17 +206,22 @@ export default function Roadmap({
   const onReset = () => {
     localStorage.setItem("completedCourses", JSON.stringify([]));
     setCompletedCourses(new Set([]));
-    setNodes(
-      nodes.map((node) => {
-        node.data.isSelected = false;
-        return node;
-      })
+    setNodes((currentNodes) =>
+      currentNodes.map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          isSelected: false,
+        },
+      }))
     );
-    setEdges(
-      edges.map((edge) => {
-        edge.hidden = edge.animated = false;
-        return edge;
-      })
+
+    setEdges((currentEdges) =>
+      currentEdges.map((edge) => ({
+        ...edge,
+        hidden: false,
+        animated: false,
+      }))
     );
   };
 
@@ -207,7 +240,7 @@ export default function Roadmap({
           cohort={cohort}
           completedCourses={[...completedCourses]}
         />
-        <DownloadButton nodes={nodes} />
+        <DownloadButton />
         <ResetButton onReset={onReset} />
         <ShowEdgesToggle
           handleOnShowAllEdges={handleOnShowAllEdges}
@@ -229,7 +262,6 @@ export default function Roadmap({
         >
           <Background />
           <Controls position="top-right" />
-          <MiniMap position="bottom-right" />
         </ReactFlow>
       </div>
     </div>

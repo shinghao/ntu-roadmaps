@@ -1,4 +1,4 @@
-import { Handle, Position } from "reactflow";
+import { Handle, Position } from "@xyflow/react";
 import { CHILD_NODE_WIDTH, CHILD_NODE_HEIGHT } from "../Roadmap.constants";
 import "./CourseNode.css";
 import { Box, IconButton, Typography } from "@mui/material";

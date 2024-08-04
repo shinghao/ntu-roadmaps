@@ -1,19 +1,28 @@
 import {
+  useReactFlow,
   getNodesBounds,
-  getRectOfNodes,
-  getTransformForBounds,
-  Node,
-} from "reactflow";
+  getViewportForBounds,
+} from "@xyflow/react";
 import { DOWNLOAD_IMAGE } from "./Roadmap.constants";
 import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import { toPng } from "html-to-image";
 
-export default function DownloadButton({ nodes }: { nodes: Node[] }) {
-  const handleDownloadRoadmap = () => {
-    const nodesBounds = getRectOfNodes(nodes);
-    const { width, height, x, y } = getNodesBounds(nodes);
-    const transform = getTransformForBounds(
+const IMAGE_URL = "my-course-roadmap.png";
+
+function downloadImage(dataUrl: string) {
+  const a = document.createElement("a");
+
+  a.setAttribute("download", IMAGE_URL);
+  a.setAttribute("href", dataUrl);
+  a.click();
+}
+
+function DownloadButton() {
+  const { getNodes } = useReactFlow();
+  const onDownloadRoadmap = () => {
+    const nodesBounds = getNodesBounds(getNodes());
+    const { x, y, zoom } = getViewportForBounds(
       nodesBounds,
       DOWNLOAD_IMAGE.WIDTH,
       DOWNLOAD_IMAGE.HEIGHT,
@@ -21,28 +30,26 @@ export default function DownloadButton({ nodes }: { nodes: Node[] }) {
       DOWNLOAD_IMAGE.MAXZOOM,
       DOWNLOAD_IMAGE.PADDING
     );
+
+    console.log(x, y, zoom);
+
     toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
       backgroundColor: "white",
-      width: width * 1.8,
-      height: height * 1.8,
+      width: DOWNLOAD_IMAGE.WIDTH,
+      height: DOWNLOAD_IMAGE.HEIGHT,
       style: {
-        width: `${width * 1.8}`,
-        height: `${height * 1.8}`,
-        transform: `translate(${x}px, ${y}px) scale(${transform[2]})`,
+        width: `${DOWNLOAD_IMAGE.WIDTH}`,
+        height: `${DOWNLOAD_IMAGE.HEIGHT}`,
+        transform: `translate(${x / 2}px, ${y / 2}px) scale(${zoom})`,
       },
-    }).then((dataUrl) => {
-      const a = document.createElement("a");
-      a.setAttribute("download", "my-course-roadmap.png");
-      a.setAttribute("href", dataUrl);
-      a.click();
-    });
+    }).then(downloadImage);
   };
 
   return (
     <Button
       variant="contained"
       startIcon={<DownloadIcon />}
-      onClick={handleDownloadRoadmap}
+      onClick={onDownloadRoadmap}
       sx={{
         "&:hover": {
           borderBottom: "none",
@@ -53,3 +60,5 @@ export default function DownloadButton({ nodes }: { nodes: Node[] }) {
     </Button>
   );
 }
+
+export default DownloadButton;
