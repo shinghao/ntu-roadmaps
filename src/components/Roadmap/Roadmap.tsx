@@ -66,25 +66,27 @@ export default function Roadmap({
   cohort,
   handleOnOpenCourseModal,
   updateSelects,
+  isEdgesHidden,
+  setIsEdgesHidden,
 }: {
   degree: string;
   career: string;
   cohort: string;
-  handleOnOpenCourseModal: (courseCode: string) => void;
+  handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
   updateSelects: (degree: string, career: string, cohort: string) => void;
+  isEdgesHidden: boolean;
+  setIsEdgesHidden: (hidden: boolean) => void;
 }) {
-  const [nodes, setNodes] = useNodesState<Node>([]);
-  const [edges, setEdges] = useEdgesState<Edge>([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
+  const [edges, setEdges, onEdgeChange] = useEdgesState<Edge>([]);
   const [completedCourses, setCompletedCourses] = useState<Set<string>>(() => {
     const storedCompletedCourses = localStorage.getItem("completedCourses");
     return storedCompletedCourses
       ? new Set(JSON.parse(storedCompletedCourses))
       : new Set();
   });
-  const [isEdgesHidden, setisEdgesHidden] = useState(false);
   const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
     degree,
-    career,
     cohort
   );
   const [selectedCourse, setSelectedCourse] = useState("");
@@ -170,6 +172,7 @@ export default function Roadmap({
   }, [selectedCourse]); //TODO: fix dependencies
 
   const handleOnShowAllEdges = () => {
+    console.log(edges, nodes);
     setEdges((currentEdges) =>
       currentEdges.map((edge) => ({
         ...edge,
@@ -186,7 +189,7 @@ export default function Roadmap({
         },
       }))
     );
-    setisEdgesHidden(!isEdgesHidden);
+    setIsEdgesHidden(!isEdgesHidden);
   };
 
   const onImport = (data: {
@@ -230,6 +233,10 @@ export default function Roadmap({
     Object.keys(fetchedRoadmapData.coursesByYearSemester).length
   );
 
+  if (error) {
+    return <p>{`Error: ${error}. Please try again`}</p>;
+  }
+
   return (
     <div>
       <Stack spacing={2} direction="row" flexWrap="wrap" useFlexGap marginY={4}>
@@ -253,12 +260,13 @@ export default function Roadmap({
           height: `${roadmapHeight}px`,
         }}
       >
-        {error && <p>{error}</p>}
         {isLoading && <p>Loading...</p>}
         <ReactFlow
           nodes={[legendNode, titleNode, ...nodes]}
           edges={edges}
           nodeTypes={nodeTypes}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgeChange}
         >
           <Background />
           <Controls position="top-right" />

@@ -31,8 +31,6 @@ function DownloadButton() {
       DOWNLOAD_IMAGE.PADDING
     );
 
-    console.log(x, y, zoom);
-
     toPng(document.querySelector(".react-flow__viewport") as HTMLElement, {
       backgroundColor: "white",
       width: DOWNLOAD_IMAGE.WIDTH,

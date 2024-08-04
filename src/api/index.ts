@@ -1,5 +1,7 @@
 import roadmapData from "../data/roadmapdata.json";
 import coursesData from "../data/courses.json";
+import degreeProgrammes from "../data/degreeProgrammes.json";
+import careers from "../data/careers.json";
 
 export const fetchCourses = async (): Promise<Models.Course[]> => {
   return new Promise((resolve) => resolve(coursesData as Models.Course[]));
@@ -45,5 +47,23 @@ export const fetchRoadmap = async (
       }),
     };
     resolve(transformedRoadmap);
+  });
+};
+
+export const fetchDegreeProgrammes = async (): Promise<Models.Degree[]> => {
+  return new Promise((resolve) => {
+    resolve(degreeProgrammes);
+  });
+};
+
+export const fetchCareers = async (
+  degree: string
+): Promise<Models.Career[]> => {
+  const careersOfDegree = careers.filter((career) =>
+    career.degrees.includes(degree)
+  );
+
+  return new Promise((resolve) => {
+    resolve(careersOfDegree);
   });
 };

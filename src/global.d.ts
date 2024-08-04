@@ -14,9 +14,8 @@ declare namespace Models {
   }
 
   interface Degree {
-    id: string;
     school: string;
-    degreeName: string;
+    degree: string;
   }
 
   /* ROADMAP */
@@ -35,5 +34,12 @@ declare namespace Models {
     degree: string;
     cohort: string;
     coursesByYearSemester: YearSemester[];
+  }
+
+  /* Career */
+  interface Career {
+    career: string;
+    degrees: string[];
+    electives: string[];
   }
 }

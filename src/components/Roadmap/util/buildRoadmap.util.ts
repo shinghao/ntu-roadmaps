@@ -2,6 +2,7 @@ import { Node, Edge, MarkerType } from "@xyflow/react";
 import * as RoadmapConstants from "../Roadmap.constants";
 import coursesData from "../../../data/courses.json";
 
+// TODO: completedCourses should take from local storage
 export function isPrerequisitesCompleted(
   courseCode: string,
   completedCourses = new Set()
@@ -34,12 +35,26 @@ export function updateNodesOnCheck(
   });
 }
 
+export const updateCourseNodesForHandles = (
+  courseNodes: Node[],
+  edges: Edge[]
+): Node[] => {
+  return courseNodes.map((node) => ({
+    ...node,
+    data: {
+      ...node.data,
+      hasSourceHandle: edges.some(({ source }) => node.id === source),
+      hasTargetHandle: edges.some(({ target }) => node.id === target),
+    },
+  }));
+};
+
 export function buildRoadmap(
   roadmapData: Models.Roadmap,
   handleNodeCheck: (id: string) => void,
   completedCourses: Set<string>,
   isEdgesHidden: boolean,
-  handleOnOpenCourseModal: (courseCode: string, isElective: boolean) => void,
+  handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void,
   onSelectCourseNode: (id: string, isSelected: boolean) => void
 ) {
   const generateSemesterNodes = (): Node[] => {
@@ -75,7 +90,7 @@ export function buildRoadmap(
     roadmapData.coursesByYearSemester.forEach(({ courses }, parentIndex) => {
       let childNodeX = RoadmapConstants.CHILD_XPOS_START;
 
-      courses.forEach(({ courseCode }, childIndex) => {
+      courses.forEach(({ courseCode, prerequisites }, childIndex) => {
         const childNodeId = courseNodes
           .map((child) => child.id)
           .includes(courseCode)
@@ -85,8 +100,9 @@ export function buildRoadmap(
         courseNodes.push({
           id: childNodeId,
           data: {
-            courseCode,
             id: childNodeId,
+            courseCode,
+            prerequisites,
             onCheck: handleNodeCheck,
             isHandlesHidden: isEdgesHidden,
             handleOnOpenCourseModal,
@@ -122,20 +138,7 @@ export function buildRoadmap(
           if (coursesInRoadmap.includes(prereq)) {
             const source = prereq;
             const target = courseCode;
-            const edge = {
-              id: `${source}-${target}`,
-              source,
-              target,
-              style: {
-                stroke: "#2B78E4",
-              },
-              markerEnd: {
-                type: MarkerType.ArrowClosed,
-                color: "#2B78E4",
-              },
-              hidden: isEdgesHidden,
-              zIndex: 1,
-            };
+            const edge = CreateNewEdge(source, target, isEdgesHidden);
             edges.push(edge);
           }
         })
@@ -143,21 +146,6 @@ export function buildRoadmap(
     });
 
     return edges;
-  };
-
-  const updateCourseNodesForHandles = (
-    courseNodes: Node[],
-    edges: Edge[]
-  ): Node[] => {
-    return courseNodes.map((node) => {
-      node.data.hasSourceHandle = edges.some(
-        ({ source }) => node.id === source
-      );
-      node.data.hasTargetHandle = edges.some(
-        ({ target }) => node.id === target
-      );
-      return node;
-    });
   };
 
   const semesterNodes = generateSemesterNodes();
@@ -172,3 +160,22 @@ export function buildRoadmap(
 
   return { nodes, edges };
 }
+
+export const CreateNewEdge = (
+  source: string,
+  target: string,
+  isEdgesHidden: boolean
+) => ({
+  id: `${source}-${target}`,
+  source,
+  target,
+  style: {
+    stroke: "#2B78E4",
+  },
+  markerEnd: {
+    type: MarkerType.ArrowClosed,
+    color: "#2B78E4",
+  },
+  hidden: isEdgesHidden,
+  zIndex: 1,
+});

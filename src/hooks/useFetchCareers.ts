@@ -1,28 +1,25 @@
-import { fetchCourseDetails } from "@api/index";
+import { fetchCareers } from "@api/index";
 import { useState, useEffect } from "react";
 
-export default function useFetchCourseDetails(courseCode: string) {
-  const [fetchedCourseDetails, setFetchedCourseDetails] = useState<
-    Models.Course | object
-  >({});
+export default function useFetchCareers(degree: string) {
+  const [fetchedCareers, setFetchedCareers] = useState<Models.Career[] | null>(
+    null
+  );
+  const [careerOptions, setCareerOptions] = useState<string[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!courseCode) {
-        setFetchedCourseDetails({});
-        return;
-      }
-
       setIsLoading(true);
       setError("");
       try {
-        const response = await fetchCourseDetails(courseCode);
+        const response = await fetchCareers(degree);
         if (response === null) {
           throw new Error();
         }
-        setFetchedCourseDetails(response);
+        setFetchedCareers(response);
+        setCareerOptions(response.map(({ career }) => career).sort());
       } catch (error) {
         console.error("Error fetching courses data", error);
         setError("Error fetching course data");
@@ -32,7 +29,7 @@ export default function useFetchCourseDetails(courseCode: string) {
     };
 
     fetchData();
-  }, [courseCode]);
+  }, [degree]);
 
-  return { fetchedCourseDetails, error, isLoading };
+  return { fetchedCareers, careerOptions, error, isLoading };
 }

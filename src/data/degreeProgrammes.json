@@ -1,65 +1,30 @@
-{
-  "Computer Science": {
-    "careers": [
-      "Cyber Security",
-      "AI Engineer",
-      "Full-stack Developer",
-      "Data Engineer",
-      "Business Analyst"
-    ]
+[
+  {
+    "school": "School of Computer Science and Engineering",
+    "degree": "Computer Science"
   },
-  "Computer Engineering": {
-    "careers": [
-      "Firmware Engineer",
-      "Computer Engineer",
-      "Computer Hardware Engineer",
-      "Embedded System Developer",
-      "System Architect"
-    ]
+  {
+    "school": "School of Computer Science and Engineering",
+    "degree": "Computer Engineering"
   },
-  "Data Science and Artificial Intelligence": {
-    "careers": [
-      "Machine Learning Engineer",
-      "Data Scientist",
-      "Data Analyst",
-      "AI Engineer",
-      "AI Scientist"
-    ]
+  {
+    "school": "School of Computer Science and Engineering",
+    "degree": "Data Science and Artificial Intelligence"
   },
-  "Double Degree in Computer Science and Business": {
-    "careers": [
-      "Cybersecurity Consultant/Analyst",
-      "Project Manager",
-      "Software Engineer",
-      "Technical Product Manager",
-      "Entrepreneur"
-    ]
+  {
+    "school": "School of Computer Science and Engineering",
+    "degree": "Double Degree in Computer Science and Business"
   },
-  "Double Degree in Computer Engineering and Business": {
-    "careers": [
-      "Computer Engineer",
-      "Business Analyst",
-      "Technical Product Manager",
-      "Systems Architect",
-      "Entrepreneur"
-    ]
+  {
+    "school": "School of Computer Science and Engineering",
+    "degree": "Double Degree in Computer Engineering and Business"
   },
-  "Double Degree in Computer Science and Economics": {
-    "careers": [
-      "Software Engineer",
-      "Data Scientist",
-      "Quantitative Analyst",
-      "Economic Modeler",
-      "Quantitative Developer"
-    ]
+  {
+    "school": "School of Computer Science and Engineering",
+    "degree": "Double Degree in Computer Science and Economics"
   },
-  "Double Degree in Computer Engineering and Economics": {
-    "careers": [
-      "Software Engineer",
-      "Financial Engineer",
-      "Economic Systems Designer",
-      "Tech-focused Economic Consultant",
-      "Operations Research Analyst"
-    ]
+  {
+    "school": "School of Computer Science and Engineering",
+    "degree": "Double Degree in Computer Engineering and Economics"
   }
-}
+]

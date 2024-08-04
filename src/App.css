@@ -1,5 +1,7 @@
 .app {
   height: max-content;
   min-height: 100vh;
-  margin-top: calc(64px + 3rem);
+  padding-top: calc(64px + 3rem);
+  display: flex;
+  flex-direction: column;
 }

@@ -51,16 +51,18 @@ const PrerequisiteGraph = ({ courseId, prerequisites }: Props) => {
     <div className="prerequisite-graph-container">
       <h3>Prerequisites</h3>
       <div className="prerequisite-graph">
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          zoomOnScroll={false}
-          preventScrolling
-          nodesDraggable={false}
-          nodesConnectable={false}
-          nodesFocusable={false}
-          zoomOnPinch={false}
-        ></ReactFlow>
+        <ReactFlowProvider>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            zoomOnScroll={false}
+            preventScrolling
+            nodesDraggable={false}
+            nodesConnectable={false}
+            nodesFocusable={false}
+            zoomOnPinch={false}
+          ></ReactFlow>
+        </ReactFlowProvider>
       </div>
     </div>
   );
