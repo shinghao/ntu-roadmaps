@@ -1,12 +1,15 @@
 import { Node, Edge, MarkerType } from "@xyflow/react";
 import * as RoadmapConstants from "../Roadmap.constants";
 import coursesData from "../../../data/courses.json";
+import { getCompletedCourses } from "../hooks/useCompletedCourses";
 
-// TODO: completedCourses should take from local storage
-export function isPrerequisitesCompleted(
-  courseCode: string,
-  completedCourses = new Set()
-): boolean {
+export const isCourseCompleted = (courseCode: string) => {
+  const completedCourses = getCompletedCourses();
+  return completedCourses.includes(courseCode);
+};
+
+export function isPrerequisitesCompleted(courseCode: string): boolean {
+  const completedCourses = getCompletedCourses();
   const courses = coursesData as Models.Course[];
   const course =
     courses.find((course) => course.courseCode === courseCode) || null;
@@ -15,21 +18,18 @@ export function isPrerequisitesCompleted(
   }
   // Check each set of prerequisites (OR conditions)
   return course.prerequisites.every((prereqGroup) =>
-    prereqGroup.some((prereq) => completedCourses.has(prereq))
+    prereqGroup.some((prereq) => completedCourses.includes(prereq))
   );
 }
 
-export function updateNodesOnCheck(
-  nodes: Node[],
-  completedCourses: Set<string>
-) {
+export function updateNodesOnCheck(nodes: Node[]) {
+  const completedCourses = getCompletedCourses();
   return nodes.map((node) => {
     if (node.type === "courseNode") {
       node.data.isAvailable = isPrerequisitesCompleted(
-        node.data.courseCode as string,
-        completedCourses
+        node.data.courseCode as string
       );
-      node.data.isCompleted = completedCourses.has(node.id);
+      node.data.isCompleted = completedCourses.includes(node.id);
     }
     return node;
   });
@@ -51,8 +51,7 @@ export const updateCourseNodesForHandles = (
 
 export function buildRoadmap(
   roadmapData: Models.Roadmap,
-  handleNodeCheck: (id: string) => void,
-  completedCourses: Set<string>,
+  onNodeCheck: (checked: boolean, courseCode: string) => void,
   isEdgesHidden: boolean,
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void,
   onSelectCourseNode: (id: string, isSelected: boolean) => void
@@ -103,7 +102,7 @@ export function buildRoadmap(
             id: childNodeId,
             courseCode,
             prerequisites,
-            onCheck: handleNodeCheck,
+            onCheck: onNodeCheck,
             isHandlesHidden: isEdgesHidden,
             handleOnOpenCourseModal,
             onSelectCourseNode,
@@ -153,10 +152,7 @@ export function buildRoadmap(
   const edges = generateEdges(courseNodes);
   const updatedCourseNodes = updateCourseNodesForHandles(courseNodes, edges);
 
-  const nodes = [
-    ...semesterNodes,
-    ...updateNodesOnCheck(updatedCourseNodes, completedCourses),
-  ];
+  const nodes = [...semesterNodes, ...updateNodesOnCheck(updatedCourseNodes)];
 
   return { nodes, edges };
 }

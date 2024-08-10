@@ -7,7 +7,10 @@ import { useEffect, useState } from "react";
 import SelectElective from "./SelectElective";
 import { useReactFlow } from "@xyflow/react";
 import { useUpdateNodeData } from "./hooks/useUpdateNodeData";
-import { isPrerequisitesCompleted } from "./util/buildRoadmap.util";
+import {
+  isCourseCompleted,
+  isPrerequisitesCompleted,
+} from "./util/buildRoadmap.util";
 
 interface Props {
   nodeId: string;
@@ -60,8 +63,8 @@ export default function CourseModal(props: Props) {
       {
         courseCode: selectedElective,
         prerequisites,
-        isAvailable: isPrerequisitesCompleted(selectedElective), // TODO: update from completedCourses
-        isCompleted: false, // TODO: update from completedCourses
+        isAvailable: isPrerequisitesCompleted(selectedElective),
+        isCompleted: isCourseCompleted(selectedElective),
       },
       props.isEdgesHidden
     );

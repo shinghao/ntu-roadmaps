@@ -16,6 +16,7 @@ import LegendNode from "./nodes/LegendNode";
 import useFetchRoadmap from "./hooks/useFetchRoadmap";
 import {
   buildRoadmap,
+  isCourseCompleted,
   isPrerequisitesCompleted,
 } from "./util/buildRoadmap.util";
 import {
@@ -31,6 +32,7 @@ import ShowEdgesToggle from "./ShowEdgesToggle";
 import { Stack } from "@mui/material";
 import "./Roadmap.css";
 import "@xyflow/react/dist/style.css";
+import { useCompletedCourses } from "./hooks/useCompletedCourses";
 
 const legendNode: Node = {
   id: "legendNode",
@@ -79,12 +81,14 @@ export default function Roadmap({
 }) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgeChange] = useEdgesState<Edge>([]);
-  const [completedCourses, setCompletedCourses] = useState<Set<string>>(() => {
-    const storedCompletedCourses = localStorage.getItem("completedCourses");
-    return storedCompletedCourses
-      ? new Set(JSON.parse(storedCompletedCourses))
-      : new Set();
-  });
+  const {
+    completedCourses,
+    addCompletedCourse,
+    resetCompletedCourse,
+    removeCompletedCourse,
+    importCompletedCourses,
+  } = useCompletedCourses();
+
   const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
     degree,
     cohort
@@ -104,28 +108,20 @@ export default function Roadmap({
     setSelectedCourse(isSelected ? id : "");
   }, []);
 
-  const handleNodeCheck = useCallback((id: string) => {
-    setCompletedCourses((prevCompletedCourses) => {
-      const newCompletedCourses = new Set(prevCompletedCourses);
-      if (newCompletedCourses.has(id)) {
-        newCompletedCourses.delete(id);
-      } else {
-        newCompletedCourses.add(id);
-      }
-      localStorage.setItem(
-        "completedCourses",
-        JSON.stringify(Array.from(newCompletedCourses))
-      );
-      return newCompletedCourses;
-    });
-  }, []);
+  const onNodeCheck = useCallback(
+    (checked: boolean, courseCode: string) => {
+      checked
+        ? addCompletedCourse(courseCode)
+        : removeCompletedCourse(courseCode);
+    },
+    [addCompletedCourse, removeCompletedCourse]
+  );
 
   useEffect(() => {
     if (fetchedRoadmapData) {
       const { nodes, edges } = buildRoadmap(
         fetchedRoadmapData,
-        handleNodeCheck,
-        completedCourses,
+        onNodeCheck,
         isEdgesHidden,
         handleOnOpenCourseModal,
         onSelectCourseNode
@@ -144,16 +140,15 @@ export default function Roadmap({
           ...(node.type === "courseNode"
             ? {
                 isAvailable: isPrerequisitesCompleted(
-                  node.data.courseCode as string,
-                  completedCourses
+                  node.data.courseCode as string
                 ),
-                isCompleted: completedCourses.has(node.id),
+                isCompleted: isCourseCompleted(node.id),
               }
             : {}),
         },
       }))
     );
-  }, [completedCourses, setNodes]);
+  }, [completedCourses]);
 
   useEffect(() => {
     setNodes((currentNodes) =>
@@ -198,17 +193,12 @@ export default function Roadmap({
     cohort: string;
     completedCourses: string[];
   }) => {
-    localStorage.setItem(
-      "completedCourses",
-      JSON.stringify(data.completedCourses)
-    );
     updateSelects(data.degree, data.career, data.cohort);
-    setCompletedCourses(new Set(data.completedCourses));
+    importCompletedCourses(data.completedCourses);
   };
 
   const onReset = () => {
-    localStorage.setItem("completedCourses", JSON.stringify([]));
-    setCompletedCourses(new Set([]));
+    resetCompletedCourse();
     setNodes((currentNodes) =>
       currentNodes.map((node) => ({
         ...node,
@@ -218,7 +208,6 @@ export default function Roadmap({
         },
       }))
     );
-
     setEdges((currentEdges) =>
       currentEdges.map((edge) => ({
         ...edge,
@@ -245,7 +234,7 @@ export default function Roadmap({
           degree={degree}
           career={career}
           cohort={cohort}
-          completedCourses={[...completedCourses]}
+          completedCourses={completedCourses}
         />
         <DownloadButton />
         <ResetButton onReset={onReset} />

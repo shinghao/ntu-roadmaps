@@ -4,6 +4,7 @@ import "./CourseNode.css";
 import { Box, IconButton, Typography } from "@mui/material";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import LockIcon from "@mui/icons-material/Lock";
+import { ChangeEvent } from "react";
 
 export type CourseNode = Node<{
   id: string;
@@ -14,7 +15,7 @@ export type CourseNode = Node<{
   hasSourceHandle: boolean;
   hasTargetHandle: boolean;
   isHandlesHidden: boolean;
-  onCheck: (id: string) => void;
+  onCheck: (checked: boolean, courseCode: string) => void;
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
   onSelectCourseNode: (id: string, isSelected: boolean) => void;
   isSelected: boolean;
@@ -39,8 +40,8 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
     isElective = false,
   } = data;
 
-  const handleCheck = () => {
-    onCheck(id);
+  const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+    onCheck(e.target.checked, courseCode);
   };
 
   const nodeLabel = courseCode;
