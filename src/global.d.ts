@@ -1,6 +1,5 @@
 declare namespace Models {
   interface Course {
-    id: string;
     courseCode: string;
     au: number;
     title: string;
@@ -26,13 +25,24 @@ declare namespace Models {
 
   interface YearSemester {
     year: number;
-    semester: number;
+    semester: 0 | 1 | 2;
     courses: CourseInRoadmap[];
+  }
+
+  enum DegreeType {
+    Normal = "normal",
+    NormalPA = "normal_pa",
+    NormalPI = "normal_pi",
+    Polytechnic = "polytechnic",
+    PolytechnicPA = "polytechnic_pa",
+    PolytechnicPI = "polytechnic_pi",
+    AcceleratedBachelor = "acceleratedBachelor",
   }
 
   interface Roadmap {
     degree: string;
     cohort: string;
+    type?: DegreeType;
     coursesByYearSemester: YearSemester[];
   }
 

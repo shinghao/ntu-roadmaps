@@ -1,6 +1,16 @@
 [
   {
-    "id": "",
+    "courseCode": "SC1008",
+    "au": 3,
+    "title": "C and C++ Programming",
+    "description": "TBC",
+    "intendedLearningOutcomes": [],
+    "semesters": [2],
+    "prerequisites": [["SC1003"]],
+    "school": "School of Computer Science and Engineering",
+    "yearStanding": 0
+  },
+  {
     "courseCode": "SC1003",
     "au": 3,
     "title": "Introduction to Computational Thinking and Programming",
@@ -18,7 +28,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC1004",
     "au": 3,
     "title": "Linear Algebra for Computing",
@@ -30,7 +39,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC1005",
     "au": 3,
     "title": "Digital Logic",
@@ -48,7 +56,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC1006",
     "au": 3,
     "title": "Computer Organisation and Architecture",
@@ -67,7 +74,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC1007",
     "au": 3,
     "title": "Data Structures",
@@ -86,7 +92,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC1013",
     "au": 2,
     "title": "Physics for Computing",
@@ -103,7 +108,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC1015",
     "au": 3,
     "title": "Introduction to Data Science & Artificial Intelligence",
@@ -115,7 +119,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC2000",
     "au": 3,
     "title": "Probability & Statistics for Computing",
@@ -128,7 +131,6 @@
   },
 
   {
-    "id": "",
     "courseCode": "SC2001",
     "au": 3,
     "title": "Algorithms",
@@ -146,7 +148,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC2002",
     "au": 3,
     "title": "Object Oriented Design & Programming",
@@ -162,7 +163,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC2005",
     "au": 3,
     "title": "Operating Systems",
@@ -180,7 +180,6 @@
     "yearStanding": 2
   },
   {
-    "id": "",
     "courseCode": "SC2006",
     "au": 3,
     "title": "Software Engineering",
@@ -198,7 +197,6 @@
     "yearStanding": 2
   },
   {
-    "id": "",
     "courseCode": "SC2207",
     "au": 3,
     "title": "Introduction to Databases",
@@ -210,7 +208,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC2008",
     "au": 3,
     "title": "Computer Network",
@@ -222,7 +219,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC3000",
     "au": 3,
     "title": "Artificial Intelligence",
@@ -234,7 +230,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC4061",
     "au": 3,
     "title": "Computer Vision",
@@ -251,7 +246,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4010",
     "au": 3,
     "title": "Applied Cryptography",
@@ -269,7 +263,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4040",
     "au": 3,
     "title": "Advanced Topics in Algorithms",
@@ -285,7 +278,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4030",
     "au": 3,
     "title": "Wireless and Mobile Networks",
@@ -302,7 +294,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC3030",
     "au": 3,
     "title": "Advanced Computer Networks",
@@ -320,7 +311,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC3020",
     "au": 3,
     "title": "Database System Principles",
@@ -337,7 +327,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4020",
     "au": 3,
     "title": "Data Analytics and Mining",
@@ -354,7 +343,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4000",
     "au": 3,
     "title": "Machine Learning",
@@ -371,7 +359,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4001",
     "au": 3,
     "title": "Neural Network and Deep Learning",
@@ -388,7 +375,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC4002",
     "au": 3,
     "title": "Natural Language Processing",
@@ -404,7 +390,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC3010",
     "au": 3,
     "title": "Computer Security",
@@ -421,7 +406,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4001",
     "au": 3,
     "title": "Security Management",
@@ -438,7 +422,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4014",
     "au": 3,
     "title": "Concepts and Techniques for Malware Analysis",
@@ -455,7 +438,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4016",
     "au": 3,
     "title": "Cyber Threat Intelligence",
@@ -492,7 +474,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4060",
     "au": 3,
     "title": "Virtual and Augmented Reality",
@@ -509,7 +490,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4051",
     "au": 3,
     "title": "Distributed Systems",
@@ -527,7 +507,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4054",
     "au": 3,
     "title": "Simulation and Modelling",
@@ -545,7 +524,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4021",
     "au": 3,
     "title": "Information Retrieval",
@@ -562,7 +540,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4003",
     "au": 3,
     "title": "Intelligent Agents",
@@ -579,7 +556,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4052",
     "au": 3,
     "title": "Cloud Computing",
@@ -596,7 +572,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4015",
     "au": 3,
     "title": "Cyber Physical System Security",
@@ -616,7 +591,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4012",
     "au": 3,
     "title": "Software Security",
@@ -633,7 +607,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC4023",
     "au": 3,
     "title": "Big Data Management",
@@ -651,7 +624,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC3102",
     "au": 3,
     "title": "Signals, Systems and Transforms",
@@ -663,7 +635,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC3103",
     "au": 3,
     "title": "Embedded Programming",
@@ -675,7 +646,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC2103",
     "au": 3,
     "title": "Digital Systems Design",
@@ -687,7 +657,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC2104",
     "au": 3,
     "title": "Sensors, Interfacing & Digital Control",
@@ -699,7 +668,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC2107",
     "au": 3,
     "title": "Microprocessor System Design and Development",
@@ -711,7 +679,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "SC4031",
     "au": 3,
     "title": "Internet of Things: Communications and Networking",
@@ -730,7 +697,6 @@
   },
 
   {
-    "id": "",
     "courseCode": "MH1810",
     "au": 3,
     "title": "Mathematics I",
@@ -761,7 +727,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "MH1812",
     "au": 3,
     "title": "Discrete Mathematics",
@@ -773,7 +738,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "CC0003",
     "au": 2,
     "title": "Ethics & Civics in a Multicultural World",
@@ -785,7 +749,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "CC0005",
     "au": 3,
     "title": "Healthy Living & Wellbeing",
@@ -797,7 +760,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "HW0001",
     "au": 0,
     "title": "Introduction to Academic Communication",
@@ -810,7 +772,18 @@
     "yearStanding": 0
   },
   {
-    "id": "",
+    "courseCode": "HW0002",
+    "au": 0,
+    "title": "Calculus",
+    "description": "",
+    "intendedLearningOutcomes": [],
+    "semesters": [1, 2],
+    "prerequisites": [],
+    "otherPrerequisites": "For student not done Calculus",
+    "school": "",
+    "yearStanding": 0
+  },
+  {
     "courseCode": "EG1001",
     "au": 2,
     "title": "Engineers in Society",
@@ -822,7 +795,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "CC0001",
     "au": 2,
     "title": "Inquiry & Communication in an Interdisciplinary World",
@@ -834,7 +806,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "CC0002",
     "au": 2,
     "title": "Navigating the Digital World",
@@ -846,7 +817,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "CC0007",
     "au": 3,
     "title": "Science & Technology for Humanity",
@@ -858,7 +828,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "CC0006",
     "au": 3,
     "title": "Sustainability: Society, Economy & Environment",
@@ -870,7 +839,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "ML0004",
     "au": 2,
     "title": "Career & Innovative Enterprise for the Future World",
@@ -883,7 +851,6 @@
   },
 
   {
-    "id": "",
     "courseCode": "SC2079",
     "au": 4,
     "title": "Multidisciplinary Design Project",
@@ -895,7 +862,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "HW0288",
     "au": 2,
     "title": "Engineering Communication",
@@ -907,7 +873,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "SC3079",
     "au": 10,
     "title": "Professional Internship",
@@ -919,7 +884,39 @@
     "yearStanding": 3
   },
   {
-    "id": "",
+    "courseCode": "SC3920",
+    "au": 10,
+    "title": "Professional Internship",
+    "description": "",
+    "intendedLearningOutcomes": [],
+    "semesters": [1, 2],
+    "prerequisites": [],
+    "school": "School of Computer Science and Engineering",
+    "yearStanding": 3
+  },
+  {
+    "courseCode": "SC3026",
+    "au": 5,
+    "title": "Professional Attachment",
+    "description": "",
+    "intendedLearningOutcomes": [],
+    "semesters": [1, 2],
+    "prerequisites": [],
+    "school": "School of Computer Science and Engineering",
+    "yearStanding": 3
+  },
+  {
+    "courseCode": "SC3079",
+    "au": 10,
+    "title": "Professional Internship",
+    "description": "",
+    "intendedLearningOutcomes": [],
+    "semesters": [1, 2],
+    "prerequisites": [],
+    "school": "School of Computer Science and Engineering",
+    "yearStanding": 3
+  },
+  {
     "courseCode": "SC4079",
     "au": 4,
     "title": "Final Year Project (Part 1)",
@@ -931,7 +928,6 @@
     "yearStanding": 4
   },
   {
-    "id": "",
     "courseCode": "SC4079_2",
     "au": 4,
     "title": "Final Year Project (Part 2)",
@@ -944,7 +940,6 @@
   },
 
   {
-    "id": "",
     "courseCode": "MH1805",
     "au": 4,
     "title": "Calculus",
@@ -956,7 +951,33 @@
     "yearStanding": 0
   },
   {
-    "id": "",
+    "courseCode": "MH2802",
+    "au": 4,
+    "title": "Linear Algebra for Scientists",
+    "description": "This course aims to support you in acquiring a wider range of mathematical concepts related to vector spaces and linear algebra, while also developing a strong set of mathematical skills for upper-level Physical and Computing Science courses. Through a mathematical approach to problem-solving, you will have the opportunity to develop thinking, reasoning, communication, and modelling skills. Additionally, the course aims to help you connect ideas within mathematics and apply mathematical principles in the context of Physical and Computing Science courses. Ultimately, this course seeks to provide an experience that fosters an appreciation for the rigour and abstraction in the discipline.",
+    "intendedLearningOutcomes": [
+      "perform simple vector operations (such as vector addition, subtraction and resolving a vector to its components in a given coordinate system) to solve related problems;",
+      "perform scalar, vector products whenever appropriate to solve related problems (such as determining the projection of a vector on another and calculating the torque of a system of forces);",
+      "perform scalar, vector triple products whenever appropriate to solve related problems;",
+      "solve basic problems in analytical geometry using vectors (such as determining distances between point and a line / plane);",
+      "recall and use the axioms of a linear space to determine if a given set forms a linear space;",
+      "apply the idea of linear independence to determine whether a given set of vectors is dependent or independent;",
+      "explain the idea of the space / subspace is spanned by a given set of (basis) vectors and determine if a set of (basis) vectors span a subspace;",
+      "apply the concepts of norms and inner products to compute for a given pair of vectors and to test if a given pair of vectors are orthogonal;",
+      "explain the concept of linear transformation, express a linear transformation as a matrix and compute the action of a linear transformation on a vector and a matrix (including the structures of rotation, reflection, scaling, stretching and shearing matrices);",
+      "perform basic operations on matrices (including basic algebraic operations, matrix multiplication, computing of inverses, determinants and traces of matrices);",
+      "solve systems of linear equations using techniques such as Gaussian elimination;",
+      "compute the eigenvalues, eigenvectors of a given square matrix and determine the similarity transformation that diagonalizes the given square matrix;",
+      "recall the definitions and use the properties of special matrices (such as Hermitian and unitary matrices);",
+      "apply the techniques from ILO 1 – 13 to solve problems in Physical and Computing Science (such as analysing coupled oscillators and using Markov chains to solve problems)."
+    ],
+    "semesters": [1],
+    "prerequisites": [],
+    "otherPrerequisites": "H2 maths or equivalent",
+    "school": "School of Physical and Mathematical Sciences",
+    "yearStanding": 0
+  },
+  {
     "courseCode": "MH3500",
     "au": 4,
     "title": "Statistics",
@@ -968,7 +989,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "MH3511",
     "au": 3,
     "title": "Data Analysis with Computer",
@@ -980,7 +1000,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "MH2100",
     "au": 4,
     "title": "Calculus III",
@@ -992,7 +1011,17 @@
     "yearStanding": 0
   },
   {
-    "id": "",
+    "courseCode": "AB1003",
+    "au": 5,
+    "title": "Professional Attachment",
+    "description": "",
+    "intendedLearningOutcomes": [],
+    "semesters": [],
+    "prerequisites": [["CC0003"]],
+    "school": "Nanyang Business School",
+    "yearStanding": 0
+  },
+  {
     "courseCode": "AB1202",
     "au": 3,
     "title": "Statistics and Analysis",
@@ -1004,7 +1033,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "AB1301",
     "au": 3,
     "title": "Business Law",
@@ -1016,7 +1044,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "AD1102",
     "au": 3,
     "title": "Financial Accounting",
@@ -1028,7 +1055,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "AB1601",
     "au": 3,
     "title": "Organisational Behaviour & Design",
@@ -1040,7 +1066,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "AB0602",
     "au": 4,
     "title": "Communication Management Strategies",
@@ -1052,7 +1077,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "AB2008",
     "au": 1,
     "title": "Careers Future Forward",
@@ -1064,7 +1088,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "BC2402",
     "au": 4,
     "title": "Analytics II: Advanced Predictive Techniques",
@@ -1077,7 +1100,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "BC2406",
     "au": 4,
     "title": "Analytics I: Visual & Predictive Techniques",
@@ -1089,7 +1111,6 @@
     "yearStanding": 2
   },
   {
-    "id": "",
     "courseCode": "AB1201",
     "au": 3,
     "title": "Financial Management",
@@ -1101,7 +1122,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "BC2407",
     "au": 3,
     "title": "Probability & Statistics for Computing",
@@ -1113,7 +1133,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "AB1501",
     "au": 3,
     "title": "Marketing",
@@ -1125,7 +1144,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "AD2102",
     "au": 3,
     "title": "Managerial Accounting",
@@ -1137,7 +1155,6 @@
     "yearStanding": 0
   },
   {
-    "id": "",
     "courseCode": "AB3602",
     "au": 3,
     "title": "Strategic Management",
@@ -1149,7 +1166,6 @@
     "yearStanding": 3
   },
   {
-    "id": "",
     "courseCode": "HE5091",
     "au": 3,
     "title": "Principles of Economics",
@@ -1160,33 +1176,7 @@
     "school": "",
     "yearStanding": 0
   },
-
   {
-    "id": "",
-    "courseCode": "SC3xxx",
-    "au": 3,
-    "title": "Major Prescribe Elective (Choose within SC3xxx)",
-    "description": "",
-    "intendedLearningOutcomes": [],
-    "semesters": [1, 2],
-    "prerequisites": [],
-    "school": "School of Computer Science and Engineering",
-    "yearStanding": 0
-  },
-  {
-    "id": "",
-    "courseCode": "SC4xxx",
-    "au": 3,
-    "title": "Major Prescribe Elective (Choose within SC4xxx)",
-    "description": "",
-    "intendedLearningOutcomes": [],
-    "semesters": [],
-    "prerequisites": [],
-    "school": "School of Computer Science and Engineering",
-    "yearStanding": 0
-  },
-  {
-    "id": "",
     "courseCode": "BDE",
     "au": 3,
     "title": "Broadening and Deepening Elective",
