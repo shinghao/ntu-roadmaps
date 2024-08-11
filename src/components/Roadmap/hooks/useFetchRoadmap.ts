@@ -25,8 +25,11 @@ export default function useFetchRoadmap(degree: string, cohort: string) {
       }
     };
 
+    if (!degree || !cohort) {
+      return;
+    }
     fetchData();
   }, [degree, cohort]);
 
-  return { fetchedRoadmapData, error, isLoading };
+  return { fetchedRoadmapData, error, isLoading, setFetchedRoadmapData };
 }

@@ -9,11 +9,10 @@ import {
 } from "@xyflow/react";
 
 import * as RoadmapConstants from "./Roadmap.constants";
-import { useMemo, useState, useEffect, useCallback } from "react";
+import { useMemo, useEffect, useCallback } from "react";
 import CourseNode from "./nodes/CourseNode";
 import SemesterNode from "./nodes/SemesterNode";
 import LegendNode from "./nodes/LegendNode";
-import useFetchRoadmap from "./hooks/useFetchRoadmap";
 import {
   buildRoadmap,
   isCourseCompleted,
@@ -62,6 +61,17 @@ const calculateRoadmapHeight = (NumOfSemesters: number) =>
     RoadmapConstants.YPOS_BETWEEN_PARENTS) *
     NumOfSemesters;
 
+interface RoadmapProps {
+  degree: string;
+  career: string;
+  cohort: string;
+  handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
+  updateSelects: (degree: string, career: string, cohort: string) => void;
+  isEdgesHidden: boolean;
+  setIsEdgesHidden: (hidden: boolean) => void;
+  fetchedRoadmapData: Models.Roadmap;
+}
+
 export default function Roadmap({
   degree,
   career,
@@ -70,15 +80,8 @@ export default function Roadmap({
   updateSelects,
   isEdgesHidden,
   setIsEdgesHidden,
-}: {
-  degree: string;
-  career: string;
-  cohort: string;
-  handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
-  updateSelects: (degree: string, career: string, cohort: string) => void;
-  isEdgesHidden: boolean;
-  setIsEdgesHidden: (hidden: boolean) => void;
-}) {
+  fetchedRoadmapData,
+}: RoadmapProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgeChange] = useEdgesState<Edge>([]);
   const {
@@ -89,12 +92,6 @@ export default function Roadmap({
     importCompletedCourses,
   } = useCompletedCourses();
 
-  const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
-    degree,
-    cohort
-  );
-  const [selectedCourse, setSelectedCourse] = useState("");
-
   const nodeTypes = useMemo(
     () => ({
       courseNode: CourseNode,
@@ -104,9 +101,25 @@ export default function Roadmap({
     []
   );
 
-  const onSelectCourseNode = useCallback((id: string, isSelected: boolean) => {
-    setSelectedCourse(isSelected ? id : "");
-  }, []);
+  const onSelectCourseNode = useCallback(
+    (id: string, isSelected: boolean) => {
+      const selectedCourse = isSelected ? id : "";
+      setNodes((currentNodes) =>
+        currentNodes.map((node) => ({
+          ...node,
+          data: {
+            ...node.data,
+            isSelected: node.data.id === selectedCourse,
+          },
+        }))
+      );
+
+      selectedCourse === ""
+        ? setEdgesOnUnselectCourse(setEdges)
+        : setEdgesOnSelectCourse(setEdges, selectedCourse);
+    },
+    [setEdges, setNodes]
+  );
 
   const onNodeCheck = useCallback(
     (checked: boolean, courseCode: string) => {
@@ -118,7 +131,7 @@ export default function Roadmap({
   );
 
   useEffect(() => {
-    if (fetchedRoadmapData) {
+    if (fetchedRoadmapData?.coursesByYearSemester.length > 0) {
       const { nodes, edges } = buildRoadmap(
         fetchedRoadmapData,
         onNodeCheck,
@@ -132,6 +145,7 @@ export default function Roadmap({
   }, [fetchedRoadmapData]); //TODO: fix dependencies
 
   useEffect(() => {
+    console.log('hi')
     setNodes((currentNodes) =>
       currentNodes.map((node) => ({
         ...node,
@@ -148,26 +162,9 @@ export default function Roadmap({
         },
       }))
     );
-  }, [completedCourses]);
-
-  useEffect(() => {
-    setNodes((currentNodes) =>
-      currentNodes.map((node) => ({
-        ...node,
-        data: {
-          ...node.data,
-          isSelected: node.data.id === selectedCourse,
-        },
-      }))
-    );
-
-    selectedCourse === ""
-      ? setEdgesOnUnselectCourse(setEdges)
-      : setEdgesOnSelectCourse(setEdges, selectedCourse);
-  }, [selectedCourse]); //TODO: fix dependencies
+  }, [completedCourses, setNodes]);
 
   const handleOnShowAllEdges = () => {
-    console.log(edges, nodes);
     setEdges((currentEdges) =>
       currentEdges.map((edge) => ({
         ...edge,
@@ -222,10 +219,6 @@ export default function Roadmap({
     Object.keys(fetchedRoadmapData.coursesByYearSemester).length
   );
 
-  if (error) {
-    return <p>{`Error: ${error}. Please try again`}</p>;
-  }
-
   return (
     <div>
       <Stack spacing={2} direction="row" flexWrap="wrap" useFlexGap marginY={4}>
@@ -249,7 +242,6 @@ export default function Roadmap({
           height: `${roadmapHeight}px`,
         }}
       >
-        {isLoading && <p>Loading...</p>}
         <ReactFlow
           nodes={[legendNode, titleNode, ...nodes]}
           edges={edges}

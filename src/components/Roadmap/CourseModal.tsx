@@ -22,7 +22,7 @@ interface Props {
 }
 
 export default function CourseModal(props: Props) {
-  const { getNode } = useReactFlow();
+  const { getNode, getNodes } = useReactFlow();
   const selectedNode = getNode(props.nodeId);
   const { updateNodeData } = useUpdateNodeData();
 
@@ -57,7 +57,6 @@ export default function CourseModal(props: Props) {
     if (!selectedElective) {
       return;
     }
-    console.log("connecting edges");
     updateNodeData(
       props.nodeId,
       {
@@ -81,6 +80,10 @@ export default function CourseModal(props: Props) {
     props.setIsModalOpen(false);
   };
 
+  const coursesInRoadmap = getNodes()
+    .filter((node) => node.type === "courseNode" && node.id !== props.nodeId)
+    .map(({ data }) => data.courseCode as string);
+
   return (
     <Drawer open={props.isModalOpen} onClose={onCloseModal} anchor="right">
       <div className="modal-container">
@@ -98,6 +101,7 @@ export default function CourseModal(props: Props) {
             selectedElective={effectiveCourseCodeValue}
             onSelectElective={setSelectedElective}
             availableElectives={props.availableElectives}
+            disabledOptions={coursesInRoadmap}
           />
         )}
         <h2>

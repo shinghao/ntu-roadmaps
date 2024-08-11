@@ -6,6 +6,7 @@ import CourseModal from "@components/Roadmap/CourseModal";
 import { ReactFlowProvider } from "@xyflow/react";
 import useFetchDegreeProgrammes from "@hooks/useFetchDegreeProgrammes";
 import useFetchCareers from "@hooks/useFetchCareers";
+import useFetchRoadmap from "@components/Roadmap/hooks/useFetchRoadmap";
 
 const COHORTS = ["2023"];
 
@@ -14,15 +15,19 @@ export default function RoadmapPage() {
   const [degree, setDegree] = useState<string>(degreeOptions[0] ?? "");
   const { careerOptions, fetchedCareers } = useFetchCareers(degree);
   const [career, setCareer] = useState<string>("");
-  const [cohort, setCohort] = useState(COHORTS[0] || "");
+  const [cohort, setCohort] = useState("");
 
   const [isEdgesHidden, setIsEdgesHidden] = useState(false);
   const [selectedNodeId, setSelectedNodeId] = useState("");
   const [isSelectedCourseElective, setIsSelectedCourseElective] =
     useState(false);
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
-
   const [availableElectives, setAvailableElectives] = useState<string[]>([]);
+
+  const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
+    degree,
+    cohort
+  );
 
   const handleCareerChange = (value: string) => {
     setCareer(value);
@@ -99,7 +104,9 @@ export default function RoadmapPage() {
             />
           ))}
         </Stack>
-        {degree && career ? (
+        {isLoading && <p>{"Loading..."}</p>}
+        {error && <p>{`Error: ${error}. Please try again`}</p>}
+        {!error && fetchedRoadmapData?.coursesByYearSemester.length > 0 ? (
           <Roadmap
             degree={degree}
             career={career}
@@ -108,9 +115,12 @@ export default function RoadmapPage() {
             updateSelects={updateSelects}
             isEdgesHidden={isEdgesHidden}
             setIsEdgesHidden={setIsEdgesHidden}
+            fetchedRoadmapData={fetchedRoadmapData}
           />
         ) : (
-          <p>Please select a {!degree ? "degree" : "career"}</p>
+          <p>
+            Please select a {!degree ? "degree" : !career ? "career" : "cohort"}
+          </p>
         )}
       </Container>
     </ReactFlowProvider>
