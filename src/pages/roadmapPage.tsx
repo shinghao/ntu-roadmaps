@@ -1,22 +1,21 @@
 import { useState } from "react";
 import Roadmap from "@components/Roadmap";
-import { Autocomplete, TextField, Stack, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import "./roadmapPage.css";
 import CourseModal from "@components/Roadmap/CourseModal";
 import { ReactFlowProvider } from "@xyflow/react";
 import useFetchDegreeProgrammes from "@hooks/useFetchDegreeProgrammes";
 import useFetchCareers from "@hooks/useFetchCareers";
 import useFetchRoadmap from "@components/Roadmap/hooks/useFetchRoadmap";
-
-const COHORTS = ["2023"];
+import RoadmapSelects from "@components/Roadmap/RoadmapSelects";
 
 export default function RoadmapPage() {
-  const { degreeOptions } = useFetchDegreeProgrammes();
-  const [degree, setDegree] = useState<string>(degreeOptions[0] ?? "");
-  const { careerOptions, fetchedCareers } = useFetchCareers(degree);
+  const { fetchedDegreeProgrammes } = useFetchDegreeProgrammes();
+  const [degree, setDegree] = useState<string>("");
   const [career, setCareer] = useState<string>("");
   const [cohort, setCohort] = useState("");
-
+  const [degreeType, setDegreeType] = useState("");
+  const { careerOptions, fetchedCareers } = useFetchCareers(degree);
   const [isEdgesHidden, setIsEdgesHidden] = useState(false);
   const [selectedNodeId, setSelectedNodeId] = useState("");
   const [isSelectedCourseElective, setIsSelectedCourseElective] =
@@ -26,19 +25,44 @@ export default function RoadmapPage() {
 
   const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
     degree,
-    cohort
+    cohort,
+    degreeType
   );
 
-  const handleCareerChange = (value: string) => {
+  const degreeOptions = fetchedDegreeProgrammes
+    ? fetchedDegreeProgrammes.map(({ degree }) => degree).sort()
+    : [];
+
+  const selectedDegreeProgram =
+    fetchedDegreeProgrammes.find((degProg) => degProg.degree === degree) ??
+    null;
+
+  const cohortOptions = selectedDegreeProgram
+    ? Object.keys(selectedDegreeProgram.cohorts).sort()
+    : [];
+
+  const degreeTypeOptions =
+    cohort && selectedDegreeProgram
+      ? selectedDegreeProgram?.cohorts?.[cohort]
+      : [];
+
+  const onChangeDegree = (value: string) => {
+    setDegree(value);
+    setCohort("");
+    setDegreeType("");
+  };
+
+  const onChangeCohort = (value: string) => {
+    setCohort(value);
+    setDegreeType("");
+  };
+
+  const onChangeCareer = (value: string) => {
     setCareer(value);
     const selectedCareerElectives = fetchedCareers?.find(
       ({ career }) => career === value
     )?.electives;
     setAvailableElectives(selectedCareerElectives ?? []);
-  };
-
-  const handleDegreeChange = (value: string) => {
-    setDegree(value);
   };
 
   const handleOnOpenCourseModal = (nodeId: string, isElective: boolean) => {
@@ -58,20 +82,26 @@ export default function RoadmapPage() {
       options: degreeOptions,
       label: "Degree",
       value: degree,
-      onChange: handleDegreeChange,
+      onChange: onChangeDegree,
       width: 300,
+    },
+    {
+      options: cohortOptions,
+      label: "Cohort",
+      value: cohort,
+      onChange: onChangeCohort,
+    },
+    {
+      options: degreeTypeOptions,
+      label: "Degree Type",
+      value: degreeType,
+      onChange: setDegreeType,
     },
     {
       options: careerOptions,
       label: "Career",
       value: career,
-      onChange: handleCareerChange,
-    },
-    {
-      options: COHORTS,
-      label: "Cohort",
-      value: cohort,
-      onChange: setCohort,
+      onChange: onChangeCareer,
     },
   ];
 
@@ -86,31 +116,14 @@ export default function RoadmapPage() {
           availableElectives={availableElectives}
           isEdgesHidden={isEdgesHidden}
         />
-        <Stack spacing={3} direction="row" flexWrap="wrap" useFlexGap>
-          {selectsConfig.map((config) => (
-            <Autocomplete
-              freeSolo
-              key={`select-${config.label}`}
-              disablePortal
-              id={`select-${config.label}`}
-              options={config.options}
-              sx={{ width: config.width || 200 }}
-              renderInput={(params) => (
-                <TextField {...params} label={config.label} />
-              )}
-              value={config.value}
-              onChange={(_, value) => config.onChange(value)}
-              disableClearable
-            />
-          ))}
-        </Stack>
+        <RoadmapSelects selectsConfig={selectsConfig} />
         {isLoading && <p>{"Loading..."}</p>}
         {error && <p>{`Error: ${error}. Please try again`}</p>}
         {!error && fetchedRoadmapData?.coursesByYearSemester.length > 0 ? (
           <Roadmap
             degree={degree}
-            career={career}
             cohort={cohort}
+            career={career}
             handleOnOpenCourseModal={handleOnOpenCourseModal}
             updateSelects={updateSelects}
             isEdgesHidden={isEdgesHidden}
@@ -119,7 +132,14 @@ export default function RoadmapPage() {
           />
         ) : (
           <p>
-            Please select a {!degree ? "degree" : !career ? "career" : "cohort"}
+            Please select a{" "}
+            {!degree
+              ? "degree"
+              : !cohort
+              ? "cohort"
+              : !degreeType
+              ? "degree type"
+              : "career"}
           </p>
         )}
       </Container>

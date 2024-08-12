@@ -18,7 +18,8 @@ export const fetchCourseDetails = async (
 
 export const fetchRoadmap = async (
   degree: string,
-  cohort: string
+  cohort: string,
+  degreeType: string
 ): Promise<Models.Roadmap> => {
   const getPrerequisites = (courseCode: string): string[] => {
     const course = coursesData.find((c) => c.courseCode === courseCode);
@@ -27,7 +28,10 @@ export const fetchRoadmap = async (
 
   return new Promise((resolve, reject) => {
     const roadmap = roadmapData.find(
-      (roadmap) => roadmap.degree === degree && roadmap.cohort === cohort
+      (roadmap) =>
+        roadmap.degree === degree &&
+        roadmap.cohort === cohort &&
+        roadmap.type === degreeType
     );
 
     if (roadmap === undefined) {
@@ -37,7 +41,6 @@ export const fetchRoadmap = async (
 
     const transformedRoadmap = {
       ...roadmap,
-      type: roadmap.type as Models.DegreeType,
       coursesByYearSemester: roadmap.coursesByYearSemester.map((val) => {
         return {
           ...val,
@@ -52,11 +55,12 @@ export const fetchRoadmap = async (
   });
 };
 
-export const fetchDegreeProgrammes = async (): Promise<Models.Degree[]> => {
-  return new Promise((resolve) => {
-    resolve(degreeProgrammes);
-  });
-};
+export const fetchDegreeProgrammes =
+  async (): Promise<Models.GetDegreeProgrammesResp> => {
+    return new Promise((resolve) => {
+      resolve(degreeProgrammes as Models.GetDegreeProgrammesResp);
+    });
+  };
 
 export const fetchCareers = async (
   degree: string

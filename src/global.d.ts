@@ -12,10 +12,19 @@ declare namespace Models {
     yearStanding: number;
   }
 
-  interface Degree {
+  /* Degree Programmes */
+
+  interface CohortsByYear {
+    [year: string]: string[];
+  }
+
+  interface DegreeProgram {
     school: string;
     degree: string;
+    cohorts: CohortsByYear;
   }
+
+  type GetDegreeProgrammesResp = DegreeProgram[];
 
   /* ROADMAP */
   interface CourseInRoadmap {
@@ -27,16 +36,6 @@ declare namespace Models {
     year: number;
     semester: number;
     courses: CourseInRoadmap[];
-  }
-
-  enum DegreeType {
-    Normal = "normal",
-    NormalPA = "normal_pa",
-    NormalPI = "normal_pi",
-    Polytechnic = "polytechnic",
-    PolytechnicPA = "polytechnic_pa",
-    PolytechnicPI = "polytechnic_pi",
-    AcceleratedBachelor = "acceleratedBachelor",
   }
 
   interface Roadmap {

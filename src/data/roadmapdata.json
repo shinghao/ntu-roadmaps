@@ -2,7 +2,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2021",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -86,7 +86,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2021",
-    "type": "polytechnic",
+    "type": "Polytechnic",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -158,7 +158,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2021",
-    "type": "acceleratedBachelor",
+    "type": "Accelerated Bachelor",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -250,7 +250,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2022",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -334,7 +334,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2022",
-    "type": "polytechnic_pi",
+    "type": "Polytechnic (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -406,7 +406,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2022",
-    "type": "polytechnic_pa",
+    "type": "Polytechnic (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -479,7 +479,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2022",
-    "type": "acceleratedBachelor",
+    "type": "Accelerated Bachelor",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -571,7 +571,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2023",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -655,7 +655,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2023",
-    "type": "polytechnic_pi",
+    "type": "Polytechnic (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -727,7 +727,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2023",
-    "type": "polytechnic_pa",
+    "type": "Polytechnic (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -807,7 +807,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2023",
-    "type": "acceleratedBachelor",
+    "type": "Accelerated Bachelor",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -899,7 +899,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2024",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -964,7 +964,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2024",
-    "type": "polytechnic_pi",
+    "type": "Polytechnic (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1031,7 +1031,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2024",
-    "type": "polytechnic_pa",
+    "type": "Polytechnic (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1097,7 +1097,7 @@
   {
     "degree": "Computer Engineering",
     "cohort": "2024",
-    "type": "acceleratedBachelor",
+    "type": "Accelerated Bachelor",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1174,7 +1174,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2021",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1246,7 +1246,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2021",
-    "type": "polytechnic",
+    "type": "Polytechnic",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1305,7 +1305,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2021",
-    "type": "acceleratedBachelor",
+    "type": "Accelerated Bachelor",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1390,7 +1390,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2022",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1462,7 +1462,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2022",
-    "type": "polytechnic_pi",
+    "type": "Polytechnic (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1521,7 +1521,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2022",
-    "type": "polytechnic_pa",
+    "type": "Polytechnic (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1595,7 +1595,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2022",
-    "type": "acceleratedBachelor",
+    "type": "Accelerated Bachelor",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1680,7 +1680,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2023",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1752,7 +1752,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2023",
-    "type": "polytechnic_pi",
+    "type": "Polytechnic (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1811,7 +1811,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2023",
-    "type": "polytechnic_pa",
+    "type": "Polytechnic (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1878,7 +1878,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2023",
-    "type": "acceleratedBachelor",
+    "type": "Accelerated Bachelor",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -1963,7 +1963,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2024",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2041,7 +2041,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2024",
-    "type": "polytechnic_pi",
+    "type": "Polytechnic (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2122,7 +2122,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2024",
-    "type": "polytechnic_pa",
+    "type": "Polytechnic (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2203,7 +2203,7 @@
   {
     "degree": "Computer Science",
     "cohort": "2023",
-    "type": "acceleratedBachelor",
+    "type": "Accelerated Bachelor",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2296,7 +2296,7 @@
   {
     "degree": "Data Science and Artificial Intelligence",
     "cohort": "2021",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2343,7 +2343,7 @@
   {
     "degree": "Data Science and Artificial Intelligence",
     "cohort": "2022",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2390,7 +2390,7 @@
   {
     "degree": "Data Science and Artificial Intelligence",
     "cohort": "2023",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2437,7 +2437,7 @@
   {
     "degree": "Data Science and Artificial Intelligence",
     "cohort": "2024",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2492,7 +2492,7 @@
   {
     "degree": "Double Degree in Computer Science and Business",
     "cohort": "2021",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2578,7 +2578,7 @@
   {
     "degree": "Double Degree in Computer Science and Business",
     "cohort": "2023",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2657,7 +2657,7 @@
   {
     "degree": "Double Degree in Computer Science and Business",
     "cohort": "2024",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2748,7 +2748,7 @@
   {
     "degree": "Double Degree in Computer Engineering and Business",
     "cohort": "2021",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2832,7 +2832,7 @@
   {
     "degree": "Double Degree in Computer Engineering and Business",
     "cohort": "2022",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -2917,7 +2917,7 @@
   {
     "degree": "Double Degree in Computer Engineering and Business",
     "cohort": "2023",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -3002,7 +3002,7 @@
   {
     "degree": "Double Degree in Computer Engineering and Business",
     "cohort": "2024",
-    "type": "normal",
+    "type": "Normal",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -3081,7 +3081,7 @@
   {
     "degree": "Double Degree in Computer Science and Economics",
     "cohort": "2021",
-    "type": "normal_pi",
+    "type": "Normal (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -3163,7 +3163,7 @@
   {
     "degree": "Double Degree in Computer Science and Economics",
     "cohort": "2021",
-    "type": "normal_pa",
+    "type": "Normal (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -3250,7 +3250,7 @@
   {
     "degree": "Double Degree in Computer Science and Economics",
     "cohort": "2022",
-    "type": "normal_pi",
+    "type": "Normal (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -3332,7 +3332,7 @@
   {
     "degree": "Double Degree in Computer Science and Economics",
     "cohort": "2022",
-    "type": "normal_pa",
+    "type": "Normal (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -3419,7 +3419,7 @@
   {
     "degree": "Double Degree in Computer Science and Economics",
     "cohort": "2023",
-    "type": "normal_pi",
+    "type": "Normal (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -3501,7 +3501,7 @@
   {
     "degree": "Double Degree in Computer Science and Economics",
     "cohort": "2023",
-    "type": "normal_pa",
+    "type": "Normal (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -3594,7 +3594,7 @@
   {
     "degree": "Double Degree in Computer Science and Economics",
     "cohort": "2024",
-    "type": "normal_pi",
+    "type": "Normal (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -3675,7 +3675,7 @@
   {
     "degree": "Double Degree in Computer Science and Economics",
     "cohort": "2024",
-    "type": "normal_pa",
+    "type": "Normal (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -3760,7 +3760,7 @@
   {
     "degree": "Double Degree in Computer Engineering and Economics",
     "cohort": "2021",
-    "type": "normal_pi",
+    "type": "Normal (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -3856,7 +3856,7 @@
   {
     "degree": "Double Degree in Computer Engineering and Economics",
     "cohort": "2021",
-    "type": "normal_pa",
+    "type": "Normal (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -3949,7 +3949,7 @@
   {
     "degree": "Double Degree in Computer Engineering and Economics",
     "cohort": "2022",
-    "type": "normal_pi",
+    "type": "Normal (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -4045,7 +4045,7 @@
   {
     "degree": "Double Degree in Computer Engineering and Economics",
     "cohort": "2022",
-    "type": "normal_pa",
+    "type": "Normal (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -4138,7 +4138,7 @@
   {
     "degree": "Double Degree in Computer Engineering and Economics",
     "cohort": "2023",
-    "type": "normal_pi",
+    "type": "Normal (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -4234,7 +4234,7 @@
   {
     "degree": "Double Degree in Computer Engineering and Economics",
     "cohort": "2023",
-    "type": "normal_pa",
+    "type": "Normal (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -4327,7 +4327,7 @@
   {
     "degree": "Double Degree in Computer Engineering and Economics",
     "cohort": "2024",
-    "type": "normal_pi",
+    "type": "Normal (PI)",
     "coursesByYearSemester": [
       {
         "year": 1,
@@ -4408,7 +4408,7 @@
   {
     "degree": "Double Degree in Computer Engineering and Economics",
     "cohort": "2024",
-    "type": "normal_pa",
+    "type": "Normal (PA)",
     "coursesByYearSemester": [
       {
         "year": 1,
