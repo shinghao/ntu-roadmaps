@@ -1,6 +1,6 @@
 /* Reconnect edges in roadmap */
 
-import { useReactFlow } from "@xyflow/react";
+import { useReactFlow, Edge } from "@xyflow/react";
 import {
   CreateNewEdge,
   updateCourseNodesForHandles,
@@ -37,7 +37,7 @@ export const useUpdateNodeData = () => {
 
     const updatedEdges = coursesInRoadmap
       .flatMap(({ courseCode, prerequisites }) =>
-        prerequisites.map((prerequisite) => {
+        prerequisites.reduce<Edge[]>((acc, prerequisite) => {
           const source = updatedNodes.find(
             (node) => node.data.courseCode === prerequisite
           )?.id;
@@ -45,11 +45,13 @@ export const useUpdateNodeData = () => {
             (node) => node.data.courseCode === courseCode
           )?.id;
 
-          if (source && target) {
-            return CreateNewEdge(source, target, isEdgesHidden);
-          }
-          return null;
-        })
+          return [
+            ...acc,
+            ...(source && target
+              ? [CreateNewEdge(source, target, isEdgesHidden)]
+              : []),
+          ];
+        }, [])
       )
       .filter((edge) => edge !== null);
 

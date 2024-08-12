@@ -145,7 +145,6 @@ export default function Roadmap({
   }, [fetchedRoadmapData]); //TODO: fix dependencies
 
   useEffect(() => {
-    console.log('hi')
     setNodes((currentNodes) =>
       currentNodes.map((node) => ({
         ...node,

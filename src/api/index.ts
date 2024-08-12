@@ -29,6 +29,7 @@ export const fetchRoadmap = async (
     const roadmap = roadmapData.find(
       (roadmap) => roadmap.degree === degree && roadmap.cohort === cohort
     );
+
     if (roadmap === undefined) {
       reject(new Error("Roadmap not found"));
       return;
@@ -36,6 +37,7 @@ export const fetchRoadmap = async (
 
     const transformedRoadmap = {
       ...roadmap,
+      type: roadmap.type as Models.DegreeType,
       coursesByYearSemester: roadmap.coursesByYearSemester.map((val) => {
         return {
           ...val,

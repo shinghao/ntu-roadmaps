@@ -25,7 +25,7 @@ declare namespace Models {
 
   interface YearSemester {
     year: number;
-    semester: 0 | 1 | 2;
+    semester: number;
     courses: CourseInRoadmap[];
   }
 
@@ -42,7 +42,7 @@ declare namespace Models {
   interface Roadmap {
     degree: string;
     cohort: string;
-    type?: DegreeType;
+    type?: string;
     coursesByYearSemester: YearSemester[];
   }
 
