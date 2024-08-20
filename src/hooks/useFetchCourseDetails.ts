@@ -1,38 +1,11 @@
 import { fetchCourseDetails } from "@api/index";
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 export default function useFetchCourseDetails(courseCode: string) {
-  const [fetchedCourseDetails, setFetchedCourseDetails] = useState<
-    Models.Course | object
-  >({});
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["courseDetails", courseCode],
+    queryFn: () => fetchCourseDetails(courseCode),
+  });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!courseCode) {
-        setFetchedCourseDetails({});
-        return;
-      }
-
-      setIsLoading(true);
-      setError("");
-      try {
-        const response = await fetchCourseDetails(courseCode);
-        if (response === null) {
-          throw new Error();
-        }
-        setFetchedCourseDetails(response);
-      } catch (error) {
-        console.error("Error fetching courses data", error);
-        setError("Error fetching course data");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [courseCode]);
-
-  return { fetchedCourseDetails, error, isLoading };
+  return { fetchedCourseDetails: data, error, isPending, isError };
 }

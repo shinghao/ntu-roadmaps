@@ -6,7 +6,7 @@ import CourseModal from "@components/Roadmap/CourseModal";
 import { ReactFlowProvider } from "@xyflow/react";
 import useFetchDegreeProgrammes from "@hooks/useFetchDegreeProgrammes";
 import useFetchCareers from "@hooks/useFetchCareers";
-import useFetchRoadmap from "@components/Roadmap/hooks/useFetchRoadmap";
+import useFetchRoadmap from "@hooks/useFetchRoadmap";
 import RoadmapSelects from "@components/Roadmap/RoadmapSelects";
 
 export default function RoadmapPage() {
@@ -23,7 +23,7 @@ export default function RoadmapPage() {
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
   const [availableElectives, setAvailableElectives] = useState<string[]>([]);
 
-  const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
+  const { fetchedRoadmapData, error, isPending } = useFetchRoadmap(
     degree,
     cohort,
     degreeType
@@ -34,7 +34,7 @@ export default function RoadmapPage() {
     : [];
 
   const selectedDegreeProgram =
-    fetchedDegreeProgrammes.find((degProg) => degProg.degree === degree) ??
+    fetchedDegreeProgrammes?.find((degProg) => degProg.degree === degree) ??
     null;
 
   const cohortOptions = selectedDegreeProgram
@@ -79,26 +79,26 @@ export default function RoadmapPage() {
 
   const selectsConfig = [
     {
-      options: degreeOptions,
+      options: degreeOptions || [],
       label: "Degree",
       value: degree,
       onChange: onChangeDegree,
       width: 300,
     },
     {
-      options: cohortOptions,
+      options: cohortOptions || [],
       label: "Cohort",
       value: cohort,
       onChange: onChangeCohort,
     },
     {
-      options: degreeTypeOptions,
+      options: degreeTypeOptions || [],
       label: "Degree Type",
       value: degreeType,
       onChange: setDegreeType,
     },
     {
-      options: careerOptions,
+      options: careerOptions || [],
       label: "Career",
       value: career,
       onChange: onChangeCareer,
@@ -117,9 +117,11 @@ export default function RoadmapPage() {
           isEdgesHidden={isEdgesHidden}
         />
         <RoadmapSelects selectsConfig={selectsConfig} />
-        {isLoading && <p>{"Loading..."}</p>}
+        {degree && cohort && career && isPending && <p>{"Loading..."}</p>}
         {error && <p>{`Error: ${error}. Please try again`}</p>}
-        {!error && fetchedRoadmapData?.coursesByYearSemester.length > 0 ? (
+        {!error &&
+        fetchedRoadmapData &&
+        fetchedRoadmapData?.coursesByYearSemester.length > 0 ? (
           <Roadmap
             degree={degree}
             cohort={cohort}
