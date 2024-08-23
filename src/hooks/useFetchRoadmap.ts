@@ -6,15 +6,19 @@ export default function useFetchRoadmap(
   cohort: string,
   degreeType: string
 ) {
-  const { isPending, isError, data, error } = useQuery({
+  const { isLoading, isError, data, error } = useQuery({
     queryKey: ["roadmap", degree, cohort, degreeType],
-    queryFn: () => fetchRoadmap(degree, cohort, degreeType),
+    queryFn: () => fetchRoadmap("degree", cohort, degreeType),
+    enabled: !!(degree && cohort && degreeType),
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+    retry: 1,
   });
 
   return {
     fetchedRoadmapData: data,
     error,
-    isPending,
+    isLoading,
     isError,
   };
 }
