@@ -9,11 +9,24 @@ import {
   Container,
   Button,
   MenuItem,
+  Link,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import "./Header.css";
 
 const pages = ["👣 Roadmap", "📚 Courses"];
+
+const SurveyButton = () => (
+  <Link
+    target="_blank"
+    href="https://docs.google.com/forms/d/e/1FAIpQLSd_Yg7ntFhNU9JW9iL56sHIH3lrNmE-pIDx6l41eGkWpjw7Mg/viewform?usp=sf_link"
+    underline="none"
+  >
+    <Button variant="contained" color="primary" sx={{ fontSize: "1em" }}>
+      😊 Survey
+    </Button>
+  </Link>
+);
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -59,13 +72,26 @@ function Header() {
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: "block", sm: "none" } }}
+              sx={{
+                display: { xs: "flex", sm: "none" },
+                justifyContent: "center",
+              }}
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "8px",
+                }}
+              >
+                <SurveyButton />
+              </Box>
             </Menu>
           </Box>
           <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1.5rem" }}>
@@ -84,6 +110,7 @@ function Header() {
                 {page}
               </Button>
             ))}
+            <SurveyButton />
           </Box>
         </Toolbar>
       </Container>
