@@ -41,11 +41,15 @@ export const useCompletedCourses = () => {
     );
   };
 
+  const isCourseCompleted = (courseCode: string) =>
+    completedCourses.includes(courseCode);
+
   return {
     completedCourses,
     addCompletedCourse,
     resetCompletedCourse,
     removeCompletedCourse,
     importCompletedCourses,
+    isCourseCompleted,
   };
 };

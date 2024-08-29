@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Roadmap from "@components/Roadmap";
-import { Container } from "@mui/material";
+import { Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import "./roadmapPage.css";
 import CourseModal from "@components/Roadmap/CourseModal";
 import { ReactFlowProvider } from "@xyflow/react";
@@ -8,6 +8,7 @@ import useFetchDegreeProgrammes from "@hooks/useFetchDegreeProgrammes";
 import useFetchCareers from "@hooks/useFetchCareers";
 import useFetchRoadmap from "@hooks/useFetchRoadmap";
 import RoadmapSelects from "@components/Roadmap/RoadmapSelects";
+import CurriculumTable from "@components/CurriculumTable";
 
 export default function RoadmapPage() {
   const { fetchedDegreeProgrammes } = useFetchDegreeProgrammes();
@@ -22,6 +23,13 @@ export default function RoadmapPage() {
     useState(false);
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
   const [availableElectives, setAvailableElectives] = useState<string[]>([]);
+
+  enum ViewFormat {
+    Roadmap = "Roadmap",
+    Table = "Table",
+  }
+
+  const [viewFormat, setViewFormat] = useState(ViewFormat.Roadmap);
 
   const { fetchedRoadmapData, error, isPending } = useFetchRoadmap(
     degree,
@@ -105,6 +113,61 @@ export default function RoadmapPage() {
     },
   ];
 
+  const RoadmapView = () => {
+    if (
+      !fetchedRoadmapData ||
+      fetchedRoadmapData?.coursesByYearSemester.length === 0
+    ) {
+      return;
+    }
+
+    return viewFormat === ViewFormat.Roadmap ? (
+      <Roadmap
+        degree={degree}
+        cohort={cohort}
+        career={career}
+        handleOnOpenCourseModal={handleOnOpenCourseModal}
+        updateSelects={updateSelects}
+        isEdgesHidden={isEdgesHidden}
+        setIsEdgesHidden={setIsEdgesHidden}
+        fetchedRoadmapData={fetchedRoadmapData}
+      />
+    ) : (
+      <CurriculumTable
+        degree={degree}
+        cohort={cohort}
+        career={career}
+        handleOnOpenCourseModal={handleOnOpenCourseModal}
+        updateSelects={updateSelects}
+        fetchedRoadmapData={fetchedRoadmapData}
+        key={`${degree}-${cohort}-${career}-curriculumTable`}
+      />
+    );
+  };
+
+  const ViewToggle = () =>
+    !error &&
+    fetchedRoadmapData &&
+    fetchedRoadmapData?.coursesByYearSemester.length > 0 && (
+      <ToggleButtonGroup
+        value={viewFormat}
+        exclusive
+        onChange={(_, newAlignment: ViewFormat) => {
+          setViewFormat(newAlignment);
+        }}
+        aria-label="view format"
+        size="small"
+        sx={{ marginTop: "24px" }}
+        color="standard"
+      >
+        {Object.values(ViewFormat).map((key) => (
+          <ToggleButton value={ViewFormat[key]} key={key}>
+            {ViewFormat[key]}
+          </ToggleButton>
+        ))}
+      </ToggleButtonGroup>
+    );
+
   return (
     <ReactFlowProvider>
       <Container className="content">
@@ -119,19 +182,14 @@ export default function RoadmapPage() {
         <RoadmapSelects selectsConfig={selectsConfig} />
         {degree && cohort && career && isPending && <p>{"Loading..."}</p>}
         {error && <p>{`Error: ${error}. Please try again`}</p>}
+
         {!error &&
         fetchedRoadmapData &&
         fetchedRoadmapData?.coursesByYearSemester.length > 0 ? (
-          <Roadmap
-            degree={degree}
-            cohort={cohort}
-            career={career}
-            handleOnOpenCourseModal={handleOnOpenCourseModal}
-            updateSelects={updateSelects}
-            isEdgesHidden={isEdgesHidden}
-            setIsEdgesHidden={setIsEdgesHidden}
-            fetchedRoadmapData={fetchedRoadmapData}
-          />
+          <>
+            <ViewToggle />
+            <RoadmapView />
+          </>
         ) : (
           <p>
             Please select a{" "}

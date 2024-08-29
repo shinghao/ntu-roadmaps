@@ -25,6 +25,14 @@ export const fetchRoadmap = async (
     const course = coursesData.find((c) => c.courseCode === courseCode);
     return course ? course.prerequisites.flat() : [];
   };
+  const getCourseTitle = (courseCode: string): string => {
+    const course = coursesData.find((c) => c.courseCode === courseCode);
+    return course?.title ?? "";
+  };
+  const getCourseAu = (courseCode: string): string => {
+    const course = coursesData.find((c) => c.courseCode === courseCode);
+    return course?.au ? String(course.au) : "";
+  };
 
   return new Promise((resolve, reject) => {
     const roadmap = roadmapData.find(
@@ -47,6 +55,8 @@ export const fetchRoadmap = async (
           courses: val.courses.map((courseCode) => ({
             courseCode,
             prerequisites: getPrerequisites(courseCode),
+            title: getCourseTitle(courseCode),
+            au: getCourseAu(courseCode),
           })),
         };
       }),

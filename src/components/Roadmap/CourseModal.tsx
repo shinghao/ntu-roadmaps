@@ -33,7 +33,7 @@ export default function CourseModal(props: Props) {
   const effectiveCourseCode =
     props.isElective && selectedElective
       ? selectedElective
-      : (selectedNode?.data?.courseCode as string) ?? "";
+      : (selectedNode?.data?.courseCode as string) ?? props.nodeId ?? "";
 
   const effectiveCourseCodeValue = effectiveCourseCode.includes("xxx")
     ? ""

@@ -30,6 +30,8 @@ declare namespace Models {
   interface CourseInRoadmap {
     courseCode: string;
     prerequisites: string[];
+    title: string;
+    au: string;
   }
 
   interface YearSemester {
