@@ -32,7 +32,10 @@ export default function RoadmapSelects({
             id={`select-${config.label}`}
             options={config.options}
             sx={{
-              width: config.width || 200,
+              width: {
+                sm: config.width || 200,
+                xs: "100%",
+              },
             }}
             renderInput={(params) => (
               <TextField {...params} label={config.label} />
