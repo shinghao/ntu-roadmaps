@@ -23,7 +23,7 @@ export default function RoadmapPage() {
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
   const [availableElectives, setAvailableElectives] = useState<string[]>([]);
 
-  const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
+  const { fetchedRoadmapData, error, isPending } = useFetchRoadmap(
     degree,
     cohort,
     degreeType
@@ -50,6 +50,7 @@ export default function RoadmapPage() {
     setDegree(value);
     setCohort("");
     setDegreeType("");
+    setCareer("");
   };
 
   const onChangeCohort = (value: string) => {
@@ -117,28 +118,31 @@ export default function RoadmapPage() {
           isEdgesHidden={isEdgesHidden}
         />
         <RoadmapSelects selectsConfig={selectsConfig} />
-        {degree && cohort && degreeType && isLoading && <p>{"Loading..."}</p>}
-        {error && (
-          <p>{`Sorry we are unable to fetch the roadmap. Please try again`}</p>
-        )}
+        {degree && cohort && career && isPending && <p>{"Loading..."}</p>}
+        {error && <p>{`Error: ${error}. Please try again`}</p>}
         {!error &&
-          fetchedRoadmapData &&
-          fetchedRoadmapData?.coursesByYearSemester.length > 0 && (
-            <Roadmap
-              degree={degree}
-              cohort={cohort}
-              career={career}
-              handleOnOpenCourseModal={handleOnOpenCourseModal}
-              updateSelects={updateSelects}
-              isEdgesHidden={isEdgesHidden}
-              setIsEdgesHidden={setIsEdgesHidden}
-              fetchedRoadmapData={fetchedRoadmapData}
-            />
-          )}
-        {(!degree || !cohort || !degreeType) && (
+        fetchedRoadmapData &&
+        fetchedRoadmapData?.coursesByYearSemester.length > 0 ? (
+          <Roadmap
+            degree={degree}
+            cohort={cohort}
+            career={career}
+            handleOnOpenCourseModal={handleOnOpenCourseModal}
+            updateSelects={updateSelects}
+            isEdgesHidden={isEdgesHidden}
+            setIsEdgesHidden={setIsEdgesHidden}
+            fetchedRoadmapData={fetchedRoadmapData}
+          />
+        ) : (
           <p>
             Please select a{" "}
-            {!degree ? "degree" : !cohort ? "cohort" : "degree type"}
+            {!degree
+              ? "degree"
+              : !cohort
+              ? "cohort"
+              : !degreeType
+              ? "degree type"
+              : "career"}
           </p>
         )}
       </Container>
