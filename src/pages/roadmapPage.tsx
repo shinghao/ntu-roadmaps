@@ -7,7 +7,7 @@ import { ReactFlowProvider } from "@xyflow/react";
 import useFetchDegreeProgrammes from "@hooks/useFetchDegreeProgrammes";
 import useFetchCareers from "@hooks/useFetchCareers";
 import useFetchRoadmap from "@hooks/useFetchRoadmap";
-import RoadmapSelects from "@components/Roadmap/RoadmapSelects";
+import RoadmapSelects from "@components/RoadmapSelects";
 
 export default function RoadmapPage() {
   const { fetchedDegreeProgrammes } = useFetchDegreeProgrammes();
