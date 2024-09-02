@@ -23,7 +23,7 @@ export default function RoadmapPage() {
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
   const [availableElectives, setAvailableElectives] = useState<string[]>([]);
 
-  const { fetchedRoadmapData, error, isPending } = useFetchRoadmap(
+  const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
     degree,
     cohort,
     degreeType
@@ -118,7 +118,7 @@ export default function RoadmapPage() {
           isEdgesHidden={isEdgesHidden}
         />
         <RoadmapSelects selectsConfig={selectsConfig} />
-        {degree && cohort && career && isPending && <p>{"Loading..."}</p>}
+        {degree && cohort && career && isLoading && <p>{"Loading..."}</p>}
         {error && <p>{`Error: ${error}. Please try again`}</p>}
         {!error &&
         fetchedRoadmapData &&

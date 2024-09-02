@@ -51,15 +51,17 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
     ? isCompleted
       ? "whitesmoke"
       : "white"
-    : "rgb(175, 175, 175)";
-  const color = isAvailable
+    : "rgb(200, 200, 200)";
+  const color = isSelected
+    ? "white"
+    : isAvailable
     ? isCompleted
       ? "grey"
       : "black"
     : "rgba(0, 0, 0, 0.4)";
   const border = isAvailable
     ? "1px solid rgb(212, 212, 216)"
-    : "1px solid grey";
+    : "1px solid rgb(200, 200, 200)";
   const iconButtonBorderLeft = isAvailable
     ? "1px solid rgb(212, 212, 216)"
     : "1px solid rgba(0, 0, 0, 0.2)";
