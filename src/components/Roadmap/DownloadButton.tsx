@@ -48,6 +48,7 @@ function DownloadButton() {
       variant="contained"
       startIcon={<DownloadIcon />}
       onClick={onDownloadRoadmap}
+      size="small"
       sx={{
         "&:hover": {
           borderBottom: "none",

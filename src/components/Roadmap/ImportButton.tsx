@@ -38,6 +38,7 @@ export default function ImportButton({ onImport }: ImportButtonProps) {
         variant="contained"
         component="label"
         startIcon={<FileUploadOutlinedIcon />}
+        size="small"
       >
         Import
         <input

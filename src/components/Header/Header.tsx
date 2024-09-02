@@ -22,7 +22,12 @@ const SurveyButton = () => (
     href="https://docs.google.com/forms/d/e/1FAIpQLSd_Yg7ntFhNU9JW9iL56sHIH3lrNmE-pIDx6l41eGkWpjw7Mg/viewform?usp=sf_link"
     underline="none"
   >
-    <Button variant="contained" color="primary" sx={{ fontSize: "1em" }}>
+    <Button
+      variant="contained"
+      color="primary"
+      sx={{ fontSize: "1em" }}
+      size="small"
+    >
       😊 Survey
     </Button>
   </Link>

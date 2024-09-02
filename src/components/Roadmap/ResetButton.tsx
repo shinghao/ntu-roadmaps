@@ -14,6 +14,7 @@ export default function ResetButton({ onReset }: ResetButtonProps) {
         variant="outlined"
         startIcon={<RestartAltIcon />}
         onClick={onReset}
+        size="small"
       >
         Reset
       </Button>
