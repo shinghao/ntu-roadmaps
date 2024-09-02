@@ -2,7 +2,7 @@ import { Handle, NodeProps, Position, Node } from "@xyflow/react";
 import { CHILD_NODE_WIDTH, CHILD_NODE_HEIGHT } from "../Roadmap.constants";
 import "./CourseNode.css";
 import { Box, IconButton, Typography } from "@mui/material";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import LockIcon from "@mui/icons-material/Lock";
 import { ChangeEvent } from "react";
 
@@ -117,7 +117,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             height: "100%",
           }}
         >
-          <ArrowCircleRightIcon />
+          <KeyboardArrowRightIcon />
         </IconButton>
       </Box>
 
