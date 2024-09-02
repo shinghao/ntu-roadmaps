@@ -10,6 +10,8 @@ import {
   Button,
   MenuItem,
   Link,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import "./Header.css";
@@ -34,6 +36,9 @@ const SurveyButton = () => (
 );
 
 function Header() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -52,71 +57,75 @@ function Header() {
           sx={{ display: "flex", justifyContent: "space-between" }}
         >
           <a className="logo">NTUROADMAPS</a>
-          <Box sx={{ display: { xs: "flex", sm: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="open header menu"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "flex", sm: "none" },
-                justifyContent: "center",
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
-              <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  marginTop: "8px",
-                }}
-              >
-                <SurveyButton />
-              </Box>
-            </Menu>
-          </Box>
-          <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1.5rem" }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+          <SurveyButton />
+          {/* {isMobile ? (
+            <Box sx={{ display: "flex" }}>
+              <IconButton
+                size="large"
+                aria-label="open header menu"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
                 color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
                 sx={{
-                  fontSize: "1em",
-                  "&:hover": {
-                    borderBottom: "none",
-                  },
+                  display: { xs: "flex", sm: "none" },
+                  justifyContent: "center",
                 }}
               >
-                {page}
-              </Button>
-            ))}
-            <SurveyButton />
-          </Box>
+                {pages.map((page) => (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                ))}
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "8px",
+                  }}
+                >
+                  <SurveyButton />
+                </Box>
+              </Menu>
+            </Box>
+          ) : (
+            <Box sx={{ display: "flex", gap: "1.5rem" }}>
+              {pages.map((page) => (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  color="inherit"
+                  sx={{
+                    fontSize: "1em",
+                    "&:hover": {
+                      borderBottom: "none",
+                    },
+                  }}
+                >
+                  {page}
+                </Button>
+              ))}
+              <SurveyButton />
+            </Box>
+          )} */}
         </Toolbar>
       </Container>
     </AppBar>
