@@ -1,5 +1,6 @@
-import { Button, Tooltip } from "@mui/material";
+import { Button } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import TheTooltip from "@components/Tooltip/Tooltip";
 
 const TOOLTIP_TEXT = "Reset all completed courses";
 
@@ -9,7 +10,7 @@ interface ResetButtonProps {
 
 export default function ResetButton({ onReset }: ResetButtonProps) {
   return (
-    <Tooltip title={TOOLTIP_TEXT} arrow placement="top">
+    <TheTooltip title={TOOLTIP_TEXT}>
       <Button
         variant="outlined"
         startIcon={<RestartAltIcon />}
@@ -18,6 +19,6 @@ export default function ResetButton({ onReset }: ResetButtonProps) {
       >
         Reset
       </Button>
-    </Tooltip>
+    </TheTooltip>
   );
 }

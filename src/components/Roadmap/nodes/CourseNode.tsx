@@ -46,7 +46,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
 
   const nodeLabel = courseCode;
   const backgroundColor = isSelected
-    ? "#1976d2"
+    ? "#2B78E4"
     : isAvailable
     ? isCompleted
       ? "whitesmoke"
@@ -65,7 +65,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
   const iconButtonBorderLeft = isAvailable
     ? "1px solid rgb(212, 212, 216)"
     : "1px solid rgba(0, 0, 0, 0.2)";
-  const borderOnHover = "1px solid #1976d2";
+  const borderOnHover = "1px solid #2B78E4";
   const sourceHandleOpacity = hasSourceHandle ? 100 : 0;
   const targetHandleOpacity = hasTargetHandle ? 100 : 0;
 

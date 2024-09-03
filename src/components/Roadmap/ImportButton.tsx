@@ -1,6 +1,7 @@
 import { ChangeEvent } from "react";
-import { Button, Tooltip } from "@mui/material";
+import { Button } from "@mui/material";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import TheTooltip from "@components/Tooltip/Tooltip";
 
 const TOOLTIP_TEXT = "Import JSON";
 
@@ -33,7 +34,7 @@ export default function ImportButton({ onImport }: ImportButtonProps) {
   };
 
   return (
-    <Tooltip title={TOOLTIP_TEXT} arrow placement="top">
+    <TheTooltip title={TOOLTIP_TEXT}>
       <Button
         variant="contained"
         component="label"
@@ -48,6 +49,6 @@ export default function ImportButton({ onImport }: ImportButtonProps) {
           onChange={handleFileChange}
         />
       </Button>
-    </Tooltip>
+    </TheTooltip>
   );
 }

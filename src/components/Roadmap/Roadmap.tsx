@@ -200,7 +200,14 @@ export default function Roadmap({
 
   return (
     <div>
-      <Stack spacing={2} direction="row" flexWrap="wrap" useFlexGap marginY={4}>
+      <Stack
+        spacing={2}
+        direction="row"
+        flexWrap="wrap"
+        useFlexGap
+        marginY={4}
+        alignItems={"center"}
+      >
         <ImportButton onImport={onImport} />
         <ExportButton
           degree={degree}

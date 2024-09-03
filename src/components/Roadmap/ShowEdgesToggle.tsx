@@ -17,9 +17,11 @@ export default function ShowEdgesToggle({
             defaultChecked
             value={isEdgesHidden}
             onChange={handleOnShowAllEdges}
+            size="small"
+            sx={{ margin: "0px 6px" }}
           />
         }
-        label="Show Arrows"
+        label={<span style={{ color: "#1665c0" }}>Show Arrows</span>}
       />
     </FormGroup>
   );

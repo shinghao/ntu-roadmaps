@@ -1,5 +1,6 @@
-import { Button, Tooltip } from "@mui/material";
+import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
+import TheTooltip from "@components/Tooltip/Tooltip";
 
 const TOOLTIP_TEXT = "Save config and completed courses as JSON";
 
@@ -22,7 +23,7 @@ export default function ExportButton(data: ExportButtonProps) {
     document.body.removeChild(link);
   };
   return (
-    <Tooltip title={TOOLTIP_TEXT} arrow placement="top">
+    <TheTooltip title={TOOLTIP_TEXT}>
       <Button
         variant="contained"
         startIcon={<DownloadIcon />}
@@ -36,6 +37,6 @@ export default function ExportButton(data: ExportButtonProps) {
       >
         Export
       </Button>
-    </Tooltip>
+    </TheTooltip>
   );
 }
