@@ -99,7 +99,7 @@ export default function RoadmapPage() {
       onChange: setDegreeType,
     },
     {
-      options: careerOptions || [],
+      options: cohort && degreeType ? careerOptions || [] : [],
       label: "Career",
       value: career,
       onChange: onChangeCareer,
@@ -121,19 +121,21 @@ export default function RoadmapPage() {
         {degree && cohort && career && isLoading && <p>{"Loading..."}</p>}
         {error && <p>{`Error: ${error}. Please try again`}</p>}
         {!error &&
-        fetchedRoadmapData &&
-        fetchedRoadmapData?.coursesByYearSemester.length > 0 ? (
-          <Roadmap
-            degree={degree}
-            cohort={cohort}
-            career={career}
-            handleOnOpenCourseModal={handleOnOpenCourseModal}
-            updateSelects={updateSelects}
-            isEdgesHidden={isEdgesHidden}
-            setIsEdgesHidden={setIsEdgesHidden}
-            fetchedRoadmapData={fetchedRoadmapData}
-          />
-        ) : (
+          career &&
+          fetchedRoadmapData &&
+          fetchedRoadmapData?.coursesByYearSemester.length > 0 && (
+            <Roadmap
+              degree={degree}
+              cohort={cohort}
+              career={career}
+              handleOnOpenCourseModal={handleOnOpenCourseModal}
+              updateSelects={updateSelects}
+              isEdgesHidden={isEdgesHidden}
+              setIsEdgesHidden={setIsEdgesHidden}
+              fetchedRoadmapData={fetchedRoadmapData}
+            />
+          )}
+        {(!degree || !cohort || !degreeType || !career) && (
           <p>
             Please select a{" "}
             {!degree
