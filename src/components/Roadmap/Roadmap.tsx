@@ -1,14 +1,12 @@
 import {
   ReactFlow,
   Controls,
-  Background,
   useNodesState,
   useEdgesState,
   type Node,
   type Edge,
 } from "@xyflow/react";
 
-import * as RoadmapConstants from "./Roadmap.constants";
 import { useMemo, useEffect, useCallback } from "react";
 import CourseNode from "./nodes/CourseNode";
 import SemesterNode from "./nodes/SemesterNode";
@@ -33,15 +31,6 @@ import "./Roadmap.css";
 import "@xyflow/react/dist/style.css";
 import { useCompletedCourses } from "./hooks/useCompletedCourses";
 
-const legendNode: Node = {
-  id: "legendNode",
-  position: { x: RoadmapConstants.PARENT_XPOS_START, y: 15 },
-  data: {},
-  draggable: false,
-  selectable: false,
-  type: "legendNode",
-};
-
 const createTitleNode = (cohort: string, degree: string, career: string) => {
   return {
     id: "titleNode",
@@ -54,12 +43,6 @@ const createTitleNode = (cohort: string, degree: string, career: string) => {
     selectable: false,
   };
 };
-
-const calculateRoadmapHeight = (NumOfSemesters: number) =>
-  RoadmapConstants.PARENT_YPOS_START +
-  (RoadmapConstants.PARENT_NODE_HEIGHT +
-    RoadmapConstants.YPOS_BETWEEN_PARENTS) *
-    NumOfSemesters;
 
 interface RoadmapProps {
   degree: string;
@@ -214,9 +197,6 @@ export default function Roadmap({
   };
 
   const titleNode = createTitleNode(cohort, degree, career);
-  const roadmapHeight = calculateRoadmapHeight(
-    Object.keys(fetchedRoadmapData.coursesByYearSemester).length
-  );
 
   return (
     <div>
@@ -235,20 +215,15 @@ export default function Roadmap({
           isEdgesHidden={isEdgesHidden}
         />
       </Stack>
-      <div
-        className="flowchart"
-        style={{
-          height: `${roadmapHeight}px`,
-        }}
-      >
+      <div className="flowchart">
         <ReactFlow
-          nodes={[legendNode, titleNode, ...nodes]}
+          nodes={[titleNode, ...nodes]}
           edges={edges}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgeChange}
+          zoomOnDoubleClick={false}
         >
-          <Background />
           <Controls position="top-right" />
         </ReactFlow>
       </div>
