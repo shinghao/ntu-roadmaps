@@ -2,6 +2,7 @@ import { Node, Edge, MarkerType } from "@xyflow/react";
 import * as RoadmapConstants from "../Roadmap.constants";
 import coursesData from "../../../data/courses.json";
 import { getCompletedCourses } from "../hooks/useCompletedCourses";
+import { Course, CourseInRoadmapType, Roadmap } from "@customTypes/index";
 
 export const isCourseCompleted = (courseCode: string) => {
   const completedCourses = getCompletedCourses();
@@ -10,7 +11,7 @@ export const isCourseCompleted = (courseCode: string) => {
 
 export function isPrerequisitesCompleted(courseCode: string): boolean {
   const completedCourses = getCompletedCourses();
-  const courses = coursesData as Models.Course[];
+  const courses = coursesData as Course[];
   const course =
     courses.find((course) => course.courseCode === courseCode) || null;
   if (!course || !course.prerequisites) {
@@ -29,7 +30,9 @@ export function updateNodesOnCheck(nodes: Node[]) {
       node.data.isAvailable = isPrerequisitesCompleted(
         node.data.courseCode as string
       );
-      node.data.isCompleted = completedCourses.includes(node.id);
+      node.data.isCompleted = completedCourses.includes(
+        node.data.courseCode as string
+      );
     }
     return node;
   });
@@ -50,7 +53,7 @@ export const updateCourseNodesForHandles = (
 };
 
 export function buildRoadmap(
-  roadmapData: Models.Roadmap,
+  roadmapData: Roadmap,
   onNodeCheck: (checked: boolean, courseCode: string) => void,
   isEdgesHidden: boolean,
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void,
@@ -89,24 +92,18 @@ export function buildRoadmap(
     roadmapData.coursesByYearSemester.forEach(({ courses }, parentIndex) => {
       let childNodeX = RoadmapConstants.CHILD_XPOS_START;
 
-      courses.forEach(({ courseCode, prerequisites }, childIndex) => {
-        const childNodeId = courseNodes
-          .map((child) => child.id)
-          .includes(courseCode)
-          ? `${parentIndex}-${courseCode}-${childIndex}`
-          : `${courseCode}`;
-
+      courses.forEach(({ courseCode, prerequisites, type, id }) => {
         courseNodes.push({
-          id: childNodeId,
+          id,
           data: {
-            id: childNodeId,
+            id,
             courseCode,
             prerequisites,
             onCheck: onNodeCheck,
             isHandlesHidden: isEdgesHidden,
             handleOnOpenCourseModal,
             onSelectCourseNode,
-            isElective: childNodeId.includes("xxx"),
+            isElective: type === CourseInRoadmapType.Elective,
           },
           position: { x: childNodeX, y: RoadmapConstants.CHILD_YPOS_START },
           parentId: semesterNodes[parentIndex].id,
@@ -126,22 +123,27 @@ export function buildRoadmap(
     return courseNodes;
   };
 
-  const generateEdges = (courseNodes: Node[]): Edge[] => {
+  const generateEdges = (): Edge[] => {
     const edges: Edge[] = [];
-    const coursesInRoadmap = courseNodes.map((child) => child.data.courseCode);
-    const courses = coursesData as Models.Course[];
+    const coursesInRoadmapMap = new Map(
+      roadmapData.coursesByYearSemester
+        .map((item) => item.courses)
+        .flat()
+        .map((course) => [course.courseCode, course])
+    );
 
-    courses.forEach(({ prerequisites, courseCode }) => {
-      prerequisites?.flatMap((prereqGroup) =>
-        prereqGroup.forEach((prereq) => {
-          if (coursesInRoadmap.includes(prereq)) {
-            const source = prereq;
-            const target = courseCode;
-            const edge = CreateNewEdge(source, target, isEdgesHidden);
-            edges.push(edge);
-          }
-        })
-      );
+    coursesInRoadmapMap.forEach(({ prerequisites, id }) => {
+      prerequisites.forEach((prerequisite) => {
+        const prerequisiteInRoadmap = coursesInRoadmapMap.get(prerequisite);
+
+        if (!prerequisiteInRoadmap) {
+          return;
+        }
+        const source = prerequisiteInRoadmap.id;
+        const target = id;
+        const edge = CreateNewEdge(source, target, isEdgesHidden);
+        edges.push(edge);
+      });
     });
 
     return edges;
@@ -149,7 +151,7 @@ export function buildRoadmap(
 
   const semesterNodes = generateSemesterNodes();
   const courseNodes = generateCourseNodes(semesterNodes);
-  const edges = generateEdges(courseNodes);
+  const edges = generateEdges();
   const updatedCourseNodes = updateCourseNodesForHandles(courseNodes, edges);
 
   const nodes = [...semesterNodes, ...updateNodesOnCheck(updatedCourseNodes)];

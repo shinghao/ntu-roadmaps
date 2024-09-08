@@ -2,15 +2,22 @@ import roadmapData from "../data/roadmapdata.json";
 import coursesData from "../data/courses.json";
 import degreeProgrammes from "../data/degreeProgrammes.json";
 import careers from "../data/careers.json";
+import {
+  type Career,
+  type Course,
+  CourseInRoadmapType,
+  type GetDegreeProgrammesResp,
+  type Roadmap,
+} from "@customTypes/index";
 
-export const fetchCourses = async (): Promise<Models.Course[]> => {
-  return new Promise((resolve) => resolve(coursesData as Models.Course[]));
+export const fetchCourses = async (): Promise<Course[]> => {
+  return new Promise((resolve) => resolve(coursesData as Course[]));
 };
 
 export const fetchCourseDetails = async (
   courseCode: string
-): Promise<Models.Course | null> => {
-  const courseData = coursesData as Models.Course[];
+): Promise<Course | null> => {
+  const courseData = coursesData as Course[];
   const courseFound =
     courseData.find((course) => course.courseCode === courseCode) || null;
   return new Promise((resolve) => resolve(courseFound));
@@ -20,11 +27,28 @@ export const fetchRoadmap = async (
   degree: string,
   cohort: string,
   degreeType: string
-): Promise<Models.Roadmap> => {
+): Promise<Roadmap> => {
   const getPrerequisites = (courseCode: string): string[] => {
     const course = coursesData.find((c) => c.courseCode === courseCode);
     return course ? course.prerequisites.flat() : [];
   };
+
+  const getCourseInRoadmapType = (courseCode: string): CourseInRoadmapType => {
+    if (courseCode.includes("xx")) {
+      return CourseInRoadmapType.Elective;
+    } else if (courseCode.includes("SC")) {
+      return CourseInRoadmapType.CCore;
+    } else {
+      return CourseInRoadmapType.Core;
+    }
+  };
+
+  const generateCourseId = (
+    year: number,
+    semester: number,
+    courseCode: string,
+    index: number
+  ): string => `y${year}s${semester}-${index}-${courseCode}`;
 
   return new Promise((resolve, reject) => {
     const roadmap = roadmapData.find(
@@ -44,9 +68,11 @@ export const fetchRoadmap = async (
       coursesByYearSemester: roadmap.coursesByYearSemester.map((val) => {
         return {
           ...val,
-          courses: val.courses.map((courseCode) => ({
+          courses: val.courses.map((courseCode, index) => ({
             courseCode,
             prerequisites: getPrerequisites(courseCode),
+            id: generateCourseId(val.year, val.semester, courseCode, index),
+            type: getCourseInRoadmapType(courseCode),
           })),
         };
       }),
@@ -56,15 +82,13 @@ export const fetchRoadmap = async (
 };
 
 export const fetchDegreeProgrammes =
-  async (): Promise<Models.GetDegreeProgrammesResp> => {
+  async (): Promise<GetDegreeProgrammesResp> => {
     return new Promise((resolve) => {
-      resolve(degreeProgrammes as Models.GetDegreeProgrammesResp);
+      resolve(degreeProgrammes as GetDegreeProgrammesResp);
     });
   };
 
-export const fetchCareers = async (
-  degree: string
-): Promise<Models.Career[]> => {
+export const fetchCareers = async (degree: string): Promise<Career[]> => {
   const careersOfDegree = careers.filter((career) =>
     career.degrees.includes(degree)
   );

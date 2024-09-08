@@ -128,6 +128,7 @@ export default function RoadmapPage() {
               degree={degree}
               cohort={cohort}
               career={career}
+              degreeType={degreeType}
               handleOnOpenCourseModal={handleOnOpenCourseModal}
               updateSelects={updateSelects}
               isEdgesHidden={isEdgesHidden}

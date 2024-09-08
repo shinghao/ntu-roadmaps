@@ -51,7 +51,7 @@ export default function CourseModal(props: Props) {
     intendedLearningOutcomes = [],
     semesters = [],
     prerequisites = [[]],
-  } = (fetchedCourseDetails as Models.Course) ?? {};
+  } = (fetchedCourseDetails as Course) ?? {};
 
   useEffect(() => {
     if (!selectedElective) {

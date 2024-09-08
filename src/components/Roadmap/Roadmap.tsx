@@ -30,6 +30,7 @@ import { Stack } from "@mui/material";
 import "./Roadmap.css";
 import "@xyflow/react/dist/style.css";
 import { useCompletedCourses } from "./hooks/useCompletedCourses";
+import { type Roadmap } from "@customTypes/index";
 
 const createTitleNode = (cohort: string, degree: string, career: string) => {
   return {
@@ -48,17 +49,19 @@ interface RoadmapProps {
   degree: string;
   career: string;
   cohort: string;
+  degreeType: string;
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
   updateSelects: (degree: string, career: string, cohort: string) => void;
   isEdgesHidden: boolean;
   setIsEdgesHidden: (hidden: boolean) => void;
-  fetchedRoadmapData: Models.Roadmap;
+  fetchedRoadmapData: Roadmap;
 }
 
 export default function Roadmap({
   degree,
   career,
   cohort,
+  degreeType,
   handleOnOpenCourseModal,
   updateSelects,
   isEdgesHidden,
@@ -138,7 +141,7 @@ export default function Roadmap({
                 isAvailable: isPrerequisitesCompleted(
                   node.data.courseCode as string
                 ),
-                isCompleted: isCourseCompleted(node.id),
+                isCompleted: isCourseCompleted(node.data.courseCode as string),
               }
             : {}),
         },

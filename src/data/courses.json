@@ -513,7 +513,7 @@
     "description": "Basic concepts: system, model, simulation. Different types of simulation: Monte Carlo simulation, continuous system simulation, discrete event simulation. Simulation software: modelling and simulation using Arena. Generating random numbers and random variables for simulation study: LCG, inverse transform, convolution. Analysis of input and output data: MLE, Goodness-of-fit test, confidence interval. Verification and validation: concepts and techniques. Queuing models: properties, performance measures and basic formulas. Comparison of alternative designs: paired-t approach, multiple comparison problem. Variance reduction: CRN, AV.",
     "intendedLearningOutcomes": [
       "Determine properties of physical systems for suitable simulations.",
-      "Analyse real-world data and build simulation input models.",
+      "Analyse real-world data and build simulation input ",
       "Conduct simulation studies and analyse results.",
       "Conduct statistical analysis of simulation outputs.",
       "Analyse discrete event systems using simulation methods and mathematical modelling."
@@ -613,7 +613,7 @@
     "description": "We are in the 'Big Data' era - an extremely large amount of data is created every day. The world of data management has dramatically changed in the 'Big Data' era. This is primarily driven by multiple factors including cheaper storage costs, increasing availability of sensors, smart devices, social software, and availability of cloud computing infrastructure, and cheaper processing cost of large volumes of data due to dramatic advances in modern hardware (e.g., solid state disk, multicore CPUs, large memory). This seismic impact of big data has led to increasing demand in building scalable data infrastructures toward supporting real-world applications. This course aims to provide a broad understanding of big data and current technologies in managing and processing them. Key topics covered in this course include big data 5V's, memory hierarchy and its relation to big data systems, distributed storage and computation of big data, as well as NoSQL key-value stores. Upon completion of this course, you will learn to evaluate issues associated with big data management, learn how the data is stored in a distributed system and how queries and analytics run in parallel, and understand the design philosophy of real-world key-value stores.",
     "intendedLearningOutcomes": [
       "Explain fundamental properties and operations of big data systems.",
-      "Discuss the construction of big data systems using different storage and data models.",
+      "Discuss the construction of big data systems using different storage and data ",
       "Analyse advantages of various data systems in real-world applications.",
       "Describe data analytics procedures and techniques in big data applications.",
       "Design and implement big data processing using standard programming models and APIs."
@@ -1025,7 +1025,7 @@
     "courseCode": "AB1202",
     "au": 3,
     "title": "Statistics and Analysis",
-    "description": "This course introduces the concepts and methods of statistical inferences: the process of inferring unknowns under uncertainty. Students of this course will also learn programming skills in the R environment for basic statistical analyses. This course consists of three main sections. Section 1 covers elements of probability models. Section 2 covers the basic theories in statistical inferences. Section 3 introduces the basic of two powerful and widely used analytic tools: regression and simulation analysis. Each weekly topic will be supplemented with relevant computer applications in the R environment.",
+    "description": "This course introduces the concepts and methods of statistical inferences: the process of inferring unknowns under uncertainty. Students of this course will also learn programming skills in the R environment for basic statistical analyses. This course consists of three main sections. Section 1 covers elements of probability  Section 2 covers the basic theories in statistical inferences. Section 3 introduces the basic of two powerful and widely used analytic tools: regression and simulation analysis. Each weekly topic will be supplemented with relevant computer applications in the R environment.",
     "intendedLearningOutcomes": [],
     "semesters": [1, 2],
     "prerequisites": [],
@@ -1103,7 +1103,7 @@
     "courseCode": "BC2406",
     "au": 4,
     "title": "Analytics I: Visual & Predictive Techniques",
-    "description": "Most organizations are data rich and information poor. The large volumes of data in an organization are 'oilfields' rich in information content that are pending extraction with the right tools and models. Analytics involves the art of data exploration, visualization, communication and the science of analyzing large quantities of data in order to discover meaningful patterns and useful insights to support decision-making. The primary objective of this course is to introduce students to various techniques available to extract useful insights from the large volumes of data. At the end of the course, students will not only see the substantial opportunities that exist in real world, but also learn techniques that allow them to exploit these opportunities. This course focus on the use of open source R software, which is one of the key analytics software used in various industries and a critical skillset required in the job market for analytics and data science professionals.",
+    "description": "Most organizations are data rich and information poor. The large volumes of data in an organization are 'oilfields' rich in information content that are pending extraction with the right tools and  Analytics involves the art of data exploration, visualization, communication and the science of analyzing large quantities of data in order to discover meaningful patterns and useful insights to support decision-making. The primary objective of this course is to introduce students to various techniques available to extract useful insights from the large volumes of data. At the end of the course, students will not only see the substantial opportunities that exist in real world, but also learn techniques that allow them to exploit these opportunities. This course focus on the use of open source R software, which is one of the key analytics software used in various industries and a critical skillset required in the job market for analytics and data science professionals.",
     "intendedLearningOutcomes": [],
     "semesters": [1],
     "prerequisites": [],

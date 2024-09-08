@@ -25,7 +25,8 @@
       "@components/*": ["src/components/*"],
       "@api/*": ["src/api/*"],
       "@pages/*": ["src/pages/*"],
-      "@hooks/*": ["src/hooks/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@customTypes/*": ["src/types/*"]
     }
   },
   "include": ["src"],
