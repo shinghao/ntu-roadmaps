@@ -53,7 +53,7 @@ interface RoadmapProps {
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
   updateSelects: (degree: string, career: string, cohort: string) => void;
   isEdgesHidden: boolean;
-  setIsEdgesHidden: (hidden: boolean) => void;
+  setIsEdgesHidden: React.Dispatch<React.SetStateAction<boolean>>;
   fetchedRoadmapData: Roadmap;
 }
 
@@ -96,15 +96,16 @@ export default function Roadmap({
           data: {
             ...node.data,
             isSelected: node.data.id === selectedCourse,
+            isHandlesHidden: node.data.id !== selectedCourse,
           },
         }))
       );
 
       selectedCourse === ""
-        ? setEdgesOnUnselectCourse(setEdges)
+        ? setEdgesOnUnselectCourse(setEdges, isEdgesHidden)
         : setEdgesOnSelectCourse(setEdges, selectedCourse);
     },
-    [setEdges, setNodes]
+    [setEdges, setNodes, isEdgesHidden]
   );
 
   const onNodeCheck = useCallback(
@@ -128,7 +129,7 @@ export default function Roadmap({
       setNodes(nodes);
       setEdges(edges);
     }
-  }, [fetchedRoadmapData]); //TODO: fix dependencies
+  }, [fetchedRoadmapData, onSelectCourseNode]); //TODO: fix dependencies
 
   useEffect(() => {
     setNodes((currentNodes) =>
@@ -154,6 +155,7 @@ export default function Roadmap({
       currentEdges.map((edge) => ({
         ...edge,
         hidden: !isEdgesHidden,
+        animated: false,
       }))
     );
     setNodes((currentNodes) =>
@@ -166,7 +168,7 @@ export default function Roadmap({
         },
       }))
     );
-    setIsEdgesHidden(!isEdgesHidden);
+    setIsEdgesHidden((prev) => !prev);
   };
 
   const onImport = (data: {

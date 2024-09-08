@@ -11,6 +11,7 @@ import {
   isCourseCompleted,
   isPrerequisitesCompleted,
 } from "./util/buildRoadmap.util";
+import { Course } from "@customTypes/index";
 
 interface Props {
   nodeId: string;
