@@ -125,6 +125,7 @@ export default function RoadmapPage() {
           isElective={isSelectedCourseElective}
           availableElectives={availableElectives}
           isEdgesHidden={isEdgesHidden}
+          setSelectedElectives={setSelectedElectives}
         />
         <RoadmapSelects selectsConfig={selectsConfig} />
         {degree && cohort && career && isLoading && <p>{"Loading..."}</p>}

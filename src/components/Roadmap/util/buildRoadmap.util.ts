@@ -101,15 +101,22 @@ export function buildRoadmap(
 
       courses.forEach(({ courseCode, prerequisites, type, id }) => {
         const isElective = type === CourseInRoadmapType.Elective;
+        const selectedElective = isElective
+          ? selectedElectives.find((elective) => elective.id === id)
+          : undefined;
+
         courseNodes.push({
           id,
           data: {
             id,
-            courseCode: isElective
-              ? selectedElectives.find((elective) => elective.id === id)
-                  ?.courseCode || courseCode
-              : courseCode,
-            prerequisites,
+            courseCode:
+              isElective && selectedElective
+                ? selectedElective.courseCode
+                : courseCode,
+            prerequisites:
+              isElective && selectedElective
+                ? selectedElective.prerequisites
+                : prerequisites,
             onCheck: onNodeCheck,
             isHandlesHidden: isEdgesHidden,
             isAvailable: completedCourses.includes(courseCode),
@@ -135,19 +142,22 @@ export function buildRoadmap(
     return courseNodes;
   };
 
-  const generateEdges = (): Edge[] => {
+  const generateEdges = (courseNodes: Node[]): Edge[] => {
     const edges: Edge[] = [];
     const coursesInRoadmapMap = new Map(
-      roadmapData.coursesByYearSemester
-        .map((item) => item.courses)
-        .flat()
-        .map((course) => [course.courseCode, course])
+      courseNodes.map((courseNode) => [
+        courseNode.data.courseCode,
+        {
+          id: courseNode.data.id as string,
+          courseCode: courseNode.data.courseCode as string,
+          prerequisites: courseNode.data.prerequisites as string[],
+        },
+      ])
     );
 
     coursesInRoadmapMap.forEach(({ prerequisites, id }) => {
       prerequisites.forEach((prerequisite) => {
         const prerequisiteInRoadmap = coursesInRoadmapMap.get(prerequisite);
-
         if (!prerequisiteInRoadmap) {
           return;
         }
@@ -163,7 +173,7 @@ export function buildRoadmap(
 
   const semesterNodes = generateSemesterNodes();
   const courseNodes = generateCourseNodes(semesterNodes);
-  const edges = generateEdges();
+  const edges = generateEdges(courseNodes);
   const updatedCourseNodes = updateCourseNodesForHandles(courseNodes, edges);
 
   const nodes = [...semesterNodes, ...updateNodesOnCheck(updatedCourseNodes)];

@@ -14,4 +14,5 @@ export interface Course {
 export interface Elective {
   id: string;
   courseCode: string;
+  prerequisites: string[];
 }

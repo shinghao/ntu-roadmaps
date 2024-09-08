@@ -23,6 +23,7 @@ export default function ExportButton(data: ExportButtonProps) {
     .map((electiveNode) => ({
       id: electiveNode.data.id as string,
       courseCode: electiveNode.data.courseCode as string,
+      prerequisites: electiveNode.data.prerequisites as string[],
     }))
     .filter((elective) => !elective.courseCode.includes("xx"));
 
