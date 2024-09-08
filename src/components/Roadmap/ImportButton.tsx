@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, memo } from "react";
 import { Button } from "@mui/material";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import TheTooltip from "@components/Tooltip/Tooltip";
@@ -10,7 +10,7 @@ interface ImportButtonProps {
   onImport: (importedData: ExportData) => void;
 }
 
-export default function ImportButton({ onImport }: ImportButtonProps) {
+const ImportButton = memo(({ onImport }: ImportButtonProps) => {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -47,4 +47,6 @@ export default function ImportButton({ onImport }: ImportButtonProps) {
       </Button>
     </TheTooltip>
   );
-}
+});
+
+export default ImportButton;

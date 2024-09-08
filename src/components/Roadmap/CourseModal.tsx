@@ -14,7 +14,6 @@ interface Props {
   setIsModalOpen: (val: boolean) => void;
   isElective: boolean;
   availableElectives: string[];
-  isEdgesHidden: boolean;
   setSelectedElectives: React.Dispatch<React.SetStateAction<Elective[]>>;
 }
 

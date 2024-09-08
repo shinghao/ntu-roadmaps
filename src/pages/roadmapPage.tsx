@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Roadmap from "@components/Roadmap";
 import { Container } from "@mui/material";
 import "./roadmapPage.css";
@@ -19,7 +19,6 @@ export default function RoadmapPage() {
   const [cohort, setCohort] = useState("");
   const [degreeType, setDegreeType] = useState("");
   const { careerOptions, fetchedCareers } = useFetchCareers(degree);
-  const [isEdgesHidden, setIsEdgesHidden] = useState(false);
   const [selectedNodeId, setSelectedNodeId] = useState("");
   const [isSelectedCourseElective, setIsSelectedCourseElective] =
     useState(false);
@@ -33,22 +32,36 @@ export default function RoadmapPage() {
     degreeType
   );
 
-  const degreeOptions = fetchedDegreeProgrammes
-    ? fetchedDegreeProgrammes.map(({ degree }) => degree).sort()
-    : [];
+  const degreeOptions = useMemo(
+    () =>
+      fetchedDegreeProgrammes
+        ? fetchedDegreeProgrammes.map(({ degree }) => degree).sort()
+        : [],
+    [fetchedDegreeProgrammes]
+  );
 
-  const selectedDegreeProgram =
-    fetchedDegreeProgrammes?.find((degProg) => degProg.degree === degree) ??
-    null;
+  const selectedDegreeProgram = useMemo(
+    () =>
+      fetchedDegreeProgrammes?.find((degProg) => degProg.degree === degree) ??
+      null,
+    [fetchedDegreeProgrammes, degree]
+  );
 
-  const cohortOptions = selectedDegreeProgram
-    ? Object.keys(selectedDegreeProgram.cohorts).sort()
-    : [];
+  const cohortOptions = useMemo(
+    () =>
+      selectedDegreeProgram
+        ? Object.keys(selectedDegreeProgram.cohorts).sort()
+        : [],
+    [selectedDegreeProgram]
+  );
 
-  const degreeTypeOptions =
-    cohort && selectedDegreeProgram
-      ? selectedDegreeProgram?.cohorts?.[cohort]
-      : [];
+  const degreeTypeOptions = useMemo(
+    () =>
+      cohort && selectedDegreeProgram
+        ? selectedDegreeProgram?.cohorts?.[cohort]
+        : [],
+    [cohort, selectedDegreeProgram]
+  );
 
   const onChangeDegree = (value: string) => {
     setDegree(value);
@@ -62,13 +75,16 @@ export default function RoadmapPage() {
     setDegreeType("");
   };
 
-  const onChangeCareer = (value: string) => {
-    setCareer(value);
-    const selectedCareerElectives = fetchedCareers?.find(
-      ({ career }) => career === value
-    )?.electives;
-    setAvailableElectives(selectedCareerElectives ?? []);
-  };
+  const onChangeCareer = useCallback(
+    (value: string) => {
+      setCareer(value);
+      const selectedCareerElectives = fetchedCareers?.find(
+        ({ career }) => career === value
+      )?.electives;
+      setAvailableElectives(selectedCareerElectives ?? []);
+    },
+    [fetchedCareers]
+  );
 
   const handleOnOpenCourseModal = (nodeId: string, isElective: boolean) => {
     setIsSelectedCourseElective(isElective);
@@ -106,27 +122,31 @@ export default function RoadmapPage() {
 
   const { importCompletedCourses } = useCompletedCourses();
 
-  const onImport = (data: ExportData) => {
-    setDegree(data.degree);
-    setCohort(data.cohort);
-    setDegreeType(data.degreeType);
-    onChangeCareer(data.career);
-    importCompletedCourses(data.completedCourses);
-    setSelectedElectives(data.selectedElectives);
-  };
+  const onImport = useCallback(
+    () => (data: ExportData) => {
+      setDegree(data.degree);
+      setCohort(data.cohort);
+      setDegreeType(data.degreeType);
+      onChangeCareer(data.career);
+      importCompletedCourses(data.completedCourses);
+      setSelectedElectives(data.selectedElectives);
+    },
+    [importCompletedCourses, onChangeCareer]
+  );
 
   return (
     <ReactFlowProvider>
       <Container className="content">
-        <CourseModal
-          nodeId={selectedNodeId}
-          isModalOpen={isCourseModalOpen}
-          setIsModalOpen={setIsCourseModalOpen}
-          isElective={isSelectedCourseElective}
-          availableElectives={availableElectives}
-          isEdgesHidden={isEdgesHidden}
-          setSelectedElectives={setSelectedElectives}
-        />
+        {isCourseModalOpen && (
+          <CourseModal
+            nodeId={selectedNodeId}
+            isModalOpen={isCourseModalOpen}
+            setIsModalOpen={setIsCourseModalOpen}
+            isElective={isSelectedCourseElective}
+            availableElectives={availableElectives}
+            setSelectedElectives={setSelectedElectives}
+          />
+        )}
         <RoadmapSelects selectsConfig={selectsConfig} />
         {degree && cohort && career && isLoading && <p>{"Loading..."}</p>}
         {error && <p>{`Error: ${error}. Please try again`}</p>}
@@ -142,8 +162,6 @@ export default function RoadmapPage() {
               handleOnOpenCourseModal={handleOnOpenCourseModal}
               onImport={onImport}
               selectedElectives={selectedElectives}
-              isEdgesHidden={isEdgesHidden}
-              setIsEdgesHidden={setIsEdgesHidden}
               fetchedRoadmapData={fetchedRoadmapData}
             />
           )}

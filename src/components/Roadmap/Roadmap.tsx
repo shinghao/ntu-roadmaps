@@ -7,7 +7,7 @@ import {
   type Edge,
 } from "@xyflow/react";
 
-import { useMemo, useEffect, useCallback } from "react";
+import { useMemo, useEffect, useCallback, useState } from "react";
 import CourseNode from "./nodes/CourseNode";
 import SemesterNode from "./nodes/SemesterNode";
 import LegendNode from "./nodes/LegendNode";
@@ -53,8 +53,6 @@ interface RoadmapProps {
   selectedElectives: Elective[];
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
   onImport: (data: ExportData) => void;
-  isEdgesHidden: boolean;
-  setIsEdgesHidden: React.Dispatch<React.SetStateAction<boolean>>;
   fetchedRoadmapData: Roadmap;
 }
 
@@ -66,12 +64,11 @@ export default function Roadmap({
   selectedElectives,
   handleOnOpenCourseModal,
   onImport,
-  isEdgesHidden,
-  setIsEdgesHidden,
   fetchedRoadmapData,
 }: RoadmapProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgeChange] = useEdgesState<Edge>([]);
+  const [isEdgesHidden, setIsEdgesHidden] = useState(false);
   const {
     completedCourses,
     addCompletedCourse,
@@ -152,7 +149,7 @@ export default function Roadmap({
     );
   }, [completedCourses, setNodes]);
 
-  const handleOnShowAllEdges = () => {
+  const onShowAllEdges = () => {
     setEdges((currentEdges) =>
       currentEdges.map((edge) => ({
         ...edge,
@@ -193,7 +190,10 @@ export default function Roadmap({
     );
   };
 
-  const titleNode = createTitleNode(cohort, degree, career);
+  const titleNode = useMemo(
+    () => createTitleNode(cohort, degree, career),
+    [career, cohort, degree]
+  );
 
   return (
     <div>
@@ -216,7 +216,7 @@ export default function Roadmap({
         <DownloadButton />
         <ResetButton onReset={onReset} />
         <ShowEdgesToggle
-          handleOnShowAllEdges={handleOnShowAllEdges}
+          onShowAllEdges={onShowAllEdges}
           isEdgesHidden={isEdgesHidden}
         />
       </Stack>
