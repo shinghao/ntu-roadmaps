@@ -8,6 +8,9 @@ import useFetchDegreeProgrammes from "@hooks/useFetchDegreeProgrammes";
 import useFetchCareers from "@hooks/useFetchCareers";
 import useFetchRoadmap from "@hooks/useFetchRoadmap";
 import RoadmapSelects from "@components/RoadmapSelects";
+import { Elective } from "@customTypes/course";
+import { ExportData } from "@customTypes/index";
+import { useCompletedCourses } from "@components/Roadmap/hooks/useCompletedCourses";
 
 export default function RoadmapPage() {
   const { fetchedDegreeProgrammes } = useFetchDegreeProgrammes();
@@ -22,6 +25,7 @@ export default function RoadmapPage() {
     useState(false);
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
   const [availableElectives, setAvailableElectives] = useState<string[]>([]);
+  const [selectedElectives, setSelectedElectives] = useState<Elective[]>([]);
 
   const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
     degree,
@@ -72,12 +76,6 @@ export default function RoadmapPage() {
     setIsCourseModalOpen(true);
   };
 
-  const updateSelects = (degree: string, career: string, cohort: string) => {
-    setDegree(degree);
-    setCareer(career);
-    setCohort(cohort);
-  };
-
   const selectsConfig = [
     {
       options: degreeOptions || [],
@@ -106,6 +104,17 @@ export default function RoadmapPage() {
     },
   ];
 
+  const { importCompletedCourses } = useCompletedCourses();
+
+  const onImport = (data: ExportData) => {
+    setDegree(data.degree);
+    setCohort(data.cohort);
+    setDegreeType(data.degreeType);
+    onChangeCareer(data.career);
+    importCompletedCourses(data.completedCourses);
+    setSelectedElectives(data.selectedElectives);
+  };
+
   return (
     <ReactFlowProvider>
       <Container className="content">
@@ -130,7 +139,8 @@ export default function RoadmapPage() {
               career={career}
               degreeType={degreeType}
               handleOnOpenCourseModal={handleOnOpenCourseModal}
-              updateSelects={updateSelects}
+              onImport={onImport}
+              selectedElectives={selectedElectives}
               isEdgesHidden={isEdgesHidden}
               setIsEdgesHidden={setIsEdgesHidden}
               fetchedRoadmapData={fetchedRoadmapData}

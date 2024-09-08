@@ -10,3 +10,8 @@ export interface Course {
   school: string;
   yearStanding: number;
 }
+
+export interface Elective {
+  id: string;
+  courseCode: string;
+}

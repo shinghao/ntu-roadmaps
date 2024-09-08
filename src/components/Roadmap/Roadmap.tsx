@@ -30,7 +30,7 @@ import { Stack } from "@mui/material";
 import "./Roadmap.css";
 import "@xyflow/react/dist/style.css";
 import { useCompletedCourses } from "./hooks/useCompletedCourses";
-import { type Roadmap } from "@customTypes/index";
+import { Elective, ExportData, type Roadmap } from "@customTypes/index";
 
 const createTitleNode = (cohort: string, degree: string, career: string) => {
   return {
@@ -50,8 +50,9 @@ interface RoadmapProps {
   career: string;
   cohort: string;
   degreeType: string;
+  selectedElectives: Elective[];
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
-  updateSelects: (degree: string, career: string, cohort: string) => void;
+  onImport: (data: ExportData) => void;
   isEdgesHidden: boolean;
   setIsEdgesHidden: React.Dispatch<React.SetStateAction<boolean>>;
   fetchedRoadmapData: Roadmap;
@@ -62,8 +63,9 @@ export default function Roadmap({
   career,
   cohort,
   degreeType,
+  selectedElectives,
   handleOnOpenCourseModal,
-  updateSelects,
+  onImport,
   isEdgesHidden,
   setIsEdgesHidden,
   fetchedRoadmapData,
@@ -75,7 +77,6 @@ export default function Roadmap({
     addCompletedCourse,
     resetCompletedCourse,
     removeCompletedCourse,
-    importCompletedCourses,
   } = useCompletedCourses();
 
   const nodeTypes = useMemo(
@@ -124,12 +125,13 @@ export default function Roadmap({
         onNodeCheck,
         isEdgesHidden,
         handleOnOpenCourseModal,
-        onSelectCourseNode
+        onSelectCourseNode,
+        selectedElectives
       );
       setNodes(nodes);
       setEdges(edges);
     }
-  }, [fetchedRoadmapData, onSelectCourseNode]); //TODO: fix dependencies
+  }, [fetchedRoadmapData, onSelectCourseNode, selectedElectives]); //TODO: fix dependencies
 
   useEffect(() => {
     setNodes((currentNodes) =>
@@ -171,16 +173,6 @@ export default function Roadmap({
     setIsEdgesHidden((prev) => !prev);
   };
 
-  const onImport = (data: {
-    degree: string;
-    career: string;
-    cohort: string;
-    completedCourses: string[];
-  }) => {
-    updateSelects(data.degree, data.career, data.cohort);
-    importCompletedCourses(data.completedCourses);
-  };
-
   const onReset = () => {
     resetCompletedCourse();
     setNodes((currentNodes) =>
@@ -218,6 +210,7 @@ export default function Roadmap({
           degree={degree}
           career={career}
           cohort={cohort}
+          degreeType={degreeType}
           completedCourses={completedCourses}
         />
         <DownloadButton />

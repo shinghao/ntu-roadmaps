@@ -2,7 +2,12 @@ import { Node, Edge, MarkerType } from "@xyflow/react";
 import * as RoadmapConstants from "../Roadmap.constants";
 import coursesData from "../../../data/courses.json";
 import { getCompletedCourses } from "../hooks/useCompletedCourses";
-import { Course, CourseInRoadmapType, Roadmap } from "@customTypes/index";
+import {
+  Course,
+  CourseInRoadmapType,
+  Elective,
+  Roadmap,
+} from "@customTypes/index";
 
 export const isCourseCompleted = (courseCode: string) => {
   const completedCourses = getCompletedCourses();
@@ -57,7 +62,8 @@ export function buildRoadmap(
   onNodeCheck: (checked: boolean, courseCode: string) => void,
   isEdgesHidden: boolean,
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void,
-  onSelectCourseNode: (id: string, isSelected: boolean) => void
+  onSelectCourseNode: (id: string, isSelected: boolean) => void,
+  selectedElectives: Elective[]
 ) {
   const generateSemesterNodes = (): Node[] => {
     const nodes: Node[] = [];
@@ -88,22 +94,28 @@ export function buildRoadmap(
 
   const generateCourseNodes = (semesterNodes: Node[]): Node[] => {
     const courseNodes: Node[] = [];
+    const completedCourses = getCompletedCourses();
 
     roadmapData.coursesByYearSemester.forEach(({ courses }, parentIndex) => {
       let childNodeX = RoadmapConstants.CHILD_XPOS_START;
 
       courses.forEach(({ courseCode, prerequisites, type, id }) => {
+        const isElective = type === CourseInRoadmapType.Elective;
         courseNodes.push({
           id,
           data: {
             id,
-            courseCode,
+            courseCode: isElective
+              ? selectedElectives.find((elective) => elective.id === id)
+                  ?.courseCode || courseCode
+              : courseCode,
             prerequisites,
             onCheck: onNodeCheck,
             isHandlesHidden: isEdgesHidden,
+            isAvailable: completedCourses.includes(courseCode),
             handleOnOpenCourseModal,
             onSelectCourseNode,
-            isElective: type === CourseInRoadmapType.Elective,
+            isElective,
           },
           position: { x: childNodeX, y: RoadmapConstants.CHILD_YPOS_START },
           parentId: semesterNodes[parentIndex].id,

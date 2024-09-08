@@ -2,16 +2,12 @@ import { ChangeEvent } from "react";
 import { Button } from "@mui/material";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import TheTooltip from "@components/Tooltip/Tooltip";
+import { ExportData } from "@customTypes/exportData";
 
 const TOOLTIP_TEXT = "Import JSON";
 
 interface ImportButtonProps {
-  onImport: (data: {
-    degree: string;
-    career: string;
-    cohort: string;
-    completedCourses: string[];
-  }) => void;
+  onImport: (importedData: ExportData) => void;
 }
 
 export default function ImportButton({ onImport }: ImportButtonProps) {
