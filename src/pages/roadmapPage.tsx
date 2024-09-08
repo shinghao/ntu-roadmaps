@@ -162,6 +162,7 @@ export default function RoadmapPage() {
               handleOnOpenCourseModal={handleOnOpenCourseModal}
               onImport={onImport}
               selectedElectives={selectedElectives}
+              setSelectedElectives={setSelectedElectives}
               fetchedRoadmapData={fetchedRoadmapData}
             />
           )}

@@ -51,6 +51,7 @@ interface RoadmapProps {
   cohort: string;
   degreeType: string;
   selectedElectives: Elective[];
+  setSelectedElectives: React.Dispatch<React.SetStateAction<Elective[]>>;
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
   onImport: (data: ExportData) => void;
   fetchedRoadmapData: Roadmap;
@@ -62,6 +63,7 @@ export default function Roadmap({
   cohort,
   degreeType,
   selectedElectives,
+  setSelectedElectives,
   handleOnOpenCourseModal,
   onImport,
   fetchedRoadmapData,
@@ -172,6 +174,7 @@ export default function Roadmap({
 
   const onReset = () => {
     resetCompletedCourse();
+    setSelectedElectives([]);
     setNodes((currentNodes) =>
       currentNodes.map((node) => ({
         ...node,
