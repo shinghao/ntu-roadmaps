@@ -53,9 +53,9 @@ export const fetchRoadmap = async (
     const course = coursesData.find((c) => c.courseCode === courseCode);
     return course?.title ?? "";
   };
-  const getCourseAu = (courseCode: string): string => {
+  const getCourseAu = (courseCode: string) => {
     const course = coursesData.find((c) => c.courseCode === courseCode);
-    return course?.au ? String(course.au) : "";
+    return course?.au;
   };
 
   return new Promise((resolve, reject) => {

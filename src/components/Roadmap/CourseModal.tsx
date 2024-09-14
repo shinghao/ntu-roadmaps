@@ -5,8 +5,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useFetchCourseDetails from "@hooks/useFetchCourseDetails";
 import { useEffect, useMemo, useState } from "react";
 import SelectElective from "./SelectElective";
-import { useReactFlow } from "@xyflow/react";
-import { Course, Elective } from "@customTypes/index";
+import { Course, Elective, Roadmap } from "@customTypes/index";
 
 interface Props {
   nodeId: string;
@@ -15,21 +14,33 @@ interface Props {
   isElective: boolean;
   availableElectives: string[];
   setSelectedElectives: React.Dispatch<React.SetStateAction<Elective[]>>;
+  roadmapData: Roadmap;
 }
 
-export default function CourseModal({ setSelectedElectives, ...props }: Props) {
-  const { getNode, getNodes } = useReactFlow();
-  const selectedNode = getNode(props.nodeId);
+export default function CourseModal({
+  setSelectedElectives,
+  roadmapData,
+  ...props
+}: Props) {
+  const coursesInRoadmap = useMemo(() => {
+    return roadmapData.coursesByYearSemester.flatMap(
+      (yearSemester) => yearSemester.courses
+    );
+  }, [roadmapData]);
+
+  const selectedNode = coursesInRoadmap.find(
+    (course) => course.id === props.nodeId
+  );
 
   const [selectedElective, setSelectedElective] = useState<string>(
-    selectedNode?.data?.courseCode as string
+    selectedNode?.courseCode as string
   );
 
   const effectiveCourseCode = useMemo(
     () =>
       props.isElective && selectedElective
         ? selectedElective
-        : (selectedNode?.data?.courseCode as string) ?? "",
+        : (selectedNode?.courseCode as string) ?? "",
     [props.isElective, selectedElective, selectedNode]
   );
 
@@ -44,7 +55,7 @@ export default function CourseModal({ setSelectedElectives, ...props }: Props) {
 
   const {
     courseCode = "",
-    au = "",
+    au = undefined,
     title = "",
     description = "",
     intendedLearningOutcomes = [],
@@ -57,16 +68,6 @@ export default function CourseModal({ setSelectedElectives, ...props }: Props) {
     props.setIsModalOpen(false);
   };
 
-  const coursesInRoadmap = useMemo(
-    () =>
-      getNodes()
-        .filter(
-          (node) => node.type === "courseNode" && node.id !== props.nodeId
-        )
-        .map(({ data }) => data.courseCode as string),
-    [getNodes, props.nodeId]
-  );
-
   useEffect(() => {
     if (!selectedElective) {
       return;
@@ -75,6 +76,8 @@ export default function CourseModal({ setSelectedElectives, ...props }: Props) {
       id: props.nodeId,
       courseCode: selectedElective,
       prerequisites: prerequisites.flat(),
+      title,
+      au,
     };
 
     setSelectedElectives((prevSelectedElectives: Elective[]) => {
@@ -88,7 +91,14 @@ export default function CourseModal({ setSelectedElectives, ...props }: Props) {
       }
       return [...prevSelectedElectives, newSelectedElective];
     });
-  }, [prerequisites, props.nodeId, selectedElective, setSelectedElectives]);
+  }, [
+    au,
+    prerequisites,
+    props.nodeId,
+    selectedElective,
+    setSelectedElectives,
+    title,
+  ]);
 
   const onSelectElective = (elective: string) => {
     setSelectedElective(elective);
@@ -111,7 +121,9 @@ export default function CourseModal({ setSelectedElectives, ...props }: Props) {
             selectedElective={effectiveCourseCodeValue}
             onSelectElective={onSelectElective}
             availableElectives={props.availableElectives}
-            disabledOptions={coursesInRoadmap}
+            disabledOptions={coursesInRoadmap.map(
+              ({ courseCode }) => courseCode
+            )}
           />
         )}
         <h2>

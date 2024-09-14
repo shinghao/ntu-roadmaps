@@ -2,12 +2,7 @@ import { Node, Edge, MarkerType } from "@xyflow/react";
 import * as RoadmapConstants from "../Roadmap.constants";
 import coursesData from "../../../data/courses.json";
 import { getCompletedCourses } from "../hooks/useCompletedCourses";
-import {
-  Course,
-  CourseInRoadmapType,
-  Elective,
-  Roadmap,
-} from "@customTypes/index";
+import { Course, CourseInRoadmapType, Roadmap } from "@customTypes/index";
 
 export const isCourseCompleted = (courseCode: string) => {
   const completedCourses = getCompletedCourses();
@@ -62,8 +57,7 @@ export function buildRoadmap(
   onNodeCheck: (checked: boolean, courseCode: string) => void,
   isEdgesHidden: boolean,
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void,
-  onSelectCourseNode: (id: string, isSelected: boolean) => void,
-  selectedElectives: Elective[]
+  onSelectCourseNode: (id: string, isSelected: boolean) => void
 ) {
   const generateSemesterNodes = (): Node[] => {
     const nodes: Node[] = [];
@@ -101,22 +95,13 @@ export function buildRoadmap(
 
       courses.forEach(({ courseCode, prerequisites, type, id }) => {
         const isElective = type === CourseInRoadmapType.Elective;
-        const selectedElective = isElective
-          ? selectedElectives.find((elective) => elective.id === id)
-          : undefined;
 
         courseNodes.push({
           id,
           data: {
             id,
-            courseCode:
-              isElective && selectedElective
-                ? selectedElective.courseCode
-                : courseCode,
-            prerequisites:
-              isElective && selectedElective
-                ? selectedElective.prerequisites
-                : prerequisites,
+            courseCode,
+            prerequisites,
             onCheck: onNodeCheck,
             isHandlesHidden: isEdgesHidden,
             isAvailable: completedCourses.includes(courseCode),

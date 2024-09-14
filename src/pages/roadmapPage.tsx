@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
-import Roadmap from "@components/Roadmap";
-import { Container, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import RoadmapView from "@components/Roadmap";
+import { Container } from "@mui/material";
 import "./roadmapPage.css";
 import CourseModal from "@components/Roadmap/CourseModal";
 import { ReactFlowProvider } from "@xyflow/react";
@@ -10,8 +10,14 @@ import useFetchRoadmap from "@hooks/useFetchRoadmap";
 import RoadmapSelects from "@components/RoadmapSelects";
 import CurriculumTable from "@components/CurriculumTable";
 import { Elective } from "@customTypes/course";
-import { ExportData } from "@customTypes/index";
+import {
+  CourseInRoadmapType,
+  ExportData,
+  Roadmap,
+  ViewFormat,
+} from "@customTypes/index";
 import { useCompletedCourses } from "@components/Roadmap/hooks/useCompletedCourses";
+import ViewToggle from "@components/ViewToggle";
 
 export default function RoadmapPage() {
   const { fetchedDegreeProgrammes } = useFetchDegreeProgrammes();
@@ -26,21 +32,7 @@ export default function RoadmapPage() {
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
   const [availableElectives, setAvailableElectives] = useState<string[]>([]);
   const [selectedElectives, setSelectedElectives] = useState<Elective[]>([]);
-
-  enum ViewFormat {
-    Roadmap = "Roadmap",
-    Table = "Table",
-  }
-
   const [viewFormat, setViewFormat] = useState(ViewFormat.Roadmap);
-
-  enum ViewFormat {
-    Roadmap = "Roadmap",
-    Table = "Table",
-  }
-
-  const [viewFormat, setViewFormat] = useState(ViewFormat.Roadmap);
-  const [selectedElectives, setSelectedElectives] = useState<Elective[]>([]);
 
   const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
     degree,
@@ -136,8 +128,50 @@ export default function RoadmapPage() {
     },
   ];
 
-  const { importCompletedCourses } = useCompletedCourses();
+  const roadmapData: Roadmap | undefined = useMemo(
+    () =>
+      fetchedRoadmapData
+        ? {
+            ...fetchedRoadmapData,
+            coursesByYearSemester:
+              fetchedRoadmapData?.coursesByYearSemester.map((yearSemester) => ({
+                ...yearSemester,
+                courses: yearSemester.courses.map((course) => {
+                  const isElective =
+                    course.type === CourseInRoadmapType.Elective;
+                  const selectedElective = isElective
+                    ? selectedElectives.find(
+                        (elective) => elective.id === course.id
+                      )
+                    : undefined;
 
+                  return {
+                    ...course,
+                    courseCode:
+                      isElective && selectedElective
+                        ? selectedElective.courseCode
+                        : course.courseCode,
+                    prerequisites:
+                      isElective && selectedElective
+                        ? selectedElective.prerequisites
+                        : course.prerequisites,
+                    title:
+                      isElective && selectedElective
+                        ? selectedElective.title
+                        : course.title,
+                    au:
+                      isElective && selectedElective
+                        ? selectedElective.au
+                        : course.au,
+                  };
+                }),
+              })),
+          }
+        : fetchedRoadmapData,
+    [fetchedRoadmapData, selectedElectives]
+  );
+
+  const { importCompletedCourses } = useCompletedCourses();
   const onImport = useCallback(
     () => (data: ExportData) => {
       setDegree(data.degree);
@@ -150,93 +184,35 @@ export default function RoadmapPage() {
     [importCompletedCourses, onChangeCareer]
   );
 
-  const { importCompletedCourses } = useCompletedCourses();
-
-  const onImport = useCallback(
-    () => (data: ExportData) => {
-      setDegree(data.degree);
-      setCohort(data.cohort);
-      setDegreeType(data.degreeType);
-      onChangeCareer(data.career);
-      importCompletedCourses(data.completedCourses);
-      setSelectedElectives(data.selectedElectives);
-    },
-    [importCompletedCourses, onChangeCareer]
-  );
-
-  const { importCompletedCourses } = useCompletedCourses();
-
-  const onImport = useCallback(
-    () => (data: ExportData) => {
-      setDegree(data.degree);
-      setCohort(data.cohort);
-      setDegreeType(data.degreeType);
-      onChangeCareer(data.career);
-      importCompletedCourses(data.completedCourses);
-      setSelectedElectives(data.selectedElectives);
-    },
-    [importCompletedCourses, onChangeCareer]
-  );
-
-  const RoadmapView = () => {
-    if (
-      !fetchedRoadmapData ||
-      fetchedRoadmapData?.coursesByYearSemester.length === 0
-    ) {
+  const CurriculumView = () => {
+    if (!roadmapData) {
       return;
     }
 
     return viewFormat === ViewFormat.Roadmap ? (
-      <Roadmap
-        degree={degree}
-        cohort={cohort}
+      <RoadmapView
         career={career}
         handleOnOpenCourseModal={handleOnOpenCourseModal}
-        updateSelects={updateSelects}
-        isEdgesHidden={isEdgesHidden}
-        setIsEdgesHidden={setIsEdgesHidden}
-        fetchedRoadmapData={fetchedRoadmapData}
+        onImport={onImport}
+        setSelectedElectives={setSelectedElectives}
+        roadmapData={roadmapData}
+        selectedElectives={selectedElectives}
       />
     ) : (
       <CurriculumTable
-        degree={degree}
-        cohort={cohort}
         career={career}
         handleOnOpenCourseModal={handleOnOpenCourseModal}
-        updateSelects={updateSelects}
-        fetchedRoadmapData={fetchedRoadmapData}
+        selectedElectives={selectedElectives}
+        roadmapData={roadmapData}
         key={`${degree}-${cohort}-${career}-curriculumTable`}
       />
     );
   };
 
-  const ViewToggle = () =>
-    !error &&
-    fetchedRoadmapData &&
-    fetchedRoadmapData?.coursesByYearSemester.length > 0 && (
-      <ToggleButtonGroup
-        value={viewFormat}
-        exclusive
-        onChange={(_, newAlignment: ViewFormat) => {
-          setViewFormat(newAlignment);
-        }}
-        aria-label="view format"
-        size="small"
-        sx={{ marginTop: "24px" }}
-        color="standard"
-      >
-        {Object.values(ViewFormat).map((key) => (
-          <ToggleButton value={ViewFormat[key]} key={key}>
-            {ViewFormat[key]}
-          </ToggleButton>
-        ))}
-      </ToggleButtonGroup>
-    );
-
   return (
     <ReactFlowProvider>
       <Container className="content">
-        {isCourseModalOpen && (
+        {isCourseModalOpen && roadmapData && (
           <CourseModal
             nodeId={selectedNodeId}
             isModalOpen={isCourseModalOpen}
@@ -244,6 +220,7 @@ export default function RoadmapPage() {
             isElective={isSelectedCourseElective}
             availableElectives={availableElectives}
             setSelectedElectives={setSelectedElectives}
+            roadmapData={roadmapData}
           />
         )}
         <RoadmapSelects selectsConfig={selectsConfig} />
@@ -251,28 +228,18 @@ export default function RoadmapPage() {
         {error && <p>{`Error: ${error}. Please try again`}</p>}
 
         {!error &&
-        fetchedRoadmapData &&
-        fetchedRoadmapData?.coursesByYearSemester.length > 0 ? (
-          <>
-            <ViewToggle />
-            <RoadmapView />
-          </>
-        ) : (
           career &&
           fetchedRoadmapData &&
           fetchedRoadmapData?.coursesByYearSemester.length > 0 && (
-            <Roadmap
-              degree={degree}
-              cohort={cohort}
-              career={career}
-              degreeType={degreeType}
-              handleOnOpenCourseModal={handleOnOpenCourseModal}
-              onImport={onImport}
-              selectedElectives={selectedElectives}
-              setSelectedElectives={setSelectedElectives}
-              fetchedRoadmapData={fetchedRoadmapData}
-            />
+            <>
+              <ViewToggle
+                viewFormat={viewFormat}
+                setViewFormat={setViewFormat}
+              />
+              <CurriculumView />
+            </>
           )}
+
         {(!degree || !cohort || !degreeType || !career) && (
           <p>
             Please select a{" "}

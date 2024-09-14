@@ -11,6 +11,8 @@ export interface CourseInRoadmap {
   prerequisites: string[];
   id: string;
   type: CourseInRoadmapType;
+  au?: number;
+  title?: string;
 }
 
 export interface YearSemester {
@@ -22,6 +24,6 @@ export interface YearSemester {
 export interface Roadmap {
   degree: string;
   cohort: string;
-  type?: string;
+  type: string;
   coursesByYearSemester: YearSemester[];
 }

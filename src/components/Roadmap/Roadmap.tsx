@@ -46,28 +46,23 @@ const createTitleNode = (cohort: string, degree: string, career: string) => {
 };
 
 interface RoadmapProps {
-  degree: string;
   career: string;
-  cohort: string;
-  degreeType: string;
-  selectedElectives: Elective[];
   setSelectedElectives: React.Dispatch<React.SetStateAction<Elective[]>>;
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
   onImport: (data: ExportData) => void;
-  fetchedRoadmapData: Roadmap;
+  roadmapData: Roadmap;
+  selectedElectives: Elective[];
 }
 
 export default function Roadmap({
-  degree,
   career,
-  cohort,
-  degreeType,
-  selectedElectives,
   setSelectedElectives,
   handleOnOpenCourseModal,
   onImport,
-  fetchedRoadmapData,
+  roadmapData,
+  selectedElectives,
 }: RoadmapProps) {
+  const { cohort, degree, type: degreeType } = roadmapData;
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgeChange] = useEdgesState<Edge>([]);
   const [isEdgesHidden, setIsEdgesHidden] = useState(false);
@@ -118,19 +113,18 @@ export default function Roadmap({
   );
 
   useEffect(() => {
-    if (fetchedRoadmapData?.coursesByYearSemester.length > 0) {
+    if (roadmapData?.coursesByYearSemester.length > 0) {
       const { nodes, edges } = buildRoadmap(
-        fetchedRoadmapData,
+        roadmapData,
         onNodeCheck,
         isEdgesHidden,
         handleOnOpenCourseModal,
-        onSelectCourseNode,
-        selectedElectives
+        onSelectCourseNode
       );
       setNodes(nodes);
       setEdges(edges);
     }
-  }, [fetchedRoadmapData, onSelectCourseNode, selectedElectives]); //TODO: fix dependencies
+  }, [roadmapData, onSelectCourseNode]); //TODO: fix dependencies
 
   useEffect(() => {
     setNodes((currentNodes) =>
@@ -215,6 +209,7 @@ export default function Roadmap({
           cohort={cohort}
           degreeType={degreeType}
           completedCourses={completedCourses}
+          selectedElectives={selectedElectives}
         />
         <DownloadButton />
         <ResetButton onReset={onReset} />
