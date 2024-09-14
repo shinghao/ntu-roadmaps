@@ -2,7 +2,7 @@ import { Handle, NodeProps, Position, Node } from "@xyflow/react";
 import { CHILD_NODE_WIDTH, CHILD_NODE_HEIGHT } from "../Roadmap.constants";
 import "./CourseNode.css";
 import { Box, IconButton, Typography } from "@mui/material";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import LockIcon from "@mui/icons-material/Lock";
 import { ChangeEvent } from "react";
 
@@ -46,24 +46,26 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
 
   const nodeLabel = courseCode;
   const backgroundColor = isSelected
-    ? "#1976d2"
+    ? "#2B78E4"
     : isAvailable
     ? isCompleted
       ? "whitesmoke"
       : "white"
-    : "rgb(175, 175, 175)";
-  const color = isAvailable
+    : "rgb(200, 200, 200)";
+  const color = isSelected
+    ? "white"
+    : isAvailable
     ? isCompleted
       ? "grey"
       : "black"
     : "rgba(0, 0, 0, 0.4)";
   const border = isAvailable
     ? "1px solid rgb(212, 212, 216)"
-    : "1px solid grey";
+    : "1px solid rgb(200, 200, 200)";
   const iconButtonBorderLeft = isAvailable
     ? "1px solid rgb(212, 212, 216)"
     : "1px solid rgba(0, 0, 0, 0.2)";
-  const borderOnHover = "1px solid #1976d2";
+  const borderOnHover = "1px solid #2B78E4";
   const sourceHandleOpacity = hasSourceHandle ? 100 : 0;
   const targetHandleOpacity = hasTargetHandle ? 100 : 0;
 
@@ -117,7 +119,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             height: "100%",
           }}
         >
-          <ArrowCircleRightIcon />
+          <KeyboardArrowRightIcon />
         </IconButton>
       </Box>
 

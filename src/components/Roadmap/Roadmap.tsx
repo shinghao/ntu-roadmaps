@@ -1,15 +1,13 @@
 import {
   ReactFlow,
   Controls,
-  Background,
   useNodesState,
   useEdgesState,
   type Node,
   type Edge,
 } from "@xyflow/react";
 
-import * as RoadmapConstants from "./Roadmap.constants";
-import { useMemo, useEffect, useCallback } from "react";
+import { useMemo, useEffect, useCallback, useState } from "react";
 import CourseNode from "./nodes/CourseNode";
 import SemesterNode from "./nodes/SemesterNode";
 import LegendNode from "./nodes/LegendNode";
@@ -32,15 +30,7 @@ import { Stack } from "@mui/material";
 import "./Roadmap.css";
 import "@xyflow/react/dist/style.css";
 import { useCompletedCourses } from "./hooks/useCompletedCourses";
-
-const legendNode: Node = {
-  id: "legendNode",
-  position: { x: RoadmapConstants.PARENT_XPOS_START, y: 15 },
-  data: {},
-  draggable: false,
-  selectable: false,
-  type: "legendNode",
-};
+import { Elective, ExportData, type Roadmap } from "@customTypes/index";
 
 const createTitleNode = (cohort: string, degree: string, career: string) => {
   return {
@@ -55,41 +45,37 @@ const createTitleNode = (cohort: string, degree: string, career: string) => {
   };
 };
 
-const calculateRoadmapHeight = (NumOfSemesters: number) =>
-  RoadmapConstants.PARENT_YPOS_START +
-  (RoadmapConstants.PARENT_NODE_HEIGHT +
-    RoadmapConstants.YPOS_BETWEEN_PARENTS) *
-    NumOfSemesters;
-
 interface RoadmapProps {
   degree: string;
   career: string;
   cohort: string;
+  degreeType: string;
+  selectedElectives: Elective[];
+  setSelectedElectives: React.Dispatch<React.SetStateAction<Elective[]>>;
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
-  updateSelects: (degree: string, career: string, cohort: string) => void;
-  isEdgesHidden: boolean;
-  setIsEdgesHidden: (hidden: boolean) => void;
-  fetchedRoadmapData: Models.Roadmap;
+  onImport: (data: ExportData) => void;
+  fetchedRoadmapData: Roadmap;
 }
 
 export default function Roadmap({
   degree,
   career,
   cohort,
+  degreeType,
+  selectedElectives,
+  setSelectedElectives,
   handleOnOpenCourseModal,
-  updateSelects,
-  isEdgesHidden,
-  setIsEdgesHidden,
+  onImport,
   fetchedRoadmapData,
 }: RoadmapProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgeChange] = useEdgesState<Edge>([]);
+  const [isEdgesHidden, setIsEdgesHidden] = useState(false);
   const {
     completedCourses,
     addCompletedCourse,
     resetCompletedCourse,
     removeCompletedCourse,
-    importCompletedCourses,
   } = useCompletedCourses();
 
   const nodeTypes = useMemo(
@@ -110,15 +96,16 @@ export default function Roadmap({
           data: {
             ...node.data,
             isSelected: node.data.id === selectedCourse,
+            isHandlesHidden: node.data.id !== selectedCourse,
           },
         }))
       );
 
       selectedCourse === ""
-        ? setEdgesOnUnselectCourse(setEdges)
+        ? setEdgesOnUnselectCourse(setEdges, isEdgesHidden)
         : setEdgesOnSelectCourse(setEdges, selectedCourse);
     },
-    [setEdges, setNodes]
+    [setEdges, setNodes, isEdgesHidden]
   );
 
   const onNodeCheck = useCallback(
@@ -137,12 +124,13 @@ export default function Roadmap({
         onNodeCheck,
         isEdgesHidden,
         handleOnOpenCourseModal,
-        onSelectCourseNode
+        onSelectCourseNode,
+        selectedElectives
       );
       setNodes(nodes);
       setEdges(edges);
     }
-  }, [fetchedRoadmapData]); //TODO: fix dependencies
+  }, [fetchedRoadmapData, onSelectCourseNode, selectedElectives]); //TODO: fix dependencies
 
   useEffect(() => {
     setNodes((currentNodes) =>
@@ -155,7 +143,7 @@ export default function Roadmap({
                 isAvailable: isPrerequisitesCompleted(
                   node.data.courseCode as string
                 ),
-                isCompleted: isCourseCompleted(node.id),
+                isCompleted: isCourseCompleted(node.data.courseCode as string),
               }
             : {}),
         },
@@ -163,11 +151,12 @@ export default function Roadmap({
     );
   }, [completedCourses, setNodes]);
 
-  const handleOnShowAllEdges = () => {
+  const onShowAllEdges = () => {
     setEdges((currentEdges) =>
       currentEdges.map((edge) => ({
         ...edge,
         hidden: !isEdgesHidden,
+        animated: false,
       }))
     );
     setNodes((currentNodes) =>
@@ -180,21 +169,12 @@ export default function Roadmap({
         },
       }))
     );
-    setIsEdgesHidden(!isEdgesHidden);
-  };
-
-  const onImport = (data: {
-    degree: string;
-    career: string;
-    cohort: string;
-    completedCourses: string[];
-  }) => {
-    updateSelects(data.degree, data.career, data.cohort);
-    importCompletedCourses(data.completedCourses);
+    setIsEdgesHidden((prev) => !prev);
   };
 
   const onReset = () => {
     resetCompletedCourse();
+    setSelectedElectives([]);
     setNodes((currentNodes) =>
       currentNodes.map((node) => ({
         ...node,
@@ -213,42 +193,45 @@ export default function Roadmap({
     );
   };
 
-  const titleNode = createTitleNode(cohort, degree, career);
-  const roadmapHeight = calculateRoadmapHeight(
-    Object.keys(fetchedRoadmapData.coursesByYearSemester).length
+  const titleNode = useMemo(
+    () => createTitleNode(cohort, degree, career),
+    [career, cohort, degree]
   );
 
   return (
     <div>
-      <Stack spacing={2} direction="row" flexWrap="wrap" useFlexGap marginY={4}>
+      <Stack
+        spacing={2}
+        direction="row"
+        flexWrap="wrap"
+        useFlexGap
+        marginY={4}
+        alignItems={"center"}
+      >
         <ImportButton onImport={onImport} />
         <ExportButton
           degree={degree}
           career={career}
           cohort={cohort}
+          degreeType={degreeType}
           completedCourses={completedCourses}
         />
         <DownloadButton />
         <ResetButton onReset={onReset} />
         <ShowEdgesToggle
-          handleOnShowAllEdges={handleOnShowAllEdges}
+          onShowAllEdges={onShowAllEdges}
           isEdgesHidden={isEdgesHidden}
         />
       </Stack>
-      <div
-        className="flowchart"
-        style={{
-          height: `${roadmapHeight}px`,
-        }}
-      >
+      <div className="flowchart">
         <ReactFlow
-          nodes={[legendNode, titleNode, ...nodes]}
+          nodes={[titleNode, ...nodes]}
           edges={edges}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgeChange}
+          zoomOnDoubleClick={false}
         >
-          <Background />
           <Controls position="top-right" />
         </ReactFlow>
       </div>

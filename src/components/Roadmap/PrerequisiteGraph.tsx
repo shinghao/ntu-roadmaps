@@ -6,6 +6,7 @@ import {
   ReactFlowProvider,
 } from "@xyflow/react";
 import "./PrerequisiteGraph.css";
+import { useMemo } from "react";
 
 interface Props {
   courseId: string;
@@ -13,29 +14,25 @@ interface Props {
 }
 
 const PrerequisiteGraph = ({ courseId, prerequisites }: Props) => {
-  const mainNode: Node = {
-    id: "prereq-mainnode",
-    data: {
-      label: courseId,
-    },
-    position: { x: 150, y: 70 },
-    style: { backgroundColor: "orange" },
-    draggable: false,
-  };
+  const { nodes, edges } = useMemo(() => {
+    let offset = -100;
 
-  let offset = -100;
+    const mainNode: Node = {
+      id: "prereq-mainnode",
+      data: { label: courseId },
+      position: { x: 150, y: 70 },
+      style: { backgroundColor: "orange" },
+      draggable: false,
+    };
 
-  const prereqNodes: Node[] = prerequisites.map((prereq) => {
-    return {
+    const prereqNodes: Node[] = prerequisites.map((prereq) => ({
       id: `prereq-${prereq}`,
       data: { label: prereq },
       position: { x: (offset += 180), y: 0 },
       draggable: false,
-    };
-  });
+    }));
 
-  const edges: Edge[] = prereqNodes.map((prereqNode) => {
-    return {
+    const edges: Edge[] = prereqNodes.map((prereqNode) => ({
       id: `${prereqNode.id}-prereq-mainnode`,
       source: prereqNode.id,
       target: "prereq-mainnode",
@@ -43,10 +40,13 @@ const PrerequisiteGraph = ({ courseId, prerequisites }: Props) => {
         type: MarkerType.ArrowClosed,
       },
       animated: true,
-    };
-  });
+    }));
 
-  const nodes = [mainNode, ...prereqNodes];
+    const nodes = [mainNode, ...prereqNodes];
+
+    return { nodes, edges };
+  }, [courseId, prerequisites]);
+
   return (
     <div className="prerequisite-graph-container">
       <h3>Prerequisites</h3>

@@ -36,12 +36,13 @@ function getAllConnectedEdges(
 }
 
 export const setEdgesOnUnselectCourse = (
-  setEdges: (payload: Edge[] | ((edges: Edge[]) => Edge[])) => void
+  setEdges: (payload: Edge[] | ((edges: Edge[]) => Edge[])) => void,
+  isEdgesHidden: boolean
 ) => {
   setEdges((currentEdges) =>
     currentEdges.map((edge) => ({
       ...edge,
-      hidden: false,
+      hidden: isEdgesHidden,
       animated: false,
     }))
   );

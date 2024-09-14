@@ -3,14 +3,10 @@ import PrerequisiteGraph from "./PrerequisiteGraph";
 import { Button, Drawer, Divider } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useFetchCourseDetails from "@hooks/useFetchCourseDetails";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import SelectElective from "./SelectElective";
 import { useReactFlow } from "@xyflow/react";
-import { useUpdateNodeData } from "./hooks/useUpdateNodeData";
-import {
-  isCourseCompleted,
-  isPrerequisitesCompleted,
-} from "./util/buildRoadmap.util";
+import { Course, Elective } from "@customTypes/index";
 
 interface Props {
   nodeId: string;
@@ -18,26 +14,29 @@ interface Props {
   setIsModalOpen: (val: boolean) => void;
   isElective: boolean;
   availableElectives: string[];
-  isEdgesHidden: boolean;
+  setSelectedElectives: React.Dispatch<React.SetStateAction<Elective[]>>;
 }
 
-export default function CourseModal(props: Props) {
+export default function CourseModal({ setSelectedElectives, ...props }: Props) {
   const { getNode, getNodes } = useReactFlow();
   const selectedNode = getNode(props.nodeId);
-  const { updateNodeData } = useUpdateNodeData();
 
   const [selectedElective, setSelectedElective] = useState<string>(
     selectedNode?.data?.courseCode as string
   );
 
-  const effectiveCourseCode =
-    props.isElective && selectedElective
-      ? selectedElective
-      : (selectedNode?.data?.courseCode as string) ?? props.nodeId ?? "";
+  const effectiveCourseCode = useMemo(
+    () =>
+      props.isElective && selectedElective
+        ? selectedElective
+        : (selectedNode?.data?.courseCode as string) ?? "",
+    [props.isElective, selectedElective, selectedNode]
+  );
 
-  const effectiveCourseCodeValue = effectiveCourseCode.includes("xxx")
-    ? ""
-    : effectiveCourseCode;
+  const effectiveCourseCodeValue = useMemo(
+    () => (effectiveCourseCode.includes("xxx") ? "" : effectiveCourseCode),
+    [effectiveCourseCode]
+  );
 
   const { fetchedCourseDetails } = useFetchCourseDetails(
     effectiveCourseCodeValue
@@ -51,38 +50,49 @@ export default function CourseModal(props: Props) {
     intendedLearningOutcomes = [],
     semesters = [],
     prerequisites = [[]],
-  } = (fetchedCourseDetails as Models.Course) ?? {};
-
-  useEffect(() => {
-    if (!selectedElective) {
-      return;
-    }
-    updateNodeData(
-      props.nodeId,
-      {
-        courseCode: selectedElective,
-        prerequisites,
-        isAvailable: isPrerequisitesCompleted(selectedElective),
-        isCompleted: isCourseCompleted(selectedElective),
-      },
-      props.isEdgesHidden
-    );
-  }, [
-    selectedElective,
-    prerequisites,
-    updateNodeData,
-    props.nodeId,
-    props.isEdgesHidden,
-  ]);
+  } = (fetchedCourseDetails as Course) ?? {};
 
   const onCloseModal = () => {
     setSelectedElective("");
     props.setIsModalOpen(false);
   };
 
-  const coursesInRoadmap = getNodes()
-    .filter((node) => node.type === "courseNode" && node.id !== props.nodeId)
-    .map(({ data }) => data.courseCode as string);
+  const coursesInRoadmap = useMemo(
+    () =>
+      getNodes()
+        .filter(
+          (node) => node.type === "courseNode" && node.id !== props.nodeId
+        )
+        .map(({ data }) => data.courseCode as string),
+    [getNodes, props.nodeId]
+  );
+
+  useEffect(() => {
+    if (!selectedElective) {
+      return;
+    }
+    const newSelectedElective: Elective = {
+      id: props.nodeId,
+      courseCode: selectedElective,
+      prerequisites: prerequisites.flat(),
+    };
+
+    setSelectedElectives((prevSelectedElectives: Elective[]) => {
+      const existingSelectedElective = prevSelectedElectives.findIndex(
+        (elective) => elective.id === props.nodeId
+      );
+      if (existingSelectedElective !== -1) {
+        return prevSelectedElectives.map((elective, index) =>
+          index === existingSelectedElective ? newSelectedElective : elective
+        );
+      }
+      return [...prevSelectedElectives, newSelectedElective];
+    });
+  }, [prerequisites, props.nodeId, selectedElective, setSelectedElectives]);
+
+  const onSelectElective = (elective: string) => {
+    setSelectedElective(elective);
+  };
 
   return (
     <Drawer open={props.isModalOpen} onClose={onCloseModal} anchor="right">
@@ -99,7 +109,7 @@ export default function CourseModal(props: Props) {
         {props.isElective && (
           <SelectElective
             selectedElective={effectiveCourseCodeValue}
-            onSelectElective={setSelectedElective}
+            onSelectElective={onSelectElective}
             availableElectives={props.availableElectives}
             disabledOptions={coursesInRoadmap}
           />

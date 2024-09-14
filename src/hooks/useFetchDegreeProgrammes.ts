@@ -2,15 +2,18 @@ import { fetchDegreeProgrammes } from "@api/index";
 import { useQuery } from "@tanstack/react-query";
 
 export default function useFetchDegreeProgrammes() {
-  const { isPending, isError, data, error } = useQuery({
+  const { isLoading, isError, data, error } = useQuery({
     queryKey: ["fetchDegreeProgrammes"],
     queryFn: fetchDegreeProgrammes,
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+    retry: 1,
   });
 
   return {
     fetchedDegreeProgrammes: data,
     error,
-    isPending,
+    isLoading,
     isError,
   };
 }

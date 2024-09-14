@@ -7,8 +7,10 @@ import { DOWNLOAD_IMAGE } from "./Roadmap.constants";
 import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import { toPng } from "html-to-image";
+import TheTooltip from "@components/Tooltip/Tooltip";
 
 const IMAGE_URL = "my-course-roadmap.png";
+const TOOLTIP_TEXT = "Download roadmap as PNG image";
 
 function downloadImage(dataUrl: string) {
   const a = document.createElement("a");
@@ -44,18 +46,21 @@ function DownloadButton() {
   };
 
   return (
-    <Button
-      variant="contained"
-      startIcon={<DownloadIcon />}
-      onClick={onDownloadRoadmap}
-      sx={{
-        "&:hover": {
-          borderBottom: "none",
-        },
-      }}
-    >
-      Download (PNG)
-    </Button>
+    <TheTooltip title={TOOLTIP_TEXT}>
+      <Button
+        variant="contained"
+        startIcon={<DownloadIcon />}
+        onClick={onDownloadRoadmap}
+        sx={{
+          "&:hover": {
+            borderBottom: "none",
+          },
+        }}
+        size="small"
+      >
+        Download
+      </Button>
+    </TheTooltip>
   );
 }
 
