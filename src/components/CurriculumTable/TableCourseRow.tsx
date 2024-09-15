@@ -1,5 +1,12 @@
 import { isPrerequisitesCompleted } from "@components/Roadmap/util/buildRoadmap.util";
-import { TableRow, TableCell, Box, Checkbox, Stack } from "@mui/material";
+import {
+  TableRow,
+  TableCell,
+  Box,
+  Checkbox,
+  Stack,
+  SxProps,
+} from "@mui/material";
 import OpenCourseModalBtn from "./OpenCourseModalBtn";
 import { CourseInRoadmap, CourseInRoadmapType } from "@customTypes/roadmap";
 import { useCompletedCourses } from "@components/Roadmap/hooks/useCompletedCourses";
@@ -11,6 +18,7 @@ interface Props {
   index: number;
   row: CourseInRoadmap;
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
+  sx: SxProps;
 }
 
 const TableCourseRow = ({
@@ -19,6 +27,7 @@ const TableCourseRow = ({
   index,
   row,
   handleOnOpenCourseModal,
+  sx,
 }: Props) => {
   const { isCourseCompleted, addCompletedCourse, removeCompletedCourse } =
     useCompletedCourses();
@@ -42,6 +51,7 @@ const TableCourseRow = ({
         textDecoration: isCourseCompleted(row.courseCode)
           ? "line-through"
           : "none",
+        ...sx,
       }}
     >
       <TableCell

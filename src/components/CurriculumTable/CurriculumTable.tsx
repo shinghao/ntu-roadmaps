@@ -2,11 +2,9 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import { Typography } from "@mui/material";
-import React from "react";
 import { Elective, type Roadmap } from "@customTypes/index";
-import SemesterRow from "./SemesterRow";
 import TableHeader from "./TableHeader";
-import TableCourseRow from "./TableCourseRow";
+import SemesterCourseRows from "./SemesterCourseRows";
 
 interface CurriculumTableProps {
   career: string;
@@ -34,26 +32,20 @@ const CurriculumTable = ({
       <TableContainer sx={{ marginTop: "16px", border: `1px solid grey` }}>
         <Table
           size="small"
-          sx={{ minWidth: 650 }}
+          sx={{ minWidth: 650, tableLayout: "fixed", width: "100%" }}
           aria-label="selected curriculum table"
         >
           <TableHeader />
           <TableBody>
             {roadmapData?.coursesByYearSemester.map(
               ({ courses, year, semester }) => (
-                <React.Fragment key={`${year}-${semester}-rows`}>
-                  <SemesterRow year={year} semester={semester} />
-                  {courses.map((row, index) => (
-                    <TableCourseRow
-                      key={`${year}-${semester}-${row.courseCode}-${index}-parent`}
-                      year={year}
-                      semester={semester}
-                      index={index}
-                      row={row}
-                      handleOnOpenCourseModal={handleOnOpenCourseModal}
-                    />
-                  ))}
-                </React.Fragment>
+                <SemesterCourseRows
+                  key={`${year}-${semester}-rows`}
+                  year={year}
+                  semester={semester}
+                  courses={courses}
+                  handleOnOpenCourseModal={handleOnOpenCourseModal}
+                />
               )
             )}
           </TableBody>

@@ -5,7 +5,7 @@ const TableHeader = () => {
   const headerBackgroundColor = "lightgrey";
 
   const HeaderData = [
-    { headerName: "Active" },
+    { headerName: "Action" },
     { headerName: "Course Code" },
     { headerName: "Course Title" },
     { headerName: "AU" },
@@ -15,11 +15,16 @@ const TableHeader = () => {
   return (
     <TableHead>
       <TableRow sx={{ backgroundColor: headerBackgroundColor }}>
-        {HeaderData.map((header) => (
+        {HeaderData.map((header, index) => (
           <TableCell
             key={header.headerName}
             align="center"
-            sx={{ borderRight: `1px solid ${columnBorderColor}` }}
+            sx={{
+              borderRight:
+                index !== HeaderData.length - 1
+                  ? `1px solid ${columnBorderColor}`
+                  : "none",
+            }}
           >
             {header.headerName}
           </TableCell>

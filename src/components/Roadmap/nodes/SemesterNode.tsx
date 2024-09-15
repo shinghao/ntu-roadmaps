@@ -36,6 +36,7 @@ const SemesterNode = ({
         padding: "10px",
         borderRadius: "0.3rem",
         border: "1px solid lightgrey",
+        borderRight: "none",
       }}
     >
       {data.label}
