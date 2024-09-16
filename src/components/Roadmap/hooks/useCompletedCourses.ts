@@ -10,10 +10,14 @@ export const getCompletedCourses = (): string[] => {
 };
 
 export const useCompletedCourses = () => {
-  const [completedCourses, setCompletedCourses] = useState<string[]>(() => {
+  const getCompletedCourses = () => {
     const value = window.localStorage.getItem(KEY);
     return value ? JSON.parse(value) : [];
-  });
+  };
+
+  const [completedCourses, setCompletedCourses] = useState<string[]>(
+    getCompletedCourses()
+  );
 
   useEffect(() => {
     const uniqueCourses = removeDuplicates(completedCourses);
@@ -51,5 +55,6 @@ export const useCompletedCourses = () => {
     removeCompletedCourse,
     importCompletedCourses,
     isCourseCompleted,
+    getCompletedCourses,
   };
 };

@@ -2,29 +2,15 @@ import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import TheTooltip from "@components/Tooltip/Tooltip";
 import { ExportData } from "@customTypes/exportData";
-import { Elective } from "@customTypes/index";
 
 const TOOLTIP_TEXT = "Save config and completed courses as JSON";
 
 interface ExportButtonProps {
-  degree: string;
-  career: string;
-  cohort: string;
-  degreeType: string;
-  completedCourses: string[];
-  selectedElectives: Elective[];
+  dataToExport: ExportData;
 }
 
-export default function ExportButton({
-  selectedElectives,
-  ...data
-}: ExportButtonProps) {
+export default function ExportButton({ dataToExport }: ExportButtonProps) {
   const onExport = () => {
-    const dataToExport: ExportData = {
-      ...data,
-      selectedElectives,
-    };
-
     const json = JSON.stringify(dataToExport);
     const blob = new Blob([json], { type: "application/json" });
     const link = document.createElement("a");
@@ -38,6 +24,7 @@ export default function ExportButton({
     <TheTooltip title={TOOLTIP_TEXT}>
       <Button
         variant="contained"
+        disableElevation
         startIcon={<DownloadIcon />}
         onClick={onExport}
         size="small"

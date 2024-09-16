@@ -33,6 +33,7 @@ const ImportButton = memo(({ onImport }: ImportButtonProps) => {
     <TheTooltip title={TOOLTIP_TEXT}>
       <Button
         variant="contained"
+        disableElevation
         component="label"
         startIcon={<FileUploadOutlinedIcon />}
         size="small"

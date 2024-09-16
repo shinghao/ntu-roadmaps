@@ -17,7 +17,6 @@ const ViewToggle = ({
       }}
       aria-label="view format"
       size="small"
-      sx={{ marginTop: "24px" }}
       color="primary"
     >
       {Object.values(ViewFormat).map((key) => (

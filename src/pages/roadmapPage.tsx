@@ -17,7 +17,7 @@ import {
   ViewFormat,
 } from "@customTypes/index";
 import { useCompletedCourses } from "@components/Roadmap/hooks/useCompletedCourses";
-import ViewToggle from "@components/ViewToggle";
+import RoadmapControlBar from "@components/RoadmapControlBar";
 
 export default function RoadmapPage() {
   const { fetchedDegreeProgrammes } = useFetchDegreeProgrammes();
@@ -33,6 +33,8 @@ export default function RoadmapPage() {
   const [availableElectives, setAvailableElectives] = useState<string[]>([]);
   const [selectedElectives, setSelectedElectives] = useState<Elective[]>([]);
   const [viewFormat, setViewFormat] = useState(ViewFormat.Roadmap);
+
+  const { completedCourses, resetCompletedCourse } = useCompletedCourses();
 
   const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
     degree,
@@ -128,6 +130,7 @@ export default function RoadmapPage() {
     },
   ];
 
+  // TODO:
   const roadmapData: Roadmap | undefined = useMemo(
     () =>
       fetchedRoadmapData
@@ -184,6 +187,11 @@ export default function RoadmapPage() {
     [importCompletedCourses, onChangeCareer]
   );
 
+  const onReset = () => {
+    resetCompletedCourse();
+    setSelectedElectives([]);
+  };
+
   const CurriculumView = () => {
     if (!roadmapData) {
       return;
@@ -193,10 +201,7 @@ export default function RoadmapPage() {
       <RoadmapView
         career={career}
         handleOnOpenCourseModal={handleOnOpenCourseModal}
-        onImport={onImport}
-        setSelectedElectives={setSelectedElectives}
         roadmapData={roadmapData}
-        selectedElectives={selectedElectives}
       />
     ) : (
       <CurriculumTable
@@ -224,23 +229,30 @@ export default function RoadmapPage() {
           />
         )}
         <RoadmapSelects selectsConfig={selectsConfig} />
-        {degree && cohort && career && isLoading && <p>{"Loading..."}</p>}
+        {isLoading && <p>{"Loading..."}</p>}
         {error && <p>{`Error: ${error}. Please try again`}</p>}
 
-        {!error &&
-          career &&
-          fetchedRoadmapData &&
-          fetchedRoadmapData?.coursesByYearSemester.length > 0 && (
-            <>
-              <ViewToggle
-                viewFormat={viewFormat}
-                setViewFormat={setViewFormat}
-              />
-              <CurriculumView />
-            </>
-          )}
+        {career && roadmapData && (
+          <>
+            <RoadmapControlBar
+              viewFormat={viewFormat}
+              setViewFormat={setViewFormat}
+              onImport={onImport}
+              onReset={onReset}
+              dataToExport={{
+                degree,
+                career,
+                degreeType,
+                cohort,
+                completedCourses,
+                selectedElectives,
+              }}
+            />
+            <CurriculumView />
+          </>
+        )}
 
-        {(!degree || !cohort || !degreeType || !career) && (
+        {(!roadmapData || !career) && (
           <p>
             Please select a{" "}
             {!degree

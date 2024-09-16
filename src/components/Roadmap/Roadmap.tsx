@@ -5,8 +5,8 @@ import {
   useEdgesState,
   type Node,
   type Edge,
+  Panel,
 } from "@xyflow/react";
-
 import { useMemo, useEffect, useCallback, useState } from "react";
 import CourseNode from "./nodes/CourseNode";
 import SemesterNode from "./nodes/SemesterNode";
@@ -20,17 +20,11 @@ import {
   setEdgesOnSelectCourse,
   setEdgesOnUnselectCourse,
 } from "./util/selectCourse.util";
-import DownloadButton from "./DownloadButton";
-import ExportButton from "./ExportButton";
-import ImportButton from "./ImportButton";
-import ResetButton from "./ResetButton";
 import ShowEdgesToggle from "./ShowEdgesToggle";
-
-import { Stack } from "@mui/material";
 import "./Roadmap.css";
 import "@xyflow/react/dist/style.css";
 import { useCompletedCourses } from "./hooks/useCompletedCourses";
-import { Elective, ExportData, type Roadmap } from "@customTypes/index";
+import { type Roadmap } from "@customTypes/index";
 
 const createTitleNode = (cohort: string, degree: string, career: string) => {
   return {
@@ -47,31 +41,21 @@ const createTitleNode = (cohort: string, degree: string, career: string) => {
 
 interface RoadmapProps {
   career: string;
-  setSelectedElectives: React.Dispatch<React.SetStateAction<Elective[]>>;
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
-  onImport: (data: ExportData) => void;
   roadmapData: Roadmap;
-  selectedElectives: Elective[];
 }
 
 export default function Roadmap({
   career,
-  setSelectedElectives,
   handleOnOpenCourseModal,
-  onImport,
   roadmapData,
-  selectedElectives,
 }: RoadmapProps) {
-  const { cohort, degree, type: degreeType } = roadmapData;
+  const { cohort, degree } = roadmapData;
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgeChange] = useEdgesState<Edge>([]);
   const [isEdgesHidden, setIsEdgesHidden] = useState(false);
-  const {
-    completedCourses,
-    addCompletedCourse,
-    resetCompletedCourse,
-    removeCompletedCourse,
-  } = useCompletedCourses();
+  const { getCompletedCourses, addCompletedCourse, removeCompletedCourse } =
+    useCompletedCourses();
 
   const nodeTypes = useMemo(
     () => ({
@@ -143,7 +127,7 @@ export default function Roadmap({
         },
       }))
     );
-  }, [completedCourses, setNodes]);
+  }, [getCompletedCourses, setNodes]);
 
   const onShowAllEdges = () => {
     setEdges((currentEdges) =>
@@ -166,27 +150,6 @@ export default function Roadmap({
     setIsEdgesHidden((prev) => !prev);
   };
 
-  const onReset = () => {
-    resetCompletedCourse();
-    setSelectedElectives([]);
-    setNodes((currentNodes) =>
-      currentNodes.map((node) => ({
-        ...node,
-        data: {
-          ...node.data,
-          isSelected: false,
-        },
-      }))
-    );
-    setEdges((currentEdges) =>
-      currentEdges.map((edge) => ({
-        ...edge,
-        hidden: false,
-        animated: false,
-      }))
-    );
-  };
-
   const titleNode = useMemo(
     () => createTitleNode(cohort, degree, career),
     [career, cohort, degree]
@@ -194,30 +157,6 @@ export default function Roadmap({
 
   return (
     <div>
-      <Stack
-        spacing={2}
-        direction="row"
-        flexWrap="wrap"
-        useFlexGap
-        marginY={4}
-        alignItems={"center"}
-      >
-        <ImportButton onImport={onImport} />
-        <ExportButton
-          degree={degree}
-          career={career}
-          cohort={cohort}
-          degreeType={degreeType}
-          completedCourses={completedCourses}
-          selectedElectives={selectedElectives}
-        />
-        <DownloadButton />
-        <ResetButton onReset={onReset} />
-        <ShowEdgesToggle
-          onShowAllEdges={onShowAllEdges}
-          isEdgesHidden={isEdgesHidden}
-        />
-      </Stack>
       <div className="flowchart">
         <ReactFlow
           nodes={[titleNode, ...nodes]}
@@ -228,6 +167,12 @@ export default function Roadmap({
           zoomOnDoubleClick={false}
         >
           <Controls position="top-right" />
+          <Panel>
+            <ShowEdgesToggle
+              onShowAllEdges={onShowAllEdges}
+              isEdgesHidden={isEdgesHidden}
+            />
+          </Panel>
         </ReactFlow>
       </div>
     </div>

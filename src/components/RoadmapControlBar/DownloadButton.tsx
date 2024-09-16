@@ -3,7 +3,7 @@ import {
   getNodesBounds,
   getViewportForBounds,
 } from "@xyflow/react";
-import { DOWNLOAD_IMAGE } from "./Roadmap.constants";
+import { DOWNLOAD_IMAGE } from "../Roadmap/Roadmap.constants";
 import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import { toPng } from "html-to-image";
@@ -49,6 +49,7 @@ function DownloadButton() {
     <TheTooltip title={TOOLTIP_TEXT}>
       <Button
         variant="contained"
+        disableElevation
         startIcon={<DownloadIcon />}
         onClick={onDownloadRoadmap}
         sx={{

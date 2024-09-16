@@ -11,6 +11,7 @@ const SurveyButton = () => (
   >
     <Button
       variant="contained"
+      disableElevation
       color="primary"
       sx={{ fontSize: "1em" }}
       size="small"
