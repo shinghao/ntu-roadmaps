@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const KEY = "completed-courses";
 
@@ -10,11 +10,6 @@ export const getCompletedCourses = (): string[] => {
 };
 
 export const useCompletedCourses = () => {
-  const getCompletedCourses = () => {
-    const value = window.localStorage.getItem(KEY);
-    return value ? JSON.parse(value) : [];
-  };
-
   const [completedCourses, setCompletedCourses] = useState<string[]>(
     getCompletedCourses()
   );
@@ -24,26 +19,28 @@ export const useCompletedCourses = () => {
     localStorage.setItem(KEY, JSON.stringify(uniqueCourses));
   }, [completedCourses]);
 
-  const addCompletedCourse = (courseCode: string) => {
-    setCompletedCourses((completedCourses) => [
-      ...completedCourses,
-      courseCode,
-    ]);
-  };
+  const addCompletedCourse = useCallback((courseCode: string) => {
+    setCompletedCourses((prevCourses) => {
+      if (!prevCourses.includes(courseCode)) {
+        return [...prevCourses, courseCode];
+      }
+      return prevCourses;
+    });
+  }, []);
 
   const importCompletedCourses = (courseCodes: string[]) => {
-    setCompletedCourses(courseCodes);
+    setCompletedCourses(() => [...courseCodes]);
   };
 
   const resetCompletedCourse = () => {
-    setCompletedCourses([]);
+    setCompletedCourses(() => []);
   };
 
-  const removeCompletedCourse = (courseCode: string) => {
+  const removeCompletedCourse = useCallback((courseCode: string) => {
     setCompletedCourses((completedCourses) =>
       completedCourses.filter((val) => val !== courseCode)
     );
-  };
+  }, []);
 
   const isCourseCompleted = (courseCode: string) =>
     completedCourses.includes(courseCode);

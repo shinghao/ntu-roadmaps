@@ -13,7 +13,6 @@ import SemesterNode from "./nodes/SemesterNode";
 import LegendNode from "./nodes/LegendNode";
 import {
   buildRoadmap,
-  isCourseCompleted,
   isPrerequisitesCompleted,
 } from "./util/buildRoadmap.util";
 import {
@@ -23,8 +22,8 @@ import {
 import ShowEdgesToggle from "./ShowEdgesToggle";
 import "./Roadmap.css";
 import "@xyflow/react/dist/style.css";
-import { useCompletedCourses } from "./hooks/useCompletedCourses";
 import { type Roadmap } from "@customTypes/index";
+import { useCompletedCoursesStore } from "../../store/useCompletedCoursesStore";
 
 const createTitleNode = (cohort: string, degree: string, career: string) => {
   return {
@@ -54,8 +53,10 @@ export default function Roadmap({
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgeChange] = useEdgesState<Edge>([]);
   const [isEdgesHidden, setIsEdgesHidden] = useState(false);
-  const { getCompletedCourses, addCompletedCourse, removeCompletedCourse } =
-    useCompletedCourses();
+
+  const { completedCourses, addCompletedCourse, removeCompletedCourse } =
+    useCompletedCoursesStore();
+  console.log(completedCourses);
 
   const nodeTypes = useMemo(
     () => ({
@@ -87,16 +88,14 @@ export default function Roadmap({
     [setEdges, setNodes, isEdgesHidden]
   );
 
-  const onNodeCheck = useCallback(
-    (checked: boolean, courseCode: string) => {
+  useEffect(() => {
+    const onNodeCheck = (checked: boolean, courseCode: string) => {
       checked
         ? addCompletedCourse(courseCode)
         : removeCompletedCourse(courseCode);
-    },
-    [addCompletedCourse, removeCompletedCourse]
-  );
+    };
 
-  useEffect(() => {
+    console.log("building roadmap");
     if (roadmapData?.coursesByYearSemester.length > 0) {
       const { nodes, edges } = buildRoadmap(
         roadmapData,
@@ -108,9 +107,19 @@ export default function Roadmap({
       setNodes(nodes);
       setEdges(edges);
     }
-  }, [roadmapData, onSelectCourseNode]); //TODO: fix dependencies
+  }, [
+    roadmapData,
+    onSelectCourseNode,
+    setEdges,
+    setNodes,
+    handleOnOpenCourseModal,
+    isEdgesHidden,
+    addCompletedCourse,
+    removeCompletedCourse,
+  ]);
 
   useEffect(() => {
+    console.log("fetching completed courses");
     setNodes((currentNodes) =>
       currentNodes.map((node) => ({
         ...node,
@@ -121,15 +130,17 @@ export default function Roadmap({
                 isAvailable: isPrerequisitesCompleted(
                   node.data.courseCode as string
                 ),
-                isCompleted: isCourseCompleted(node.data.courseCode as string),
+                isCompleted: completedCourses.includes(
+                  node.data.courseCode as string
+                ),
               }
             : {}),
         },
       }))
     );
-  }, [getCompletedCourses, setNodes]);
+  }, [completedCourses, setNodes]);
 
-  const onShowAllEdges = () => {
+  const onShowAllEdges = useCallback(() => {
     setEdges((currentEdges) =>
       currentEdges.map((edge) => ({
         ...edge,
@@ -148,7 +159,7 @@ export default function Roadmap({
       }))
     );
     setIsEdgesHidden((prev) => !prev);
-  };
+  }, [isEdgesHidden, setEdges, setNodes]);
 
   const titleNode = useMemo(
     () => createTitleNode(cohort, degree, career),

@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import OpenCourseModalBtn from "./OpenCourseModalBtn";
 import { CourseInRoadmap, CourseInRoadmapType } from "@customTypes/roadmap";
-import { useCompletedCourses } from "@components/Roadmap/hooks/useCompletedCourses";
 import { CheckBox, Lock } from "@mui/icons-material";
+import { useCompletedCoursesStore } from "../../store/useCompletedCoursesStore";
 
 interface Props {
   year: number;
@@ -30,7 +30,7 @@ const TableCourseRow = ({
   sx,
 }: Props) => {
   const { isCourseCompleted, addCompletedCourse, removeCompletedCourse } =
-    useCompletedCourses();
+    useCompletedCoursesStore();
 
   const onCheck = (val: boolean, courseCode: string) => {
     if (val) {

@@ -16,8 +16,8 @@ import {
   Roadmap,
   ViewFormat,
 } from "@customTypes/index";
-import { useCompletedCourses } from "@components/Roadmap/hooks/useCompletedCourses";
 import RoadmapControlBar from "@components/RoadmapControlBar";
+import { useCompletedCoursesStore } from "../store/useCompletedCoursesStore";
 
 export default function RoadmapPage() {
   const { fetchedDegreeProgrammes } = useFetchDegreeProgrammes();
@@ -34,7 +34,8 @@ export default function RoadmapPage() {
   const [selectedElectives, setSelectedElectives] = useState<Elective[]>([]);
   const [viewFormat, setViewFormat] = useState(ViewFormat.Roadmap);
 
-  const { completedCourses, resetCompletedCourse } = useCompletedCourses();
+  const { completedCourses, resetCompletedCourse, importCompletedCourses } =
+    useCompletedCoursesStore();
 
   const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
     degree,
@@ -174,7 +175,6 @@ export default function RoadmapPage() {
     [fetchedRoadmapData, selectedElectives]
   );
 
-  const { importCompletedCourses } = useCompletedCourses();
   const onImport = useCallback(
     () => (data: ExportData) => {
       setDegree(data.degree);
@@ -209,6 +209,7 @@ export default function RoadmapPage() {
         handleOnOpenCourseModal={handleOnOpenCourseModal}
         selectedElectives={selectedElectives}
         roadmapData={roadmapData}
+        // completedCourses={completedCourses}
         key={`${degree}-${cohort}-${career}-curriculumTable`}
       />
     );
