@@ -12,16 +12,21 @@ export default function ShowEdgesToggle({
   return (
     <FormGroup>
       <FormControlLabel
+        style={{ marginRight: 0 }}
         control={
           <Switch
             defaultChecked
             value={isEdgesHidden}
             onChange={onShowAllEdges}
             size="small"
-            sx={{ margin: "0px 6px" }}
+            sx={{ marginRight: "6px" }}
           />
         }
-        label={<span style={{ color: "#1665c0" }}>Show Arrows</span>}
+        label={
+          <span style={{ color: isEdgesHidden ? "grey" : "black" }}>
+            Show Arrows
+          </span>
+        }
       />
     </FormGroup>
   );

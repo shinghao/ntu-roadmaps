@@ -178,7 +178,14 @@ export default function Roadmap({
           zoomOnDoubleClick={false}
         >
           <Controls position="top-right" />
-          <Panel>
+          <Panel
+            style={{
+              background: "white",
+              padding: "1rem",
+              border: "1px solid #E9E9E9",
+              borderRadius: "0.3rem",
+            }}
+          >
             <ShowEdgesToggle
               onShowAllEdges={onShowAllEdges}
               isEdgesHidden={isEdgesHidden}
