@@ -32,6 +32,7 @@ const RoadmapControlBar = ({
       justifyContent={isSmallScreen ? "flex-start" : "space-between"}
       spacing="12px"
       useFlexGap
+      sx={{ height: "100%" }}
     >
       <ViewToggle viewFormat={viewFormat} setViewFormat={setViewFormat} />
       <Stack
@@ -40,12 +41,12 @@ const RoadmapControlBar = ({
         direction="row"
         flexWrap="wrap"
         alignItems="center"
-        alignSelf="flex-start"
+        sx={{ "&>*": { height: "100%" } }}
       >
         <ImportButton onImport={onImport} />
         <ExportButton dataToExport={dataToExport} />
         <DownloadButton />
-        <ResetButton onReset={onReset} isSmallScreen={isSmallScreen} />
+        <ResetButton onReset={onReset} />
       </Stack>
     </Stack>
   );

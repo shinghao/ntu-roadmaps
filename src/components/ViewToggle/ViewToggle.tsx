@@ -20,7 +20,7 @@ const ViewToggle = ({
       color="primary"
     >
       {Object.values(ViewFormat).map((key) => (
-        <ToggleButton value={ViewFormat[key]} key={key}>
+        <ToggleButton value={ViewFormat[key]} key={key} sx={{ width: "6rem" }}>
           {ViewFormat[key]}
         </ToggleButton>
       ))}
