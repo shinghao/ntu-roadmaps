@@ -32,7 +32,7 @@ const CurriculumTable = ({
       <TableContainer sx={{ marginTop: "16px", border: `1px solid grey` }}>
         <Table
           size="small"
-          sx={{ minWidth: 650, tableLayout: "fixed", width: "100%" }}
+          sx={{ minWidth: 650, width: "100%" }}
           aria-label="selected curriculum table"
         >
           <TableHeader />

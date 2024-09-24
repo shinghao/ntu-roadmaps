@@ -55,8 +55,10 @@ const TableCourseRow = ({
       }}
     >
       <TableCell
+        width="12%"
         sx={{
           borderRight: "1px solid rgba(224, 224, 224)",
+          maxWidth: "100px",
         }}
       >
         <Box
@@ -95,6 +97,7 @@ const TableCourseRow = ({
         </Box>
       </TableCell>
       <TableCell
+        width="10%"
         align="center"
         sx={{ borderRight: "1px solid rgba(224, 224, 224)" }}
       >
