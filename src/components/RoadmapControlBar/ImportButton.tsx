@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import TheTooltip from "@components/Tooltip/Tooltip";
 import { ExportData } from "@customTypes/exportData";
-import { useCompletedCoursesStore } from "../../store/useCompletedCoursesStore";
+import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
 
 const TOOLTIP_TEXT = "Import JSON";
 

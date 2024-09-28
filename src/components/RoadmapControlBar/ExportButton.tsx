@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import TheTooltip from "@components/Tooltip/Tooltip";
 import { Elective } from "@customTypes/course";
-import { useCompletedCoursesStore } from "../../store/useCompletedCoursesStore";
+import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
 
 const TOOLTIP_TEXT = "Save config and completed courses as JSON";
 

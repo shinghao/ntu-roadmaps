@@ -2,7 +2,7 @@ import { Node, Edge, MarkerType } from "@xyflow/react";
 import * as RoadmapConstants from "../Roadmap.constants";
 import coursesData from "../../../data/courses.json";
 import { Course, CourseInRoadmapType, Roadmap } from "@customTypes/index";
-import { getCompletedCourses } from "../../../store/useCompletedCoursesStore";
+import { getCompletedCourses } from "@store/useCompletedCoursesStore";
 
 export function isPrerequisitesCompleted(courseCode: string): boolean {
   const completedCourses = getCompletedCourses();

@@ -7,17 +7,11 @@ interface Props {
   year: number;
   semester: number;
   courses: CourseInRoadmap[];
-  handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
 }
 
 const COLLAPSE_DELAY = 0.01;
 
-const SemesterCourseRows = ({
-  year,
-  semester,
-  courses,
-  handleOnOpenCourseModal,
-}: Props) => {
+const SemesterCourseRows = ({ year, semester, courses }: Props) => {
   const [isCourseRowsHidden, setIsCourseRowsHidden] = useState(false);
 
   return (
@@ -36,7 +30,6 @@ const SemesterCourseRows = ({
           semester={semester}
           index={index}
           row={row}
-          handleOnOpenCourseModal={handleOnOpenCourseModal}
           sx={{
             transition: "all 0.3s ease",
             visibility: isCourseRowsHidden ? "collapse" : "visible",

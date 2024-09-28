@@ -8,15 +8,10 @@ import SemesterCourseRows from "./SemesterCourseRows";
 
 interface CurriculumTableProps {
   career: string;
-  handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
   roadmapData: Roadmap;
 }
 
-const CurriculumTable = ({
-  career,
-  handleOnOpenCourseModal,
-  roadmapData,
-}: CurriculumTableProps) => {
+const CurriculumTable = ({ career, roadmapData }: CurriculumTableProps) => {
   const { cohort, degree } = roadmapData;
 
   return (
@@ -43,7 +38,6 @@ const CurriculumTable = ({
                   year={year}
                   semester={semester}
                   courses={courses}
-                  handleOnOpenCourseModal={handleOnOpenCourseModal}
                 />
               )
             )}

@@ -6,30 +6,22 @@ import {
   Checkbox,
   Stack,
   SxProps,
-  Button,
 } from "@mui/material";
 import OpenCourseModalBtn from "./OpenCourseModalBtn";
 import { CourseInRoadmap, CourseInRoadmapType } from "@customTypes/roadmap";
 import { CheckBox, Lock } from "@mui/icons-material";
-import { useCompletedCoursesStore } from "../../store/useCompletedCoursesStore";
+import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
+import ElectiveBtn from "./ElectiveBtn";
 
 interface Props {
   year: number;
   semester: number;
   index: number;
   row: CourseInRoadmap;
-  handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
   sx: SxProps;
 }
 
-const TableCourseRow = ({
-  year,
-  semester,
-  index,
-  row,
-  handleOnOpenCourseModal,
-  sx,
-}: Props) => {
+const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
   const { isCourseCompleted, addCompletedCourse, removeCompletedCourse } =
     useCompletedCoursesStore();
 
@@ -87,13 +79,8 @@ const TableCourseRow = ({
             </Stack>
           )}
           <OpenCourseModalBtn
-            courseCode={row.courseCode}
-            handleOnOpenCourseModal={() =>
-              handleOnOpenCourseModal(
-                row.id,
-                row.type === CourseInRoadmapType.Elective
-              )
-            }
+            nodeId={row.id}
+            isElective={row.type === CourseInRoadmapType.Elective}
           />
         </Box>
       </TableCell>
@@ -105,14 +92,7 @@ const TableCourseRow = ({
       </TableCell>
       <TableCell sx={{ borderRight: "1px solid rgba(224, 224, 224)" }}>
         {row.type === CourseInRoadmapType.Elective ? (
-          <Button
-            sx={{
-              textTransform: "none",
-            }}
-            onClick={() => handleOnOpenCourseModal(row.id, true)}
-          >
-            {row.title || "SELECT ELECTIVE"}
-          </Button>
+          <ElectiveBtn nodeId={row.id} electiveTitle={row.title} />
         ) : (
           <Box paddingLeft="8px">{row.title}</Box>
         )}

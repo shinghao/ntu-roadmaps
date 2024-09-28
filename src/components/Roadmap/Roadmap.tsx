@@ -23,7 +23,9 @@ import ShowEdgesToggle from "./ShowEdgesToggle";
 import "./Roadmap.css";
 import "@xyflow/react/dist/style.css";
 import { type Roadmap } from "@customTypes/index";
-import { useCompletedCoursesStore } from "../../store/useCompletedCoursesStore";
+import Paper from "@mui/material/Paper/Paper";
+import useCourseModalStore from "@store/useCourseModalStore";
+import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
 
 const createTitleNode = (cohort: string, degree: string, career: string) => {
   return {
@@ -40,20 +42,16 @@ const createTitleNode = (cohort: string, degree: string, career: string) => {
 
 interface RoadmapProps {
   career: string;
-  handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
   roadmapData: Roadmap;
 }
 
-export default function Roadmap({
-  career,
-  handleOnOpenCourseModal,
-  roadmapData,
-}: RoadmapProps) {
+export default function Roadmap({ career, roadmapData }: RoadmapProps) {
   const { cohort, degree } = roadmapData;
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgeChange] = useEdgesState<Edge>([]);
   const [isEdgesHidden, setIsEdgesHidden] = useState(false);
 
+  const { openCourseModal } = useCourseModalStore();
   const { completedCourses, addCompletedCourse, removeCompletedCourse } =
     useCompletedCoursesStore();
 
@@ -99,7 +97,7 @@ export default function Roadmap({
         roadmapData,
         onNodeCheck,
         isEdgesHidden,
-        handleOnOpenCourseModal,
+        openCourseModal,
         onSelectCourseNode
       );
       setNodes(nodes);
@@ -110,7 +108,7 @@ export default function Roadmap({
     onSelectCourseNode,
     setEdges,
     setNodes,
-    handleOnOpenCourseModal,
+    openCourseModal,
     isEdgesHidden,
     addCompletedCourse,
     removeCompletedCourse,
@@ -175,18 +173,13 @@ export default function Roadmap({
           zoomOnDoubleClick={false}
         >
           <Controls position="top-right" />
-          <Panel
-            style={{
-              background: "white",
-              padding: "1rem",
-              border: "1px solid #E9E9E9",
-              borderRadius: "0.3rem",
-            }}
-          >
-            <ShowEdgesToggle
-              onShowAllEdges={onShowAllEdges}
-              isEdgesHidden={isEdgesHidden}
-            />
+          <Panel>
+            <Paper sx={{ padding: "1rem" }}>
+              <ShowEdgesToggle
+                onShowAllEdges={onShowAllEdges}
+                isEdgesHidden={isEdgesHidden}
+              />
+            </Paper>
           </Panel>
         </ReactFlow>
       </div>

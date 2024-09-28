@@ -10,12 +10,7 @@ import useFetchRoadmap from "@hooks/useFetchRoadmap";
 import RoadmapSelects from "@components/RoadmapSelects";
 import CurriculumTable from "@components/CurriculumTable";
 import { Elective } from "@customTypes/course";
-import {
-  CourseInRoadmapType,
-  ExportData,
-  Roadmap,
-  ViewFormat,
-} from "@customTypes/index";
+import { ExportData, Roadmap, ViewFormat } from "@customTypes/index";
 import RoadmapControlBar from "@components/RoadmapControlBar";
 
 export default function RoadmapPage() {
@@ -25,10 +20,6 @@ export default function RoadmapPage() {
   const [cohort, setCohort] = useState("");
   const [degreeType, setDegreeType] = useState("");
   const { careerOptions, fetchedCareers } = useFetchCareers(degree);
-  const [selectedNodeId, setSelectedNodeId] = useState("");
-  const [isSelectedCourseElective, setIsSelectedCourseElective] =
-    useState(false);
-  const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
   const [availableElectives, setAvailableElectives] = useState<string[]>([]);
   const [selectedElectives, setSelectedElectives] = useState<Elective[]>([]);
   const [viewFormat, setViewFormat] = useState(ViewFormat.Roadmap);
@@ -93,15 +84,6 @@ export default function RoadmapPage() {
     [fetchedCareers]
   );
 
-  const handleOnOpenCourseModal = useCallback(
-    (nodeId: string, isElective: boolean) => {
-      setIsSelectedCourseElective(isElective);
-      setSelectedNodeId(nodeId);
-      setIsCourseModalOpen(true);
-    },
-    []
-  );
-
   const selectsConfig = [
     {
       options: degreeOptions || [],
@@ -130,49 +112,25 @@ export default function RoadmapPage() {
     },
   ];
 
-  // TODO:
-  const roadmapData: Roadmap | undefined = useMemo(
-    () =>
-      fetchedRoadmapData
-        ? {
-            ...fetchedRoadmapData,
-            coursesByYearSemester:
-              fetchedRoadmapData?.coursesByYearSemester.map((yearSemester) => ({
-                ...yearSemester,
-                courses: yearSemester.courses.map((course) => {
-                  const isElective =
-                    course.type === CourseInRoadmapType.Elective;
-                  const selectedElective = isElective
-                    ? selectedElectives.find(
-                        (elective) => elective.id === course.id
-                      )
-                    : undefined;
-
-                  return {
-                    ...course,
-                    courseCode:
-                      isElective && selectedElective
-                        ? selectedElective.courseCode
-                        : course.courseCode,
-                    prerequisites:
-                      isElective && selectedElective
-                        ? selectedElective.prerequisites
-                        : course.prerequisites,
-                    title:
-                      isElective && selectedElective
-                        ? selectedElective.title
-                        : course.title,
-                    au:
-                      isElective && selectedElective
-                        ? selectedElective.au
-                        : course.au,
-                  };
-                }),
-              })),
-          }
-        : fetchedRoadmapData,
-    [fetchedRoadmapData, selectedElectives]
-  );
+  const roadmapData: Roadmap | undefined = useMemo(() => {
+    if (!fetchedRoadmapData) {
+      return undefined;
+    }
+    return {
+      ...fetchedRoadmapData,
+      coursesByYearSemester: fetchedRoadmapData?.coursesByYearSemester.map(
+        (yearSemester) => ({
+          ...yearSemester,
+          courses: yearSemester.courses.map((course) => {
+            const selectedElective = selectedElectives.find(
+              (elective) => elective.id === course.id
+            );
+            return { ...course, ...selectedElective };
+          }),
+        })
+      ),
+    };
+  }, [fetchedRoadmapData, selectedElectives]);
 
   const onImport = useCallback(
     () => (data: ExportData) => {
@@ -185,35 +143,11 @@ export default function RoadmapPage() {
     [onChangeCareer]
   );
 
-  const CurriculumView = () => {
-    if (!roadmapData) {
-      return;
-    }
-
-    return viewFormat === ViewFormat.Roadmap ? (
-      <RoadmapView
-        career={career}
-        handleOnOpenCourseModal={handleOnOpenCourseModal}
-        roadmapData={roadmapData}
-      />
-    ) : (
-      <CurriculumTable
-        career={career}
-        handleOnOpenCourseModal={handleOnOpenCourseModal}
-        roadmapData={roadmapData}
-      />
-    );
-  };
-
   return (
     <ReactFlowProvider>
       <Container className="content">
-        {isCourseModalOpen && roadmapData && (
+        {roadmapData && (
           <CourseModal
-            nodeId={selectedNodeId}
-            isModalOpen={isCourseModalOpen}
-            setIsModalOpen={setIsCourseModalOpen}
-            isElective={isSelectedCourseElective}
             availableElectives={availableElectives}
             setSelectedElectives={setSelectedElectives}
             roadmapData={roadmapData}
@@ -236,7 +170,11 @@ export default function RoadmapPage() {
               cohort={cohort}
               selectedElectives={selectedElectives}
             />
-            <CurriculumView />
+            {viewFormat === ViewFormat.Roadmap ? (
+              <RoadmapView career={career} roadmapData={roadmapData} />
+            ) : (
+              <CurriculumTable career={career} roadmapData={roadmapData} />
+            )}
           </>
         )}
 
