@@ -58,7 +58,7 @@ const TableCourseRow = ({
       <TableCell
         sx={{
           borderRight: "1px solid rgba(224, 224, 224)",
-          maxWidth: "150px",
+          width: "100px",
         }}
       >
         <Box
@@ -66,6 +66,7 @@ const TableCourseRow = ({
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            gap: "12px",
           }}
         >
           {isAvailable ? (
@@ -80,7 +81,7 @@ const TableCourseRow = ({
             <Stack
               alignItems="center"
               justifyContent="center"
-              sx={{ width: "42px" }}
+              sx={{ width: "42px", height: "42px" }}
             >
               <Lock color="disabled" fontSize="small" />
             </Stack>
