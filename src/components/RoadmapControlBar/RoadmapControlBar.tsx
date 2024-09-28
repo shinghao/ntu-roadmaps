@@ -3,23 +3,31 @@ import ExportButton from "@components/RoadmapControlBar/ExportButton";
 import ImportButton from "@components/RoadmapControlBar/ImportButton";
 import ResetButton from "@components/RoadmapControlBar/ResetButton";
 import ViewToggle from "@components/ViewToggle";
-import { ExportData, ViewFormat } from "@customTypes/index";
+import { Elective, ExportData, ViewFormat } from "@customTypes/index";
 import { Stack, useMediaQuery } from "@mui/material";
 
 interface Props {
   viewFormat: ViewFormat;
   setViewFormat: (viewFormat: ViewFormat) => void;
   onImport: (importedData: ExportData) => void;
-  onReset: () => void;
-  dataToExport: ExportData;
+  setSelectedElectives: (electives: Elective[]) => void;
+  degree: string;
+  career: string;
+  degreeType: string;
+  cohort: string;
+  selectedElectives: Elective[];
 }
 
 const RoadmapControlBar = ({
   viewFormat,
   setViewFormat,
   onImport,
-  onReset,
-  dataToExport,
+  setSelectedElectives,
+  degree,
+  career,
+  degreeType,
+  cohort,
+  selectedElectives,
 }: Props) => {
   const isSmallScreen = useMediaQuery("(max-width: 640px)");
 
@@ -44,9 +52,15 @@ const RoadmapControlBar = ({
         sx={{ "&>*": { height: "100%" } }}
       >
         <ImportButton onImport={onImport} />
-        <ExportButton dataToExport={dataToExport} />
+        <ExportButton
+          degree={degree}
+          career={career}
+          degreeType={degreeType}
+          cohort={cohort}
+          selectedElectives={selectedElectives}
+        />
         <DownloadButton />
-        <ResetButton onReset={onReset} />
+        <ResetButton setSelectedElectives={setSelectedElectives} />
       </Stack>
     </Stack>
   );

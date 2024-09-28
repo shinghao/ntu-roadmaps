@@ -3,15 +3,25 @@ import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import TheTooltip from "@components/Tooltip/Tooltip";
 import { useState } from "react";
 import ConfirmationDialog from "@components/ConfirmationDialog";
+import { Elective } from "@customTypes/index";
+import { useCompletedCoursesStore } from "../../store/useCompletedCoursesStore";
 
 const TOOLTIP_TEXT = "Reset all completed courses and selected electives";
 
 interface ResetButtonProps {
-  onReset: () => void;
+  setSelectedElectives: (electives: Elective[]) => void;
 }
 
-export default function ResetButton({ onReset }: ResetButtonProps) {
+export default function ResetButton({
+  setSelectedElectives,
+}: ResetButtonProps) {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+
+  const { resetCompletedCourse } = useCompletedCoursesStore();
+  const onReset = () => {
+    resetCompletedCourse();
+    setSelectedElectives([]);
+  };
 
   const onConfirmReset = () => {
     onReset();

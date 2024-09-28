@@ -17,7 +17,6 @@ import {
   ViewFormat,
 } from "@customTypes/index";
 import RoadmapControlBar from "@components/RoadmapControlBar";
-import { useCompletedCoursesStore } from "../store/useCompletedCoursesStore";
 
 export default function RoadmapPage() {
   const { fetchedDegreeProgrammes } = useFetchDegreeProgrammes();
@@ -33,9 +32,6 @@ export default function RoadmapPage() {
   const [availableElectives, setAvailableElectives] = useState<string[]>([]);
   const [selectedElectives, setSelectedElectives] = useState<Elective[]>([]);
   const [viewFormat, setViewFormat] = useState(ViewFormat.Roadmap);
-
-  const { completedCourses, resetCompletedCourse, importCompletedCourses } =
-    useCompletedCoursesStore();
 
   const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
     degree,
@@ -184,16 +180,10 @@ export default function RoadmapPage() {
       setCohort(data.cohort);
       setDegreeType(data.degreeType);
       onChangeCareer(data.career);
-      importCompletedCourses(data.completedCourses);
       setSelectedElectives(data.selectedElectives);
     },
-    [importCompletedCourses, onChangeCareer]
+    [onChangeCareer]
   );
-
-  const onReset = () => {
-    resetCompletedCourse();
-    setSelectedElectives([]);
-  };
 
   const CurriculumView = () => {
     if (!roadmapData) {
@@ -239,15 +229,12 @@ export default function RoadmapPage() {
               viewFormat={viewFormat}
               setViewFormat={setViewFormat}
               onImport={onImport}
-              onReset={onReset}
-              dataToExport={{
-                degree,
-                career,
-                degreeType,
-                cohort,
-                completedCourses,
-                selectedElectives,
-              }}
+              setSelectedElectives={setSelectedElectives}
+              degree={degree}
+              career={career}
+              degreeType={degreeType}
+              cohort={cohort}
+              selectedElectives={selectedElectives}
             />
             <CurriculumView />
           </>

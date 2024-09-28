@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import TheTooltip from "@components/Tooltip/Tooltip";
 import { ExportData } from "@customTypes/exportData";
+import { useCompletedCoursesStore } from "../../store/useCompletedCoursesStore";
 
 const TOOLTIP_TEXT = "Import JSON";
 
@@ -11,6 +12,8 @@ interface ImportButtonProps {
 }
 
 const ImportButton = memo(({ onImport }: ImportButtonProps) => {
+  const { importCompletedCourses } = useCompletedCoursesStore();
+
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -20,6 +23,7 @@ const ImportButton = memo(({ onImport }: ImportButtonProps) => {
       try {
         const text = e.target?.result as string;
         const data = JSON.parse(text);
+        importCompletedCourses(data.completedCourses);
         onImport(data);
       } catch (error) {
         console.error("Import Error", error);
