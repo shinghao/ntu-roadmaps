@@ -69,15 +69,17 @@ export default function CourseModal({
   };
 
   useEffect(() => {
-    if (!selectedElective) {
+    if (!selectedElective || !fetchedCourseDetails || !props.isElective) {
       return;
     }
+    console.log("hi");
+    fetchedCourseDetails;
     const newSelectedElective: Elective = {
       id: props.nodeId,
       courseCode: selectedElective,
-      prerequisites: prerequisites.flat(),
-      title,
-      au,
+      prerequisites: fetchedCourseDetails?.prerequisites.flat() || [],
+      title: fetchedCourseDetails?.title || "",
+      au: fetchedCourseDetails?.au,
     };
 
     setSelectedElectives((prevSelectedElectives: Elective[]) => {
@@ -92,12 +94,11 @@ export default function CourseModal({
       return [...prevSelectedElectives, newSelectedElective];
     });
   }, [
-    au,
-    prerequisites,
+    fetchedCourseDetails,
+    props.isElective,
     props.nodeId,
     selectedElective,
     setSelectedElectives,
-    title,
   ]);
 
   const onSelectElective = (elective: string) => {

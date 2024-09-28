@@ -2,14 +2,13 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import { Typography } from "@mui/material";
-import { Elective, type Roadmap } from "@customTypes/index";
+import { type Roadmap } from "@customTypes/index";
 import TableHeader from "./TableHeader";
 import SemesterCourseRows from "./SemesterCourseRows";
 
 interface CurriculumTableProps {
   career: string;
   handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
-  selectedElectives: Elective[];
   roadmapData: Roadmap;
 }
 

@@ -6,6 +6,7 @@ import {
   Checkbox,
   Stack,
   SxProps,
+  Button,
 } from "@mui/material";
 import OpenCourseModalBtn from "./OpenCourseModalBtn";
 import { CourseInRoadmap, CourseInRoadmapType } from "@customTypes/roadmap";
@@ -55,10 +56,9 @@ const TableCourseRow = ({
       }}
     >
       <TableCell
-        width="12%"
         sx={{
           borderRight: "1px solid rgba(224, 224, 224)",
-          maxWidth: "100px",
+          maxWidth: "150px",
         }}
       >
         <Box
@@ -97,14 +97,19 @@ const TableCourseRow = ({
         </Box>
       </TableCell>
       <TableCell
-        width="10%"
         align="center"
         sx={{ borderRight: "1px solid rgba(224, 224, 224)" }}
       >
         {row.courseCode}
       </TableCell>
       <TableCell sx={{ borderRight: "1px solid rgba(224, 224, 224)" }}>
-        {row.title}
+        {row.type === CourseInRoadmapType.Elective && row.title === "" ? (
+          <Button onClick={() => handleOnOpenCourseModal(row.id, true)}>
+            Select Elective
+          </Button>
+        ) : (
+          row.title
+        )}
       </TableCell>
       <TableCell
         width="5%"

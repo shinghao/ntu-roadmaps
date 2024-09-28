@@ -56,7 +56,6 @@ export default function Roadmap({
 
   const { completedCourses, addCompletedCourse, removeCompletedCourse } =
     useCompletedCoursesStore();
-  console.log(completedCourses);
 
   const nodeTypes = useMemo(
     () => ({
@@ -95,7 +94,6 @@ export default function Roadmap({
         : removeCompletedCourse(courseCode);
     };
 
-    console.log("building roadmap");
     if (roadmapData?.coursesByYearSemester.length > 0) {
       const { nodes, edges } = buildRoadmap(
         roadmapData,
@@ -119,7 +117,6 @@ export default function Roadmap({
   ]);
 
   useEffect(() => {
-    console.log("fetching completed courses");
     setNodes((currentNodes) =>
       currentNodes.map((node) => ({
         ...node,

@@ -97,11 +97,14 @@ export default function RoadmapPage() {
     [fetchedCareers]
   );
 
-  const handleOnOpenCourseModal = (nodeId: string, isElective: boolean) => {
-    setIsSelectedCourseElective(isElective);
-    setSelectedNodeId(nodeId);
-    setIsCourseModalOpen(true);
-  };
+  const handleOnOpenCourseModal = useCallback(
+    (nodeId: string, isElective: boolean) => {
+      setIsSelectedCourseElective(isElective);
+      setSelectedNodeId(nodeId);
+      setIsCourseModalOpen(true);
+    },
+    []
+  );
 
   const selectsConfig = [
     {
@@ -207,10 +210,7 @@ export default function RoadmapPage() {
       <CurriculumTable
         career={career}
         handleOnOpenCourseModal={handleOnOpenCourseModal}
-        selectedElectives={selectedElectives}
         roadmapData={roadmapData}
-        // completedCourses={completedCourses}
-        key={`${degree}-${cohort}-${career}-curriculumTable`}
       />
     );
   };
