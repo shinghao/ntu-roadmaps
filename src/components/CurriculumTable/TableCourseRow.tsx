@@ -104,12 +104,17 @@ const TableCourseRow = ({
         {row.courseCode}
       </TableCell>
       <TableCell sx={{ borderRight: "1px solid rgba(224, 224, 224)" }}>
-        {row.type === CourseInRoadmapType.Elective && row.title === "" ? (
-          <Button onClick={() => handleOnOpenCourseModal(row.id, true)}>
-            Select Elective
+        {row.type === CourseInRoadmapType.Elective ? (
+          <Button
+            sx={{
+              textTransform: "none",
+            }}
+            onClick={() => handleOnOpenCourseModal(row.id, true)}
+          >
+            {row.title || "SELECT ELECTIVE"}
           </Button>
         ) : (
-          row.title
+          <Box paddingLeft="8px">{row.title}</Box>
         )}
       </TableCell>
       <TableCell
