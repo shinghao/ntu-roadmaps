@@ -4,113 +4,24 @@ import { Container } from "@mui/material";
 import "./roadmapPage.css";
 import CourseModal from "@components/Roadmap/CourseModal";
 import { ReactFlowProvider } from "@xyflow/react";
-import useFetchDegreeProgrammes from "@hooks/useFetchDegreeProgrammes";
-import useFetchCareers from "@hooks/useFetchCareers";
 import useFetchRoadmap from "@hooks/useFetchRoadmap";
 import RoadmapSelects from "@components/RoadmapSelects";
 import CurriculumTable from "@components/CurriculumTable";
 import { Elective } from "@customTypes/course";
 import { ExportData, Roadmap, ViewFormat } from "@customTypes/index";
 import RoadmapControlBar from "@components/RoadmapControlBar";
+import useFetchCareers from "@hooks/useFetchCareers";
+import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
 
 export default function RoadmapPage() {
-  const { fetchedDegreeProgrammes } = useFetchDegreeProgrammes();
-  const [degree, setDegree] = useState<string>("");
-  const [career, setCareer] = useState<string>("");
-  const [cohort, setCohort] = useState("");
-  const [degreeType, setDegreeType] = useState("");
-  const { careerOptions, fetchedCareers } = useFetchCareers(degree);
+  const { fetchedCareers } = useFetchCareers();
+  const { career } = useRoadmapSelectsStore();
+
   const [availableElectives, setAvailableElectives] = useState<string[]>([]);
   const [selectedElectives, setSelectedElectives] = useState<Elective[]>([]);
   const [viewFormat, setViewFormat] = useState(ViewFormat.Roadmap);
 
-  const { fetchedRoadmapData, error, isLoading } = useFetchRoadmap(
-    degree,
-    cohort,
-    degreeType
-  );
-
-  const degreeOptions = useMemo(
-    () =>
-      fetchedDegreeProgrammes
-        ? fetchedDegreeProgrammes.map(({ degree }) => degree).sort()
-        : [],
-    [fetchedDegreeProgrammes]
-  );
-
-  const selectedDegreeProgram = useMemo(
-    () =>
-      fetchedDegreeProgrammes?.find((degProg) => degProg.degree === degree) ??
-      null,
-    [fetchedDegreeProgrammes, degree]
-  );
-
-  const cohortOptions = useMemo(
-    () =>
-      selectedDegreeProgram
-        ? Object.keys(selectedDegreeProgram.cohorts).sort()
-        : [],
-    [selectedDegreeProgram]
-  );
-
-  const degreeTypeOptions = useMemo(
-    () =>
-      cohort && selectedDegreeProgram
-        ? selectedDegreeProgram?.cohorts?.[cohort]
-        : [],
-    [cohort, selectedDegreeProgram]
-  );
-
-  const onChangeDegree = (value: string) => {
-    setDegree(value);
-    setCohort("");
-    setDegreeType("");
-    setCareer("");
-  };
-
-  const onChangeCohort = (value: string) => {
-    setCohort(value);
-    setDegreeType("");
-  };
-
-  const onChangeCareer = useCallback(
-    (value: string) => {
-      setCareer(value);
-      const selectedCareerElectives = fetchedCareers?.find(
-        ({ career }) => career === value
-      )?.electives;
-      setAvailableElectives(selectedCareerElectives ?? []);
-    },
-    [fetchedCareers]
-  );
-
-  const selectsConfig = [
-    {
-      options: degreeOptions || [],
-      label: "Degree",
-      value: degree,
-      onChange: onChangeDegree,
-      width: 300,
-    },
-    {
-      options: cohortOptions || [],
-      label: "Cohort",
-      value: cohort,
-      onChange: onChangeCohort,
-    },
-    {
-      options: degreeTypeOptions || [],
-      label: "Degree Type",
-      value: degreeType,
-      onChange: setDegreeType,
-    },
-    {
-      options: cohort && degreeType ? careerOptions || [] : [],
-      label: "Career",
-      value: career,
-      onChange: onChangeCareer,
-    },
-  ];
+  const { fetchedRoadmapData, error } = useFetchRoadmap();
 
   const roadmapData: Roadmap | undefined = useMemo(() => {
     if (!fetchedRoadmapData) {
@@ -134,13 +45,13 @@ export default function RoadmapPage() {
 
   const onImport = useCallback(
     () => (data: ExportData) => {
-      setDegree(data.degree);
-      setCohort(data.cohort);
-      setDegreeType(data.degreeType);
-      onChangeCareer(data.career);
+      const selectedCareerElectives = fetchedCareers?.find(
+        ({ career }) => career === data.career
+      )?.electives;
+      setAvailableElectives(selectedCareerElectives ?? []);
       setSelectedElectives(data.selectedElectives);
     },
-    [onChangeCareer]
+    [fetchedCareers]
   );
 
   return (
@@ -153,10 +64,8 @@ export default function RoadmapPage() {
             roadmapData={roadmapData}
           />
         )}
-        <RoadmapSelects selectsConfig={selectsConfig} />
-        {isLoading && <p>{"Loading..."}</p>}
+        <RoadmapSelects setAvailableElectives={setAvailableElectives} />
         {error && <p>{`Error: ${error}. Please try again`}</p>}
-
         {career && roadmapData && (
           <>
             <RoadmapControlBar
@@ -164,31 +73,14 @@ export default function RoadmapPage() {
               setViewFormat={setViewFormat}
               onImport={onImport}
               setSelectedElectives={setSelectedElectives}
-              degree={degree}
-              career={career}
-              degreeType={degreeType}
-              cohort={cohort}
               selectedElectives={selectedElectives}
             />
             {viewFormat === ViewFormat.Roadmap ? (
-              <RoadmapView career={career} roadmapData={roadmapData} />
+              <RoadmapView roadmapData={roadmapData} />
             ) : (
-              <CurriculumTable career={career} roadmapData={roadmapData} />
+              <CurriculumTable roadmapData={roadmapData} />
             )}
           </>
-        )}
-
-        {(!roadmapData || !career) && (
-          <p>
-            Please select a{" "}
-            {!degree
-              ? "degree"
-              : !cohort
-              ? "cohort"
-              : !degreeType
-              ? "degree type"
-              : "career"}
-          </p>
         )}
       </Container>
     </ReactFlowProvider>

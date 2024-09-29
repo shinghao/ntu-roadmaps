@@ -26,6 +26,7 @@ import { type Roadmap } from "@customTypes/index";
 import Paper from "@mui/material/Paper/Paper";
 import useCourseModalStore from "@store/useCourseModalStore";
 import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
+import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
 
 const createTitleNode = (cohort: string, degree: string, career: string) => {
   return {
@@ -41,12 +42,11 @@ const createTitleNode = (cohort: string, degree: string, career: string) => {
 };
 
 interface RoadmapProps {
-  career: string;
   roadmapData: Roadmap;
 }
 
-export default function Roadmap({ career, roadmapData }: RoadmapProps) {
-  const { cohort, degree } = roadmapData;
+export default function Roadmap({ roadmapData }: RoadmapProps) {
+  const { degree, career, cohort } = useRoadmapSelectsStore();
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([]);
   const [edges, setEdges, onEdgeChange] = useEdgesState<Edge>([]);
   const [isEdgesHidden, setIsEdgesHidden] = useState(false);

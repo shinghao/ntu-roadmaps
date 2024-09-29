@@ -3,25 +3,17 @@ import DownloadIcon from "@mui/icons-material/Download";
 import TheTooltip from "@components/Tooltip/Tooltip";
 import { Elective } from "@customTypes/course";
 import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
+import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
 
 const TOOLTIP_TEXT = "Save config and completed courses as JSON";
 
 interface ExportButtonProps {
-  degree: string;
-  career: string;
-  degreeType: string;
-  cohort: string;
   selectedElectives: Elective[];
 }
 
-export default function ExportButton({
-  degree,
-  career,
-  degreeType,
-  cohort,
-  selectedElectives,
-}: ExportButtonProps) {
+export default function ExportButton({ selectedElectives }: ExportButtonProps) {
   const { completedCourses } = useCompletedCoursesStore();
+  const { degree, career, degreeType, cohort } = useRoadmapSelectsStore();
 
   const onExport = () => {
     const dataToExport = {

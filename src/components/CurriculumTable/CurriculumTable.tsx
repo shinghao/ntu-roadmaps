@@ -5,14 +5,14 @@ import { Typography } from "@mui/material";
 import { type Roadmap } from "@customTypes/index";
 import TableHeader from "./TableHeader";
 import SemesterCourseRows from "./SemesterCourseRows";
+import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
 
 interface CurriculumTableProps {
-  career: string;
   roadmapData: Roadmap;
 }
 
-const CurriculumTable = ({ career, roadmapData }: CurriculumTableProps) => {
-  const { cohort, degree } = roadmapData;
+const CurriculumTable = ({ roadmapData }: CurriculumTableProps) => {
+  const { degree, career, cohort } = useRoadmapSelectsStore();
 
   return (
     <>

@@ -11,10 +11,6 @@ interface Props {
   setViewFormat: (viewFormat: ViewFormat) => void;
   onImport: (importedData: ExportData) => void;
   setSelectedElectives: (electives: Elective[]) => void;
-  degree: string;
-  career: string;
-  degreeType: string;
-  cohort: string;
   selectedElectives: Elective[];
 }
 
@@ -23,10 +19,7 @@ const RoadmapControlBar = ({
   setViewFormat,
   onImport,
   setSelectedElectives,
-  degree,
-  career,
-  degreeType,
-  cohort,
+
   selectedElectives,
 }: Props) => {
   const isSmallScreen = useMediaQuery("(max-width: 640px)");
@@ -52,13 +45,7 @@ const RoadmapControlBar = ({
         sx={{ "&>*": { height: "100%" } }}
       >
         <ImportButton onImport={onImport} />
-        <ExportButton
-          degree={degree}
-          career={career}
-          degreeType={degreeType}
-          cohort={cohort}
-          selectedElectives={selectedElectives}
-        />
+        <ExportButton selectedElectives={selectedElectives} />
         <DownloadButton />
         <ResetButton setSelectedElectives={setSelectedElectives} />
       </Stack>

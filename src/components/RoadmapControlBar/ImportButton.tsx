@@ -4,6 +4,7 @@ import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import TheTooltip from "@components/Tooltip/Tooltip";
 import { ExportData } from "@customTypes/exportData";
 import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
+import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
 
 const TOOLTIP_TEXT = "Import JSON";
 
@@ -13,7 +14,8 @@ interface ImportButtonProps {
 
 const ImportButton = memo(({ onImport }: ImportButtonProps) => {
   const { importCompletedCourses } = useCompletedCoursesStore();
-
+  const { setDegree, setCohort, setDegreeType, setCareer } =
+    useRoadmapSelectsStore();
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -24,6 +26,10 @@ const ImportButton = memo(({ onImport }: ImportButtonProps) => {
         const text = e.target?.result as string;
         const data = JSON.parse(text);
         importCompletedCourses(data.completedCourses);
+        setDegree(data.degree);
+        setCohort(data.cohort);
+        setDegreeType(data.degreeType);
+        setCareer(data.career);
         onImport(data);
       } catch (error) {
         console.error("Import Error", error);
