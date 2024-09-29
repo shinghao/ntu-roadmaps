@@ -1,5 +1,4 @@
 import Header from "@components/Header";
-import Footer from "@components/Footer";
 import RoadmapPage from "@pages/roadmapPage";
 import "./App.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
@@ -12,7 +11,6 @@ export default function App() {
       <div className="app">
         <Header />
         <RoadmapPage />
-        <Footer />
       </div>
     </QueryClientProvider>
   );
