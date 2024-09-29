@@ -88,7 +88,7 @@ export function buildRoadmap(
     roadmapData.coursesByYearSemester.forEach(({ courses }, parentIndex) => {
       let childNodeX = RoadmapConstants.CHILD_XPOS_START;
 
-      courses.forEach(({ courseCode, prerequisites, type, id }) => {
+      courses.forEach(({ courseCode, prerequisites, type, id, title }) => {
         const isElective = type === CourseInRoadmapType.Elective;
 
         courseNodes.push({
@@ -103,6 +103,7 @@ export function buildRoadmap(
             handleOnOpenCourseModal,
             onSelectCourseNode,
             isElective,
+            title,
           },
           position: { x: childNodeX, y: RoadmapConstants.CHILD_YPOS_START },
           parentId: semesterNodes[parentIndex].id,

@@ -5,6 +5,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import LockIcon from "@mui/icons-material/Lock";
 import { ChangeEvent } from "react";
+import ElectiveBtn from "@components/CurriculumTable/ElectiveBtn";
 
 export type CourseNode = Node<{
   id: string;
@@ -20,6 +21,7 @@ export type CourseNode = Node<{
   onSelectCourseNode: (id: string, isSelected: boolean) => void;
   isSelected: boolean;
   isElective: boolean;
+  title: string;
 }>;
 
 export type CourseNodeData = CourseNode["data"];
@@ -38,13 +40,13 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
     onSelectCourseNode,
     isSelected = false,
     isElective = false,
+    title = "",
   } = data;
 
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     onCheck(e.target.checked, courseCode);
   };
 
-  const nodeLabel = courseCode;
   const backgroundColor = isSelected
     ? "#2B78E4"
     : isAvailable
@@ -82,8 +84,9 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
           "&:hover": { border: borderOnHover },
         }}
       >
-        {isAvailable ? (
+        {isAvailable && title ? (
           <input
+            aria-label={`checkbox for ${courseCode}`}
             type="checkbox"
             name={`checkbox-${id}`}
             checked={isCompleted}
@@ -93,20 +96,24 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
         ) : (
           <LockIcon color="disabled" fontSize="small" />
         )}
-        <button
-          className="courseNode-btn"
-          onClick={() => onSelectCourseNode(id, !isSelected)}
-        >
-          <Typography
-            className="label"
-            style={{
-              textDecoration: isCompleted ? "line-through" : "none",
-              color: color,
-            }}
+        {title ? (
+          <button
+            className="courseNode-btn"
+            onClick={() => onSelectCourseNode(id, !isSelected)}
           >
-            {nodeLabel}
-          </Typography>
-        </button>
+            <Typography
+              className="label"
+              style={{
+                textDecoration: isCompleted ? "line-through" : "none",
+                color: color,
+              }}
+            >
+              {courseCode}
+            </Typography>
+          </button>
+        ) : (
+          <ElectiveBtn nodeId={id} electiveTitle="" />
+        )}
         <IconButton
           aria-label="view course details"
           size="small"
@@ -117,9 +124,10 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             borderRadius: "0",
             "&:hover": { borderBottom: "none" },
             height: "100%",
+            marginLeft: "auto",
           }}
         >
-          <KeyboardArrowRightIcon />
+          <KeyboardArrowRightIcon fontSize="medium" />
         </IconButton>
       </Box>
 

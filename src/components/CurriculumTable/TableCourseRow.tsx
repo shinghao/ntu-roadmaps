@@ -34,6 +34,7 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
   };
   const isAvailable = isPrerequisitesCompleted(row.courseCode);
   const isCompleted = isCourseCompleted(row.courseCode);
+  const isElective = row.type === CourseInRoadmapType.Elective;
 
   return (
     <TableRow
@@ -61,7 +62,7 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
             gap: "12px",
           }}
         >
-          {isAvailable ? (
+          {isAvailable && row.title ? (
             <Checkbox
               checked={isCompleted}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -78,10 +79,7 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
               <Lock color="disabled" fontSize="small" />
             </Stack>
           )}
-          <OpenCourseModalBtn
-            nodeId={row.id}
-            isElective={row.type === CourseInRoadmapType.Elective}
-          />
+          <OpenCourseModalBtn nodeId={row.id} isElective={isElective} />
         </Box>
       </TableCell>
       <TableCell
@@ -91,7 +89,7 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
         {row.courseCode}
       </TableCell>
       <TableCell sx={{ borderRight: "1px solid rgba(224, 224, 224)" }}>
-        {row.type === CourseInRoadmapType.Elective ? (
+        {isElective ? (
           <ElectiveBtn nodeId={row.id} electiveTitle={row.title} />
         ) : (
           <Box paddingLeft="8px">{row.title}</Box>
