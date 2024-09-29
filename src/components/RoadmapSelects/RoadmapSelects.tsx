@@ -8,7 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 
 export default function RoadmapSelects({
   setAvailableElectives,
@@ -29,6 +29,13 @@ export default function RoadmapSelects({
     setCareer,
   } = useRoadmapSelectsStore();
   const { careerOptions, fetchedCareers } = useFetchCareers();
+
+  useEffect(() => {
+    const selectedCareerElectives = fetchedCareers?.find(
+      (fetchedCareer) => fetchedCareer.career === career
+    )?.electives;
+    setAvailableElectives(selectedCareerElectives ?? []);
+  }, [career, fetchedCareers, setAvailableElectives]);
 
   const degreeOptions = useMemo(
     () =>
@@ -64,12 +71,8 @@ export default function RoadmapSelects({
   const onChangeCareer = useCallback(
     (value: string) => {
       setCareer(value);
-      const selectedCareerElectives = fetchedCareers?.find(
-        ({ career }) => career === value
-      )?.electives;
-      setAvailableElectives(selectedCareerElectives ?? []);
     },
-    [fetchedCareers, setAvailableElectives, setCareer]
+    [setCareer]
   );
 
   const selectsConfig = [
