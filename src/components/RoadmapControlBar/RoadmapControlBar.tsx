@@ -42,7 +42,6 @@ const RoadmapControlBar = ({
         direction="row"
         flexWrap="wrap"
         alignItems="center"
-        sx={{ "&>*": { height: "100%" } }}
       >
         <ImportButton onImport={onImport} />
         <ExportButton selectedElectives={selectedElectives} />
