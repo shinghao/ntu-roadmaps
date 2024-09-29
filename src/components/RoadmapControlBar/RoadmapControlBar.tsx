@@ -45,7 +45,7 @@ const RoadmapControlBar = ({
       >
         <ImportButton onImport={onImport} />
         <ExportButton selectedElectives={selectedElectives} />
-        <DownloadButton />
+        {viewFormat === ViewFormat.Roadmap && <DownloadButton />}
         <ResetButton setSelectedElectives={setSelectedElectives} />
       </Stack>
     </Stack>
