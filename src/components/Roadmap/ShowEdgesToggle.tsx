@@ -1,14 +1,9 @@
 import { FormControlLabel, FormGroup, Switch } from "@mui/material";
+import useToggleShowAllEdges from "./hooks/useToggleShowAllEdges";
 
-interface handleOnShowEdges {
-  onShowAllEdges: () => void;
-  isEdgesHidden: boolean;
-}
+export default function ShowEdgesToggle() {
+  const { isEdgesHidden, toggleShowAllEdges } = useToggleShowAllEdges();
 
-export default function ShowEdgesToggle({
-  onShowAllEdges,
-  isEdgesHidden,
-}: handleOnShowEdges) {
   return (
     <FormGroup>
       <FormControlLabel
@@ -17,7 +12,7 @@ export default function ShowEdgesToggle({
           <Switch
             defaultChecked
             value={isEdgesHidden}
-            onChange={onShowAllEdges}
+            onChange={toggleShowAllEdges}
             size="small"
             sx={{ marginRight: "6px" }}
           />

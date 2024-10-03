@@ -7,6 +7,8 @@ import LockIcon from "@mui/icons-material/Lock";
 import { ChangeEvent } from "react";
 import ElectiveBtn from "@components/CurriculumTable/ElectiveBtn";
 import useCourseModalStore from "@store/useCourseModalStore";
+import useSelectCourseNode from "../hooks/useSelectCourseNode";
+import useOnCourseNodeCheck from "../hooks/useOnCourseNodeCheck";
 
 export type CourseNode = Node<{
   id: string;
@@ -17,8 +19,6 @@ export type CourseNode = Node<{
   hasSourceHandle: boolean;
   hasTargetHandle: boolean;
   isHandlesHidden: boolean;
-  onCheck: (checked: boolean, courseCode: string) => void;
-  onSelectCourseNode: (id: string, isSelected: boolean) => void;
   isSelected: boolean;
   isElective: boolean;
   title: string;
@@ -35,18 +35,18 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
     hasSourceHandle = true,
     hasTargetHandle = true,
     isHandlesHidden,
-    onCheck,
-    onSelectCourseNode,
     isSelected = false,
     isElective = false,
     title = "",
   } = data;
 
-  const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
-    onCheck(e.target.checked, courseCode);
-  };
-
   const { openCourseModal } = useCourseModalStore();
+  const { onSelectCourseNode } = useSelectCourseNode();
+  const { onNodeCheck } = useOnCourseNodeCheck();
+
+  const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
+    onNodeCheck(e.target.checked, courseCode);
+  };
 
   const backgroundColor = isSelected
     ? "#2B78E4"

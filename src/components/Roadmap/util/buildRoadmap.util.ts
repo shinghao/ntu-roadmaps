@@ -47,12 +47,7 @@ export const updateCourseNodesForHandles = (
   }));
 };
 
-export function buildRoadmap(
-  roadmapData: Roadmap,
-  onNodeCheck: (checked: boolean, courseCode: string) => void,
-  isEdgesHidden: boolean,
-  onSelectCourseNode: (id: string, isSelected: boolean) => void
-) {
+export function buildRoadmap(roadmapData: Roadmap, isEdgesHidden: boolean) {
   const generateSemesterNodes = (): Node[] => {
     const nodes: Node[] = [];
     let yPos = RoadmapConstants.PARENT_YPOS_START;
@@ -96,10 +91,8 @@ export function buildRoadmap(
             id,
             courseCode,
             prerequisites,
-            onCheck: onNodeCheck,
             isHandlesHidden: isEdgesHidden,
             isAvailable: completedCourses.includes(courseCode),
-            onSelectCourseNode,
             isElective,
             title,
           },
