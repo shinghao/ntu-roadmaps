@@ -125,21 +125,23 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             sx={{ width: "100%" }}
           />
         )}
-        <IconButton
-          aria-label="view course details"
-          size="small"
-          onClick={() => openCourseModal(id, isElective)}
-          sx={{
-            borderLeft: iconButtonBorderLeft,
-            paddingX: "0.6rem",
-            borderRadius: "0",
-            "&:hover": { borderBottom: "none" },
-            height: "100%",
-            marginLeft: "auto",
-          }}
-        >
-          <KeyboardArrowRightIcon fontSize="medium" />
-        </IconButton>
+        {title && (
+          <IconButton
+            aria-label="view course details"
+            size="small"
+            onClick={() => openCourseModal(id, isElective)}
+            sx={{
+              borderLeft: iconButtonBorderLeft,
+              paddingX: "0.6rem",
+              borderRadius: "0",
+              "&:hover": { borderBottom: "none" },
+              height: "100%",
+              marginLeft: "auto",
+            }}
+          >
+            <KeyboardArrowRightIcon fontSize="medium" />
+          </IconButton>
+        )}
       </Box>
 
       <Handle
