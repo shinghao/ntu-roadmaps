@@ -24,7 +24,7 @@ const createTitleNode = (cohort: string, degree: string, career: string) => {
   };
 };
 
-const Roadmap = ({ roadmapData }: { roadmapData: Roadmap }) => {
+const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
   const { degree, career, cohort } = useRoadmapSelectsStore();
   const { nodes, edges } = useBuildRoadmap(roadmapData);
 
@@ -63,4 +63,4 @@ const Roadmap = ({ roadmapData }: { roadmapData: Roadmap }) => {
   );
 };
 
-export default Roadmap;
+export default RoadmapView;
