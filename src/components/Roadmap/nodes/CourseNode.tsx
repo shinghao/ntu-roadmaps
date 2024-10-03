@@ -8,7 +8,7 @@ import { ChangeEvent } from "react";
 import ElectiveBtn from "@components/CurriculumTable/ElectiveBtn";
 import useCourseModalStore from "@store/useCourseModalStore";
 import useSelectCourseNode from "../hooks/useSelectCourseNode";
-import useOnCourseNodeCheck from "../hooks/useOnCourseNodeCheck";
+import useOnCheckCourseNode from "../hooks/useOnCheckCourseNode";
 
 export type CourseNode = Node<{
   id: string;
@@ -42,7 +42,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
 
   const { openCourseModal } = useCourseModalStore();
   const { onSelectCourseNode } = useSelectCourseNode();
-  const { onNodeCheck } = useOnCourseNodeCheck();
+  const { onNodeCheck } = useOnCheckCourseNode();
 
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     onNodeCheck(e.target.checked, courseCode);

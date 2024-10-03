@@ -1,4 +1,4 @@
-import { isPrerequisitesCompleted } from "@components/Roadmap/util/buildRoadmap.util";
+import isPrerequisitesCompleted from "@utils/isPrerequisitesCompleted";
 import {
   TableRow,
   TableCell,

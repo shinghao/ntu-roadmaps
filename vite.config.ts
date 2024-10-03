@@ -17,6 +17,7 @@ export default defineConfig({
       "@hooks": path.resolve(__dirname, "./src/hooks"),
       "@customTypes": path.resolve(__dirname, "./src/types"),
       "@store": path.resolve(__dirname, "./src/store"),
+      "@utils": path.resolve(__dirname, "./src/utils"),
     },
   },
 });

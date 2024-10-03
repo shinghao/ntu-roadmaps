@@ -1,14 +1,21 @@
 import { useReactFlow } from "@xyflow/react";
-import { isPrerequisitesCompleted } from "../util/buildRoadmap.util";
-import { useCompletedCourses } from "./useCompletedCourses";
-import { useEffect } from "react";
+import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
+import isPrerequisitesCompleted from "@utils/isPrerequisitesCompleted";
 
-const useOnCourseNodeCheck = () => {
+const useOnCheckCourseNode = () => {
   const { addCompletedCourse, removeCompletedCourse, completedCourses } =
-    useCompletedCourses();
+    useCompletedCoursesStore();
   const { setNodes } = useReactFlow();
 
-  useEffect(() => {
+  const onNodeCheck = (checked: boolean, courseCode: string) => {
+    const updatedCompletedCourses = checked
+      ? [...completedCourses, courseCode]
+      : completedCourses.filter((code) => code !== courseCode);
+
+    checked
+      ? addCompletedCourse(courseCode)
+      : removeCompletedCourse(courseCode);
+
     setNodes((currentNodes) =>
       currentNodes.map((node) => ({
         ...node,
@@ -19,7 +26,7 @@ const useOnCourseNodeCheck = () => {
                 isAvailable: isPrerequisitesCompleted(
                   node.data.courseCode as string
                 ),
-                isCompleted: completedCourses.includes(
+                isCompleted: updatedCompletedCourses.includes(
                   node.data.courseCode as string
                 ),
               }
@@ -27,15 +34,9 @@ const useOnCourseNodeCheck = () => {
         },
       }))
     );
-  }, [completedCourses, setNodes]);
-
-  const onNodeCheck = (checked: boolean, courseCode: string) => {
-    checked
-      ? addCompletedCourse(courseCode)
-      : removeCompletedCourse(courseCode);
   };
 
   return { onNodeCheck };
 };
 
-export default useOnCourseNodeCheck;
+export default useOnCheckCourseNode;
