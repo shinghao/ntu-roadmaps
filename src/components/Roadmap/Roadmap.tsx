@@ -24,7 +24,6 @@ import "./Roadmap.css";
 import "@xyflow/react/dist/style.css";
 import { type Roadmap } from "@customTypes/index";
 import Paper from "@mui/material/Paper/Paper";
-import useCourseModalStore from "@store/useCourseModalStore";
 import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
 import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
 
@@ -51,7 +50,6 @@ export default function Roadmap({ roadmapData }: RoadmapProps) {
   const [edges, setEdges, onEdgeChange] = useEdgesState<Edge>([]);
   const [isEdgesHidden, setIsEdgesHidden] = useState(false);
 
-  const { openCourseModal } = useCourseModalStore();
   const { completedCourses, addCompletedCourse, removeCompletedCourse } =
     useCompletedCoursesStore();
 
@@ -97,7 +95,6 @@ export default function Roadmap({ roadmapData }: RoadmapProps) {
         roadmapData,
         onNodeCheck,
         isEdgesHidden,
-        openCourseModal,
         onSelectCourseNode
       );
       setNodes(nodes);
@@ -108,7 +105,6 @@ export default function Roadmap({ roadmapData }: RoadmapProps) {
     onSelectCourseNode,
     setEdges,
     setNodes,
-    openCourseModal,
     isEdgesHidden,
     addCompletedCourse,
     removeCompletedCourse,

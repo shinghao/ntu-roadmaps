@@ -6,6 +6,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import LockIcon from "@mui/icons-material/Lock";
 import { ChangeEvent } from "react";
 import ElectiveBtn from "@components/CurriculumTable/ElectiveBtn";
+import useCourseModalStore from "@store/useCourseModalStore";
 
 export type CourseNode = Node<{
   id: string;
@@ -17,7 +18,6 @@ export type CourseNode = Node<{
   hasTargetHandle: boolean;
   isHandlesHidden: boolean;
   onCheck: (checked: boolean, courseCode: string) => void;
-  handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void;
   onSelectCourseNode: (id: string, isSelected: boolean) => void;
   isSelected: boolean;
   isElective: boolean;
@@ -36,7 +36,6 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
     hasTargetHandle = true,
     isHandlesHidden,
     onCheck,
-    handleOnOpenCourseModal,
     onSelectCourseNode,
     isSelected = false,
     isElective = false,
@@ -46,6 +45,8 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     onCheck(e.target.checked, courseCode);
   };
+
+  const { openCourseModal } = useCourseModalStore();
 
   const backgroundColor = isSelected
     ? "#2B78E4"
@@ -117,7 +118,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
         <IconButton
           aria-label="view course details"
           size="small"
-          onClick={() => handleOnOpenCourseModal(id, isElective)}
+          onClick={() => openCourseModal(id, isElective)}
           sx={{
             borderLeft: iconButtonBorderLeft,
             paddingX: "0.6rem",

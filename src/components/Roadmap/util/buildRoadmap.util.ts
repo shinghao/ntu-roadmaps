@@ -51,7 +51,6 @@ export function buildRoadmap(
   roadmapData: Roadmap,
   onNodeCheck: (checked: boolean, courseCode: string) => void,
   isEdgesHidden: boolean,
-  handleOnOpenCourseModal: (nodeId: string, isElective: boolean) => void,
   onSelectCourseNode: (id: string, isSelected: boolean) => void
 ) {
   const generateSemesterNodes = (): Node[] => {
@@ -100,7 +99,6 @@ export function buildRoadmap(
             onCheck: onNodeCheck,
             isHandlesHidden: isEdgesHidden,
             isAvailable: completedCourses.includes(courseCode),
-            handleOnOpenCourseModal,
             onSelectCourseNode,
             isElective,
             title,
