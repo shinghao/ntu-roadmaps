@@ -1,7 +1,7 @@
 import { Handle, NodeProps, Position, Node } from "@xyflow/react";
 import { CHILD_NODE_WIDTH, CHILD_NODE_HEIGHT } from "../Roadmap.constants";
 import "./CourseNode.css";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Badge, Box, IconButton, Typography } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import LockIcon from "@mui/icons-material/Lock";
 import { ChangeEvent } from "react";
@@ -74,6 +74,12 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
 
   return (
     <>
+      {isElective && (
+        <Box sx={{ position: "absolute", bottom: "40px", left: "25px" }}>
+          <Badge color="primary" badgeContent="Elective"></Badge>
+        </Box>
+      )}
+
       <Box
         className="courseNode"
         sx={{
@@ -95,7 +101,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             disabled={!isAvailable}
           />
         ) : (
-          <LockIcon color="disabled" fontSize="small" />
+          title && <LockIcon color="disabled" fontSize="small" />
         )}
         {title ? (
           <button
@@ -113,7 +119,11 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             </Typography>
           </button>
         ) : (
-          <ElectiveBtn nodeId={id} electiveTitle="" />
+          <ElectiveBtn
+            nodeId={id}
+            electiveTitle="SELECT"
+            sx={{ width: "100%" }}
+          />
         )}
         <IconButton
           aria-label="view course details"
