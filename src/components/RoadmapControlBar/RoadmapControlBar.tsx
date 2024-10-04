@@ -31,13 +31,13 @@ const RoadmapControlBar = ({
       marginY="24px"
       alignItems={"between"}
       justifyContent={"space-between"}
-      spacing="10px"
+      spacing="8px"
       useFlexGap
       sx={{ height: "100%" }}
     >
       <ViewToggle viewFormat={viewFormat} setViewFormat={setViewFormat} />
       <Stack
-        spacing="10px"
+        spacing="8px"
         useFlexGap
         direction="row"
         flexWrap="wrap"
