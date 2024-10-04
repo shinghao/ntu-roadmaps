@@ -1,12 +1,12 @@
-import { Button } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import TheTooltip from "@components/Tooltip/Tooltip";
 import { useState } from "react";
 import ConfirmationDialog from "@components/ConfirmationDialog";
 import { Elective } from "@customTypes/index";
 import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
+import { IconButton } from "@mui/material";
 
-const TOOLTIP_TEXT = "Reset all completed courses and selected electives";
+const TOOLTIP_TEXT = "Reset all completed courses and electives";
 
 interface ResetButtonProps {
   setSelectedElectives: (electives: Elective[]) => void;
@@ -35,15 +35,9 @@ export default function ResetButton({
   return (
     <>
       <TheTooltip title={TOOLTIP_TEXT}>
-        <Button
-          variant="outlined"
-          disableElevation
-          startIcon={<RestartAltIcon />}
-          onClick={() => setIsConfirmDialogOpen(true)}
-          size="small"
-        >
-          Reset
-        </Button>
+        <IconButton onClick={() => setIsConfirmDialogOpen(true)}>
+          <RestartAltIcon sx={{ width: "1.2rem", height: "1.2rem" }} />
+        </IconButton>
       </TheTooltip>
       <ConfirmationDialog
         open={isConfirmDialogOpen}

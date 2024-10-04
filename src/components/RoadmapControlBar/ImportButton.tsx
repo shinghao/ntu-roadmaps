@@ -1,10 +1,10 @@
 import { ChangeEvent, memo } from "react";
-import { Button } from "@mui/material";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import TheTooltip from "@components/Tooltip/Tooltip";
 import { ExportData } from "@customTypes/exportData";
 import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
 import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
+import { Button, IconButton, useMediaQuery } from "@mui/material";
 
 const TOOLTIP_TEXT = "Import JSON";
 
@@ -16,6 +16,8 @@ const ImportButton = memo(({ onImport }: ImportButtonProps) => {
   const { importCompletedCourses } = useCompletedCoursesStore();
   const { setDegree, setCohort, setDegreeType, setCareer } =
     useRoadmapSelectsStore();
+  const isSmallScreen = useMediaQuery("(max-width: 640px)");
+
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -41,21 +43,35 @@ const ImportButton = memo(({ onImport }: ImportButtonProps) => {
 
   return (
     <TheTooltip title={TOOLTIP_TEXT}>
-      <Button
-        variant="contained"
-        disableElevation
-        component="label"
-        startIcon={<FileUploadOutlinedIcon />}
-        size="small"
-      >
-        Import
-        <input
-          type="file"
-          accept="application/json"
-          hidden
-          onChange={handleFileChange}
-        />
-      </Button>
+      {isSmallScreen ? (
+        <IconButton
+          sx={{ border: "1px solid lightgrey", padding: "0.5rem" }}
+          size="small"
+        >
+          <FileUploadOutlinedIcon fontSize="small" />
+        </IconButton>
+      ) : (
+        <Button
+          variant="outlined"
+          disableElevation
+          component="label"
+          startIcon={<FileUploadOutlinedIcon sx={{ width: "0.9em" }} />}
+          size="small"
+          sx={{
+            textTransform: "none",
+            borderRadius: "0.9rem",
+            padding: "0.4rem 1rem",
+          }}
+        >
+          Import
+          <input
+            type="file"
+            accept="application/json"
+            hidden
+            onChange={handleFileChange}
+          />
+        </Button>
+      )}
     </TheTooltip>
   );
 });

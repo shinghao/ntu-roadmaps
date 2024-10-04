@@ -4,24 +4,28 @@ import {
   getViewportForBounds,
 } from "@xyflow/react";
 import { DOWNLOAD_IMAGE } from "../Roadmap/Roadmap.constants";
-import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import { toPng } from "html-to-image";
-import TheTooltip from "@components/Tooltip/Tooltip";
+import TheTooltip from "@components/Tooltip";
+import { Button, IconButton, useMediaQuery } from "@mui/material";
+import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
 
-const IMAGE_URL = "my-course-roadmap.png";
 const TOOLTIP_TEXT = "Download roadmap as PNG image";
 
-function downloadImage(dataUrl: string) {
+function downloadImage(dataUrl: string, image_url: string) {
   const a = document.createElement("a");
 
-  a.setAttribute("download", IMAGE_URL);
+  a.setAttribute("download", image_url);
   a.setAttribute("href", dataUrl);
   a.click();
 }
 
 function DownloadButton() {
   const { getNodes } = useReactFlow();
+  const { degree, cohort, degreeType, career } = useRoadmapSelectsStore();
+  const image_url = `${degree}-${cohort}-${degreeType}-${career}.png`;
+  const isSmallScreen = useMediaQuery("(max-width: 640px)");
+
   const onDownloadRoadmap = () => {
     const nodesBounds = getNodesBounds(getNodes());
     const { x, y, zoom } = getViewportForBounds(
@@ -42,25 +46,37 @@ function DownloadButton() {
         height: `${DOWNLOAD_IMAGE.HEIGHT}`,
         transform: `translate(${x / 2}px, ${y / 2}px) scale(${zoom})`,
       },
-    }).then(downloadImage);
+    }).then((dateUrl) => downloadImage(dateUrl, image_url));
   };
 
   return (
     <TheTooltip title={TOOLTIP_TEXT}>
-      <Button
-        variant="contained"
-        disableElevation
-        startIcon={<DownloadIcon />}
-        onClick={onDownloadRoadmap}
-        sx={{
-          "&:hover": {
-            borderBottom: "none",
-          },
-        }}
-        size="small"
-      >
-        Download
-      </Button>
+      {isSmallScreen ? (
+        <IconButton
+          sx={{ border: "1px solid lightgrey", padding: "0.5rem" }}
+          size="small"
+        >
+          <DownloadIcon color="primary" fontSize="small" />
+        </IconButton>
+      ) : (
+        <Button
+          variant="contained"
+          disableElevation
+          sx={{
+            "&:hover": {
+              borderBottom: "none",
+            },
+            textTransform: "none",
+            borderRadius: "0.9rem",
+            padding: "0.4rem 1rem",
+          }}
+          size="small"
+          startIcon={<DownloadIcon sx={{ width: "0.9em" }} />}
+          onClick={onDownloadRoadmap}
+        >
+          Download
+        </Button>
+      )}
     </TheTooltip>
   );
 }
