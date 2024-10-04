@@ -53,9 +53,7 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
         >
           <Controls position="top-right" />
           <Panel>
-            <Paper sx={{ padding: "1rem" }}>
-              <ShowEdgesToggle />
-            </Paper>
+            <ShowEdgesToggle />
           </Panel>
         </ReactFlow>
       </div>
