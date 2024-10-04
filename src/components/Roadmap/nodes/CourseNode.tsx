@@ -9,6 +9,7 @@ import ElectiveBtn from "@components/CurriculumTable/ElectiveBtn";
 import useCourseModalStore from "@store/useCourseModalStore";
 import useSelectCourseNode from "../hooks/useSelectCourseNode";
 import useOnCheckCourseNode from "../hooks/useOnCheckCourseNode";
+import { CourseInRoadmapType } from "@customTypes/roadmap";
 
 export type CourseNode = Node<{
   id: string;
@@ -20,7 +21,7 @@ export type CourseNode = Node<{
   hasTargetHandle: boolean;
   isHandlesHidden: boolean;
   isSelected: boolean;
-  isElective: boolean;
+  courseType: CourseInRoadmapType;
   title: string;
 }>;
 
@@ -36,13 +37,15 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
     hasTargetHandle = true,
     isHandlesHidden,
     isSelected = false,
-    isElective = false,
+    courseType = CourseInRoadmapType.Core,
     title = "",
   } = data;
 
   const { openCourseModal } = useCourseModalStore();
   const { onSelectCourseNode } = useSelectCourseNode();
   const { onNodeCheck } = useOnCheckCourseNode();
+
+  const isElective = courseType === CourseInRoadmapType.Elective;
 
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     onNodeCheck(e.target.checked, courseCode);
@@ -64,7 +67,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
     : "rgba(0, 0, 0, 0.4)";
   const border = isAvailable
     ? "1px solid rgb(212, 212, 216)"
-    : "1px solid rgb(200, 200, 200)";
+    : "1px solid rgb(212, 212, 216)";
   const iconButtonBorderLeft = isAvailable
     ? "1px solid rgb(212, 212, 216)"
     : "1px solid rgba(0, 0, 0, 0.2)";
@@ -129,7 +132,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
           <IconButton
             aria-label="view course details"
             size="small"
-            onClick={() => openCourseModal(id, isElective)}
+            onClick={() => openCourseModal(id, courseType)}
             sx={{
               borderLeft: iconButtonBorderLeft,
               paddingX: "0.6rem",

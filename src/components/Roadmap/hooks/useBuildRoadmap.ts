@@ -1,7 +1,7 @@
 import { Edge, MarkerType, Node } from "@xyflow/react";
 import isPrerequisitesCompleted from "@utils/isPrerequisitesCompleted";
 import * as RoadmapConstants from "../Roadmap.constants";
-import { CourseInRoadmapType, Roadmap } from "@customTypes/index";
+import { Roadmap } from "@customTypes/index";
 import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
 import { useCallback } from "react";
 import useIsEdgesHiddenStore from "@store/useIsEdgesHiddenStore";
@@ -95,8 +95,6 @@ const useBuildRoadmap = (roadmapData: Roadmap) => {
         let childNodeX = RoadmapConstants.CHILD_XPOS_START;
 
         courses.forEach(({ courseCode, prerequisites, type, id, title }) => {
-          const isElective = type === CourseInRoadmapType.Elective;
-
           courseNodes.push({
             id,
             data: {
@@ -105,7 +103,7 @@ const useBuildRoadmap = (roadmapData: Roadmap) => {
               prerequisites,
               isHandlesHidden: isEdgesHidden,
               isAvailable: completedCourses.includes(courseCode),
-              isElective,
+              courseType: type,
               title,
             },
             position: { x: childNodeX, y: RoadmapConstants.CHILD_YPOS_START },

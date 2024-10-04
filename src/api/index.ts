@@ -36,6 +36,8 @@ export const fetchRoadmap = async (
   const getCourseInRoadmapType = (courseCode: string): CourseInRoadmapType => {
     if (courseCode.includes("xx")) {
       return CourseInRoadmapType.Elective;
+    } else if (courseCode === "BDE") {
+      return CourseInRoadmapType.Bde;
     } else if (courseCode.includes("SC")) {
       return CourseInRoadmapType.CCore;
     } else {

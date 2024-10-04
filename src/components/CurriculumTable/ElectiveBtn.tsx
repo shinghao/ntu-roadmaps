@@ -1,3 +1,4 @@
+import { CourseInRoadmapType } from "@customTypes/roadmap";
 import { Button, SxProps } from "@mui/material";
 import useCourseModalStore from "@store/useCourseModalStore";
 
@@ -16,7 +17,7 @@ const ElectiveBtn = ({ nodeId, electiveTitle, sx, ...props }: Props) => {
         textTransform: "none",
         ...sx,
       }}
-      onClick={() => openCourseModal(nodeId, true)}
+      onClick={() => openCourseModal(nodeId, CourseInRoadmapType.Elective)}
       {...props}
     >
       {electiveTitle || "SELECT ELECTIVE"}

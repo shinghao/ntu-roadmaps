@@ -1,5 +1,4 @@
-import { type Edge, useReactFlow } from "@xyflow/react";
-import { useCallback } from "react";
+import { Edge, useReactFlow } from "@xyflow/react";
 import useIsEdgesHiddenStore from "@store/useIsEdgesHiddenStore";
 
 function getAllConnectedEdges(
@@ -41,7 +40,7 @@ const useSelectCourseNode = () => {
   const { setNodes, setEdges } = useReactFlow();
   const { isEdgesHidden } = useIsEdgesHiddenStore();
 
-  const setEdgesOnUnselectCourse = useCallback(() => {
+  const setEdgesOnUnselectCourse = () => {
     setEdges((currentEdges) =>
       currentEdges.map((edge) => ({
         ...edge,
@@ -49,45 +48,39 @@ const useSelectCourseNode = () => {
         animated: false,
       }))
     );
-  }, [isEdgesHidden, setEdges]);
+  };
 
-  const setEdgesOnSelectCourse = useCallback(
-    (selectedCourse: string) => {
-      setEdges((currentEdges) => {
-        const edgesToHighlight = getAllConnectedEdges(
-          selectedCourse,
-          currentEdges
-        );
-        return currentEdges.map((edge) => ({
-          ...edge,
-          hidden: edgesToHighlight.has(edge.id) ? false : true,
-          animated: edgesToHighlight.has(edge.id) ? true : false,
-        }));
-      });
-    },
-    [setEdges]
-  );
-
-  const onSelectCourseNode = useCallback(
-    (id: string, isSelected: boolean) => {
-      const selectedCourse = isSelected ? id : "";
-      setNodes((currentNodes) =>
-        currentNodes.map((node) => ({
-          ...node,
-          data: {
-            ...node.data,
-            isSelected: node.data.id === selectedCourse,
-            isHandlesHidden: node.data.id !== selectedCourse,
-          },
-        }))
+  const setEdgesOnSelectCourse = (selectedCourse: string) => {
+    setEdges((currentEdges) => {
+      const edgesToHighlight = getAllConnectedEdges(
+        selectedCourse,
+        currentEdges
       );
+      return currentEdges.map((edge) => ({
+        ...edge,
+        hidden: edgesToHighlight.has(edge.id) ? false : true,
+        animated: edgesToHighlight.has(edge.id) ? true : false,
+      }));
+    });
+  };
 
-      selectedCourse === ""
-        ? setEdgesOnUnselectCourse()
-        : setEdgesOnSelectCourse(selectedCourse);
-    },
-    [setEdgesOnSelectCourse, setEdgesOnUnselectCourse, setNodes]
-  );
+  const onSelectCourseNode = (id: string, isSelected: boolean) => {
+    const selectedCourse = isSelected ? id : "";
+    setNodes((currentNodes) =>
+      currentNodes.map((node) => ({
+        ...node,
+        data: {
+          ...node.data,
+          isSelected: node.data.id === selectedCourse,
+          isHandlesHidden: node.data.id !== selectedCourse,
+        },
+      }))
+    );
+
+    selectedCourse === ""
+      ? setEdgesOnUnselectCourse()
+      : setEdgesOnSelectCourse(selectedCourse);
+  };
 
   return { onSelectCourseNode };
 };

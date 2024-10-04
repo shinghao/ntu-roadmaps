@@ -1,11 +1,16 @@
 import "./CourseModal.css";
 import PrerequisiteGraph from "./PrerequisiteGraph";
-import { Button, Drawer, Divider } from "@mui/material";
+import { Button, Drawer, Divider, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useFetchCourseDetails from "@hooks/useFetchCourseDetails";
 import { useEffect, useMemo, useState } from "react";
 import SelectElective from "./SelectElective";
-import { Course, Elective, Roadmap } from "@customTypes/index";
+import {
+  Course,
+  CourseInRoadmapType,
+  Elective,
+  Roadmap,
+} from "@customTypes/index";
 import useCourseModalStore from "@store/useCourseModalStore";
 
 interface Props {
@@ -19,12 +24,12 @@ export default function CourseModal({
   roadmapData,
   ...props
 }: Props) {
-  const {
-    isCourseModalOpen,
-    closeCourseModal,
-    selectedNodeId,
-    isSelectedCourseElective,
-  } = useCourseModalStore();
+  const { isCourseModalOpen, closeCourseModal, selectedNodeId, courseType } =
+    useCourseModalStore();
+
+  console.log(courseType);
+  const isElective = courseType === CourseInRoadmapType.Elective;
+  const isBde = courseType === CourseInRoadmapType.Bde;
 
   const coursesInRoadmap = useMemo(() => {
     return roadmapData.coursesByYearSemester.flatMap(
@@ -42,10 +47,10 @@ export default function CourseModal({
 
   const effectiveCourseCode = useMemo(
     () =>
-      isSelectedCourseElective && selectedElective
+      isElective && selectedElective
         ? selectedElective
         : (selectedNode?.courseCode as string) ?? "",
-    [isSelectedCourseElective, selectedElective, selectedNode]
+    [isElective, selectedElective, selectedNode]
   );
 
   const effectiveCourseCodeValue = useMemo(
@@ -73,14 +78,9 @@ export default function CourseModal({
   };
 
   useEffect(() => {
-    if (
-      !selectedElective ||
-      !fetchedCourseDetails ||
-      !isSelectedCourseElective
-    ) {
+    if (!selectedElective || !fetchedCourseDetails || !isElective) {
       return;
     }
-    console.log("hi");
     fetchedCourseDetails;
     const newSelectedElective: Elective = {
       id: selectedNodeId || "",
@@ -103,7 +103,7 @@ export default function CourseModal({
     });
   }, [
     fetchedCourseDetails,
-    isSelectedCourseElective,
+    isElective,
     selectedNodeId,
     selectedElective,
     setSelectedElectives,
@@ -125,7 +125,7 @@ export default function CourseModal({
           ESC
         </Button>
 
-        {isSelectedCourseElective && (
+        {isElective && (
           <SelectElective
             selectedElective={effectiveCourseCodeValue}
             onSelectElective={onSelectElective}
@@ -163,10 +163,17 @@ export default function CourseModal({
               </div>
             )}
             <Divider />
-            <PrerequisiteGraph
-              courseId={courseCode}
-              prerequisites={prerequisites.map((prereq) => prereq[0]) || []}
-            />
+            {!isBde && (
+              <PrerequisiteGraph
+                courseId={courseCode}
+                prerequisites={prerequisites.map((prereq) => prereq[0]) || []}
+              />
+            )}
+            {isBde && (
+              <Typography marginTop="3rem" textAlign="center" fontSize="1.25em">
+                Coming Soon!
+              </Typography>
+            )}
           </div>
         )}
       </div>

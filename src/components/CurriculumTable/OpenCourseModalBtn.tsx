@@ -1,20 +1,21 @@
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import useCourseModalStore from "@store/useCourseModalStore";
+import { CourseInRoadmapType } from "@customTypes/index";
 
 interface Props {
   nodeId: string;
-  isElective: boolean;
+  courseType: CourseInRoadmapType;
 }
 
-const OpenCourseModalBtn = ({ nodeId, isElective }: Props) => {
+const OpenCourseModalBtn = ({ nodeId, courseType }: Props) => {
   const { openCourseModal } = useCourseModalStore();
 
   return (
     <IconButton
       aria-label="view course details"
       size="small"
-      onClick={() => openCourseModal(nodeId, isElective)}
+      onClick={() => openCourseModal(nodeId, courseType)}
       sx={{
         paddingX: "0.6rem",
         borderRadius: "0",

@@ -1,28 +1,29 @@
+import { CourseInRoadmapType } from "@customTypes/roadmap";
 import { create } from "zustand";
 
 interface CourseModalState {
   isCourseModalOpen: boolean;
-  isSelectedCourseElective: boolean;
+  courseType: CourseInRoadmapType | null;
   selectedNodeId: string | null;
-  openCourseModal: (nodeId: string, isElective: boolean) => void;
+  openCourseModal: (nodeId: string, courseType: CourseInRoadmapType) => void;
   closeCourseModal: () => void;
 }
 
 const useCourseModalStore = create<CourseModalState>((set) => ({
   isCourseModalOpen: false,
-  isSelectedCourseElective: false,
+  courseType: null,
   selectedNodeId: null,
-  openCourseModal: (nodeId: string, isElective: boolean) =>
+  openCourseModal: (nodeId: string, courseType: CourseInRoadmapType) =>
     set({
       isCourseModalOpen: true,
-      isSelectedCourseElective: isElective,
+      courseType,
       selectedNodeId: nodeId,
     }),
   closeCourseModal: () =>
     set({
       isCourseModalOpen: false,
+      courseType: null,
       selectedNodeId: null,
-      isSelectedCourseElective: false,
     }),
 }));
 

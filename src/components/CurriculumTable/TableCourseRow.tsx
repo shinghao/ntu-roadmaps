@@ -79,7 +79,7 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
               <Lock color="disabled" fontSize="small" />
             </Stack>
           )}
-          <OpenCourseModalBtn nodeId={row.id} isElective={isElective} />
+          <OpenCourseModalBtn nodeId={row.id} courseType={row.type} />
         </Box>
       </TableCell>
       <TableCell
