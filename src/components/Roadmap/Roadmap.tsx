@@ -7,7 +7,6 @@ import ShowEdgesToggle from "./ShowEdgesToggle";
 import "./Roadmap.css";
 import "@xyflow/react/dist/style.css";
 import { type Roadmap } from "@customTypes/index";
-import Paper from "@mui/material/Paper/Paper";
 import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
 import useBuildRoadmap from "./hooks/useBuildRoadmap";
 
@@ -17,7 +16,7 @@ const createTitleNode = (cohort: string, degree: string, career: string) => {
     className: "node-title",
     position: { x: 300, y: 30 },
     data: {
-      label: <h1>{`${cohort} - ${degree} - ${career}`}</h1>,
+      label: <h1>{`AY${cohort} - ${degree} (${career})`}</h1>,
     },
     draggable: false,
     selectable: false,

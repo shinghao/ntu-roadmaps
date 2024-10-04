@@ -22,7 +22,7 @@ const CurriculumTable = ({ roadmapData }: CurriculumTableProps) => {
         fontWeight={"bold"}
         align="center"
         marginTop={"32px"}
-      >{`${cohort} - ${degree} - ${career}`}</Typography>
+      >{`AY${cohort} - ${degree} (${career})`}</Typography>
       <TableContainer sx={{ marginTop: "16px", border: `1px solid grey` }}>
         <Table
           size="small"
