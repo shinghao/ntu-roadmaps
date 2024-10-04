@@ -13,7 +13,12 @@ const SurveyButton = () => (
       variant="contained"
       disableElevation
       color="primary"
-      sx={{ fontSize: "1em" }}
+      sx={{
+        textTransform: "none",
+        borderRadius: "0.9rem",
+        padding: "0.4rem 1rem",
+        fontSize: "0.8em",
+      }}
       size="small"
     >
       😊 Survey
