@@ -11,7 +11,7 @@ export const YPOS_BETWEEN_PARENTS = 40;
 
 export const DOWNLOAD_IMAGE = {
   WIDTH: 2048,
-  HEIGHT: 1536,
+  HEIGHT: 2200,
   MINZOOM: 0.1,
   MAXZOOM: 1.2,
   PADDING: 0,
