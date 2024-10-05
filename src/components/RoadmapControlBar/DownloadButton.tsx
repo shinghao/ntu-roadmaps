@@ -61,6 +61,7 @@ function DownloadButton() {
             "&:hover": { backgroundColor: theme.palette.primary.dark },
           }}
           size="small"
+          onClick={onDownloadRoadmap}
         >
           <DownloadIcon fontSize="small" sx={{ color: "white" }} />
         </IconButton>

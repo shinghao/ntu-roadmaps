@@ -40,6 +40,7 @@ export default function ExportButton({ selectedElectives }: ExportButtonProps) {
         <IconButton
           sx={{ border: "1px solid lightgrey", padding: "0.5rem" }}
           size="small"
+          onClick={onExport}
         >
           <SaveIcon fontSize="small" />
         </IconButton>
