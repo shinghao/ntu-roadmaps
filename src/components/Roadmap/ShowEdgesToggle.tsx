@@ -13,7 +13,7 @@ export default function ShowEdgesToggle() {
   const theme = useTheme();
 
   return (
-    <Paper sx={{ padding: "0.4rem 0.6rem" }}>
+    <Paper sx={{ padding: "0.2rem 0.4rem" }}>
       <FormGroup>
         <FormControlLabel
           style={{ marginRight: 0 }}
@@ -23,7 +23,7 @@ export default function ShowEdgesToggle() {
               value={isEdgesHidden}
               onChange={toggleShowAllEdges}
               size="small"
-              sx={{ marginRight: "6px", marginLeft: "3px" }}
+              sx={{ marginRight: "2px", marginLeft: "6px" }}
             />
           }
           label={
@@ -33,7 +33,7 @@ export default function ShowEdgesToggle() {
               }}
               fontSize="0.8em"
             >
-              Show Arrows
+              All Arrows
             </Typography>
           }
         />
