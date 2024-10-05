@@ -1,6 +1,6 @@
 import "./CourseModal.css";
 import PrerequisiteGraph from "./PrerequisiteGraph";
-import { Button, Drawer, Divider, Typography } from "@mui/material";
+import { Button, Drawer, Divider, Typography, Box } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useFetchCourseDetails from "@hooks/useFetchCourseDetails";
 import { useEffect, useMemo, useState } from "react";
@@ -27,7 +27,6 @@ export default function CourseModal({
   const { isCourseModalOpen, closeCourseModal, selectedNodeId, courseType } =
     useCourseModalStore();
 
-  console.log(courseType);
   const isElective = courseType === CourseInRoadmapType.Elective;
   const isBde = courseType === CourseInRoadmapType.Bde;
 
@@ -135,10 +134,12 @@ export default function CourseModal({
             )}
           />
         )}
+
         <h2>
           {effectiveCourseCode}
           {title ? ` - ${title}` : ""}
         </h2>
+
         {courseCode && (
           <div>
             <p>{au || "?"} AU</p>
@@ -169,12 +170,22 @@ export default function CourseModal({
                 prerequisites={prerequisites.map((prereq) => prereq[0]) || []}
               />
             )}
-            {isBde && (
-              <Typography marginTop="3rem" textAlign="center" fontSize="1.25em">
-                Coming Soon!
-              </Typography>
-            )}
           </div>
+        )}
+
+        {(isBde || !title) && (
+          <Box
+            margin="0 auto"
+            marginTop="3rem"
+            textAlign={"center"}
+            fontSize="1.25em"
+            width="12rem"
+            padding="0.8rem"
+            borderRadius="1rem"
+            sx={{ backgroundColor: "#FFE3A9" }}
+          >
+            Coming Soon! 🚀
+          </Box>
         )}
       </div>
     </Drawer>

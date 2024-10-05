@@ -56,6 +56,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
   const theme = useTheme();
 
   const isElective = courseType === CourseInRoadmapType.Elective;
+  const isUnselectedElective = isElective && !title;
 
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
     onNodeCheck(e.target.checked, courseCode);
@@ -96,13 +97,13 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
           height: CHILD_NODE_HEIGHT,
           backgroundColor: backgroundColor,
           "&:hover": { border: borderOnHover },
-          paddingLeft: title ? "0.6rem" : 0,
+          paddingLeft: !isUnselectedElective ? "0.6rem" : 0,
           display: "flex",
           gap: "0.4rem",
           border: "1px solid rgb(212, 212, 216)",
         }}
       >
-        {isAvailable && title ? (
+        {isAvailable && !isUnselectedElective ? (
           <Checkbox
             aria-label={`checkbox for ${courseCode}`}
             name={`checkbox-${id}`}
@@ -118,7 +119,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             icon={<CheckBoxOutlineBlankRounded />}
           />
         ) : (
-          title && (
+          !isUnselectedElective && (
             <LockIcon
               color="disabled"
               fontSize="small"
@@ -126,7 +127,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             />
           )
         )}
-        {title ? (
+        {!isUnselectedElective ? (
           <button
             className="courseNode-btn"
             onClick={() => onSelectCourseNode(id, !isSelected)}
@@ -146,7 +147,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             sx={{ width: "100%" }}
           />
         )}
-        {title && (
+        {!isUnselectedElective && (
           <IconButton
             aria-label="view course details"
             size="small"
