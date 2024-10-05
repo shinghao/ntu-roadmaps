@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { semesterColors } from "../../theme";
 
 const SemesterRow = ({
   year,
@@ -19,21 +20,13 @@ const SemesterRow = ({
   isCourseRowsHidden: boolean;
   setIsCourseRowsHidden: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const backgroundColors = [
-    "beige",
-    "lightblue",
-    "pink",
-    "lightsalmon",
-    "lightcoral",
-  ];
-
   return (
     <TableRow>
       <TableCell
         colSpan={5}
         align="center"
         sx={{
-          backgroundColor: `${backgroundColors[year]}`,
+          backgroundColor: `${semesterColors[year - 1]}`,
           fontWeight: "bold",
         }}
       >

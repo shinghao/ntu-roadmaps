@@ -1,26 +1,10 @@
+import { semesterColors } from "../../../theme";
 import {
   PARENT_NODE_HEIGHT,
   XPOS_BETWEEN_CHILD,
   CHILD_NODE_WIDTH,
   CHILD_XPOS_START,
 } from "../Roadmap.constants";
-
-// Pastel version
-// const backgroundColors = [
-//   "#D0CDF8",
-//   "#BAE9D5",
-//   "#EFC1C1",
-//   "#F5DCBE",
-//   "#F5DCBE",
-// ];
-
-const backgroundColors = [
-  "#FFBB33",
-  "#F99157",
-  "#CC99CC",
-  "#EC7272",
-  "#92B4EC",
-];
 
 const SemesterNode = ({
   data,
@@ -41,7 +25,7 @@ const SemesterNode = ({
         width: parentWidth,
         minWidth: "max-content",
         height: PARENT_NODE_HEIGHT,
-        backgroundColor: backgroundColors[year],
+        backgroundColor: semesterColors[year],
         fontWeight: "bold",
         textAlign: "left",
         margin: "0 auto",
@@ -49,7 +33,7 @@ const SemesterNode = ({
         fontSize: "1em",
         padding: `10px ${CHILD_XPOS_START}px`,
         borderRadius: "1rem",
-        border: `1px solid ${backgroundColors[year]}`,
+        border: `1px solid ${semesterColors[year]}`,
       }}
     >
       {data.label}
