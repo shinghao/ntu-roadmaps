@@ -1,7 +1,14 @@
 import { Handle, NodeProps, Position, Node } from "@xyflow/react";
 import { CHILD_NODE_WIDTH, CHILD_NODE_HEIGHT } from "../Roadmap.constants";
 import "./CourseNode.css";
-import { Badge, Box, IconButton, Typography } from "@mui/material";
+import {
+  Badge,
+  Box,
+  Checkbox,
+  IconButton,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import LockIcon from "@mui/icons-material/Lock";
 import { ChangeEvent } from "react";
@@ -10,6 +17,7 @@ import useCourseModalStore from "@store/useCourseModalStore";
 import useSelectCourseNode from "../hooks/useSelectCourseNode";
 import useOnCheckCourseNode from "../hooks/useOnCheckCourseNode";
 import { CourseInRoadmapType } from "@customTypes/roadmap";
+import { Check, CheckBoxOutlineBlankRounded } from "@mui/icons-material";
 
 export type CourseNode = Node<{
   id: string;
@@ -45,6 +53,8 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
   const { onSelectCourseNode } = useSelectCourseNode();
   const { onNodeCheck } = useOnCheckCourseNode();
 
+  const theme = useTheme();
+
   const isElective = courseType === CourseInRoadmapType.Elective;
 
   const handleCheck = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,22 +65,17 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
     ? "#2B78E4"
     : isAvailable
     ? isCompleted
-      ? "whitesmoke"
+      ? "#D7E6D7"
       : "white"
-    : "rgb(200, 200, 200)";
+    : "rgb(220, 220, 220)";
   const color = isSelected
     ? "white"
     : isAvailable
     ? isCompleted
-      ? "grey"
+      ? "black"
       : "black"
-    : "rgba(0, 0, 0, 0.4)";
-  const border = isAvailable
-    ? "1px solid rgb(212, 212, 216)"
-    : "1px solid rgb(212, 212, 216)";
-  const iconButtonBorderLeft = isAvailable
-    ? "1px solid rgb(212, 212, 216)"
-    : "1px solid rgba(0, 0, 0, 0.2)";
+    : "black";
+  const iconButtonBorderLeft = "1px solid rgba(0, 0, 0, 0.2)";
   const borderOnHover = "1px solid #2B78E4";
   const sourceHandleOpacity = hasSourceHandle ? 100 : 0;
   const targetHandleOpacity = hasTargetHandle ? 100 : 0;
@@ -90,34 +95,43 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
           maxWidth: "auto",
           height: CHILD_NODE_HEIGHT,
           backgroundColor: backgroundColor,
-          border,
           "&:hover": { border: borderOnHover },
+          paddingLeft: title ? "0.8rem" : 0,
+          display: "flex",
+          gap: "0.4rem",
+          border: "1px solid rgb(212, 212, 216)",
         }}
       >
         {isAvailable && title ? (
-          <input
+          <Checkbox
             aria-label={`checkbox for ${courseCode}`}
-            type="checkbox"
             name={`checkbox-${id}`}
             checked={isCompleted}
             onChange={handleCheck}
             disabled={!isAvailable}
+            sx={{
+              padding: "0",
+              color: theme.palette.grey[400],
+              "&.Mui-checked": { background: "#49C78E" },
+            }}
+            checkedIcon={<Check sx={{ color: "white" }} />}
+            icon={<CheckBoxOutlineBlankRounded />}
           />
         ) : (
-          title && <LockIcon color="disabled" fontSize="small" />
+          title && (
+            <LockIcon
+              color="disabled"
+              fontSize="small"
+              sx={{ padding: "0.1rem" }}
+            />
+          )
         )}
         {title ? (
           <button
             className="courseNode-btn"
             onClick={() => onSelectCourseNode(id, !isSelected)}
           >
-            <Typography
-              className="label"
-              style={{
-                textDecoration: isCompleted ? "line-through" : "none",
-                color: color,
-              }}
-            >
+            <Typography className="label" style={{ color: color }}>
               {courseCode}
             </Typography>
           </button>
@@ -133,6 +147,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             aria-label="view course details"
             size="small"
             onClick={() => openCourseModal(id, courseType)}
+            color="primary"
             sx={{
               borderLeft: iconButtonBorderLeft,
               paddingX: "0.6rem",
@@ -140,6 +155,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
               "&:hover": { borderBottom: "none" },
               height: "100%",
               marginLeft: "auto",
+              color: " rgba(0, 0, 0, 0.4)",
             }}
           >
             <KeyboardArrowRightIcon fontSize="medium" />
