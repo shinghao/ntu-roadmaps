@@ -73,7 +73,7 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
           nodeTypes={nodeTypes}
           zoomOnDoubleClick={false}
           fitView
-          minZoom={0.1}
+          minZoom={0.2}
         >
           <Panel position="top-right">
             <Controls
