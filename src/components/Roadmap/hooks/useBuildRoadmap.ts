@@ -30,6 +30,7 @@ const CreateNewEdge = (
   target,
   style: {
     stroke: "#2B78E4",
+    strokeWidth: 2,
   },
   markerEnd: {
     type: MarkerType.ArrowClosed,
