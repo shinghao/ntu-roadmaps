@@ -1,7 +1,7 @@
 .flowchart {
   border: 1px solid grey;
   background-color: whitesmoke;
-  height: 90vh;
+  height: 80vh;
 }
 
 .react-flow__node.node-title {

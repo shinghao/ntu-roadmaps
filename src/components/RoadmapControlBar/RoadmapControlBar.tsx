@@ -26,7 +26,8 @@ const RoadmapControlBar = ({
     <Stack
       direction={"row"}
       flexWrap="wrap"
-      marginY="24px"
+      marginTop="24px"
+      marginBottom="16px"
       alignItems={"between"}
       justifyContent={"space-between"}
       spacing="8px"
