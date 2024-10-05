@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Container, Button, Link } from "@mui/material";
+import { AppBar, Toolbar, Container, Button, Link, Stack } from "@mui/material";
 import "./Header.css";
 
 // const pages = ["👣 Roadmap", "📚 Courses"];
@@ -47,7 +47,17 @@ function Header() {
           disableGutters
           sx={{ display: "flex", justifyContent: "space-between" }}
         >
-          <a className="logo">NTUROADMAPS</a>
+          <a className="logo">
+            <Stack
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="center"
+              gap="1rem"
+            >
+              <img src="/logo.png" width="32px" height="32px" />
+              NTUROADMAPS
+            </Stack>
+          </a>
           <SurveyButton />
           {/* {isMobile ? (
             <Box sx={{ display: "flex" }}>
