@@ -65,7 +65,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
     ? "#2B78E4"
     : isAvailable
     ? isCompleted
-      ? "#D7E6D7"
+      ? "#C9F1E8"
       : "white"
     : "rgb(220, 220, 220)";
   const color = isSelected
@@ -96,7 +96,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
           height: CHILD_NODE_HEIGHT,
           backgroundColor: backgroundColor,
           "&:hover": { border: borderOnHover },
-          paddingLeft: title ? "0.8rem" : 0,
+          paddingLeft: title ? "0.6rem" : 0,
           display: "flex",
           gap: "0.4rem",
           border: "1px solid rgb(212, 212, 216)",
@@ -131,7 +131,11 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             className="courseNode-btn"
             onClick={() => onSelectCourseNode(id, !isSelected)}
           >
-            <Typography className="label" style={{ color: color }}>
+            <Typography
+              className="label"
+              style={{ color: color }}
+              fontSize="1.2em"
+            >
               {courseCode}
             </Typography>
           </button>
@@ -150,15 +154,14 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             color="primary"
             sx={{
               borderLeft: iconButtonBorderLeft,
-              paddingX: "0.6rem",
               borderRadius: "0",
               "&:hover": { borderBottom: "none" },
               height: "100%",
-              marginLeft: "auto",
               color: " rgba(0, 0, 0, 0.4)",
+              width: "3rem",
             }}
           >
-            <KeyboardArrowRightIcon fontSize="medium" />
+            <KeyboardArrowRightIcon fontSize="large" />
           </IconButton>
         )}
       </Box>
