@@ -18,6 +18,7 @@ import useSelectCourseNode from "../hooks/useSelectCourseNode";
 import useOnCheckCourseNode from "../hooks/useOnCheckCourseNode";
 import { CourseInRoadmapType } from "@customTypes/roadmap";
 import { Check, CheckBoxOutlineBlankRounded } from "@mui/icons-material";
+import { checkedCourseBg, completedCourseBg } from "../../../theme";
 
 export type CourseNode = Node<{
   id: string;
@@ -66,7 +67,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
     ? "#2B78E4"
     : isAvailable
     ? isCompleted
-      ? "#C9F1E8"
+      ? completedCourseBg
       : "white"
     : "rgb(220, 220, 220)";
   const color = isSelected
@@ -113,7 +114,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             sx={{
               padding: "0",
               color: theme.palette.grey[400],
-              "&.Mui-checked": { background: "#49C78E" },
+              "&.Mui-checked": { background: checkedCourseBg },
             }}
             checkedIcon={<Check sx={{ color: "white" }} />}
             icon={<CheckBoxOutlineBlankRounded />}

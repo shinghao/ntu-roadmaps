@@ -18,12 +18,12 @@ const CurriculumTable = ({ roadmapData }: CurriculumTableProps) => {
     <>
       <Typography
         variant="h1"
-        fontSize={"24px"}
+        fontSize={"20px"}
         fontWeight={"bold"}
         align="center"
         marginTop={"32px"}
       >{`AY${cohort} - ${degree} (${career})`}</Typography>
-      <TableContainer sx={{ marginTop: "16px", border: `1px solid grey` }}>
+      <TableContainer sx={{ marginTop: "20px", border: `1px solid grey` }}>
         <Table
           size="small"
           sx={{ minWidth: 650, width: "100%" }}

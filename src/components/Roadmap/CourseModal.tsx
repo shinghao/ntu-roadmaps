@@ -1,6 +1,6 @@
 import "./CourseModal.css";
 import PrerequisiteGraph from "./PrerequisiteGraph";
-import { Button, Drawer, Divider, Typography, Box } from "@mui/material";
+import { Button, Drawer, Divider, Box } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useFetchCourseDetails from "@hooks/useFetchCourseDetails";
 import { useEffect, useMemo, useState } from "react";

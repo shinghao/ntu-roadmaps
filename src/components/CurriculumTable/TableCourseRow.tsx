@@ -6,12 +6,14 @@ import {
   Checkbox,
   Stack,
   SxProps,
+  Typography,
 } from "@mui/material";
 import OpenCourseModalBtn from "./OpenCourseModalBtn";
 import { CourseInRoadmap, CourseInRoadmapType } from "@customTypes/roadmap";
-import { CheckBox, Lock } from "@mui/icons-material";
+import { Check, CheckBoxOutlineBlankRounded, Lock } from "@mui/icons-material";
 import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
 import ElectiveBtn from "./ElectiveBtn";
+import { checkedCourseBg, completedCourseBg } from "../../theme";
 
 interface Props {
   year: number;
@@ -35,23 +37,23 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
   const isAvailable = isPrerequisitesCompleted(row.courseCode);
   const isCompleted = isCourseCompleted(row.courseCode);
   const isElective = row.type === CourseInRoadmapType.Elective;
+  const isUnselectedElective = isElective && !row.title;
 
   return (
     <TableRow
-      hover
       key={`${year}-${semester}-${row.courseCode}-${index}`}
       sx={{
         "&:last-child td, &:last-child th": { borderBottom: 0 },
-        textDecoration: isCourseCompleted(row.courseCode)
-          ? "line-through"
-          : "none",
         ...sx,
+        backgroundColor: isCompleted ? completedCourseBg : "inherit",
+        height: "50px",
       }}
     >
       <TableCell
         sx={{
           borderRight: "1px solid rgba(224, 224, 224)",
-          width: "100px",
+          maxWidth: "100px",
+          paddingX: "1rem",
         }}
       >
         <Box
@@ -62,50 +64,64 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
             gap: "12px",
           }}
         >
-          {isAvailable && row.title ? (
+          {isAvailable && !isUnselectedElective ? (
             <Checkbox
               checked={isCompleted}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 onCheck(event.target.checked, row.courseCode)
               }
-              checkedIcon={<CheckBox sx={{ color: "lightgrey" }} />}
+              sx={{
+                padding: 0,
+                "&.Mui-checked": { background: checkedCourseBg },
+              }}
+              checkedIcon={<Check sx={{ color: "white" }} />}
+              icon={<CheckBoxOutlineBlankRounded />}
+              size="small"
             />
           ) : (
-            <Stack
-              alignItems="center"
-              justifyContent="center"
-              sx={{ width: "42px", height: "42px" }}
-            >
+            <Stack alignItems="center" justifyContent="center">
               <Lock color="disabled" fontSize="small" />
             </Stack>
           )}
-          <OpenCourseModalBtn nodeId={row.id} courseType={row.type} />
         </Box>
       </TableCell>
+
       <TableCell
         align="center"
-        sx={{ borderRight: "1px solid rgba(224, 224, 224)" }}
+        sx={{ borderRight: "1px solid rgba(224, 224, 224)", maxWidth: "160px" }}
       >
-        {row.courseCode}
+        <Stack
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="center"
+          gap="0.5rem"
+        >
+          <Typography width="4rem">{row.courseCode}</Typography>
+          <OpenCourseModalBtn nodeId={row.id} courseType={row.type} />
+        </Stack>
       </TableCell>
+
       <TableCell sx={{ borderRight: "1px solid rgba(224, 224, 224)" }}>
         {isElective ? (
           <ElectiveBtn nodeId={row.id} electiveTitle={row.title} />
         ) : (
-          <Box paddingLeft="8px">{row.title}</Box>
+          <Typography paddingLeft="8px">{row.title}</Typography>
         )}
       </TableCell>
+
       <TableCell
-        width="5%"
         align="center"
         sx={{
           borderRight: "1px solid rgba(224, 224, 224)",
         }}
       >
-        {row?.au || "?"}
+        <Typography>{row?.au || "?"}</Typography>
       </TableCell>
+
       <TableCell align="center">
-        {row.prerequisites.length > 0 ? row.prerequisites.join(", ") : "-"}
+        <Typography>
+          {row.prerequisites.length > 0 ? row.prerequisites.join(", ") : "-"}
+        </Typography>
       </TableCell>
     </TableRow>
   );

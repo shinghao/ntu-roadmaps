@@ -17,7 +17,7 @@ const OpenCourseModalBtn = ({ nodeId, courseType }: Props) => {
       size="small"
       onClick={() => openCourseModal(nodeId, courseType)}
       sx={{
-        paddingX: "0.6rem",
+        marginRight: "-0.1rem",
         borderRadius: "0",
         "&:hover": { borderBottom: "none" },
         height: "100%",
