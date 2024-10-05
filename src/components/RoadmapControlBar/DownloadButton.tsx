@@ -58,6 +58,7 @@ function DownloadButton() {
             border: "1px solid lightgrey",
             padding: "0.5rem",
             backgroundColor: theme.palette.primary.main,
+            "&:hover": { backgroundColor: theme.palette.primary.dark },
           }}
           size="small"
         >
