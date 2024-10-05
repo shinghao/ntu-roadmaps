@@ -173,7 +173,7 @@ export default function CourseModal({
           </div>
         )}
 
-        {(isBde || !title) && (
+        {(isBde || (!isElective && !title)) && (
           <Box
             margin="0 auto"
             marginTop="3rem"

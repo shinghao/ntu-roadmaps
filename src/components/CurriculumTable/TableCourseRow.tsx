@@ -96,7 +96,7 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
           justifyContent="center"
           gap="0.5rem"
         >
-          <Typography width="4rem">{row.courseCode}</Typography>
+          <Typography width="4.2rem">{row.courseCode}</Typography>
           <OpenCourseModalBtn nodeId={row.id} courseType={row.type} />
         </Stack>
       </TableCell>
