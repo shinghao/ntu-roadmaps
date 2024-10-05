@@ -47,6 +47,7 @@ const ImportButton = memo(({ onImport }: ImportButtonProps) => {
         <IconButton
           sx={{ border: "1px solid lightgrey", padding: "0.5rem" }}
           size="small"
+          color="inherit"
         >
           <FileUploadOutlinedIcon fontSize="small" />
         </IconButton>

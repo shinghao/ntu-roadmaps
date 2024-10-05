@@ -1,5 +1,10 @@
 import { ViewFormat } from "@customTypes/index";
-import { ToggleButtonGroup, ToggleButton, Stack } from "@mui/material";
+import {
+  ToggleButtonGroup,
+  ToggleButton,
+  Stack,
+  useMediaQuery,
+} from "@mui/material";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import TableRowsOutlinedIcon from "@mui/icons-material/TableRowsOutlined";
 
@@ -10,6 +15,8 @@ const ViewToggle = ({
   viewFormat: ViewFormat;
   setViewFormat: (viewFormat: ViewFormat) => void;
 }) => {
+  const isSmallScreen = useMediaQuery("(max-width: 436px)");
+
   return (
     <ToggleButtonGroup
       value={viewFormat}
@@ -42,7 +49,7 @@ const ViewToggle = ({
       <ToggleButton
         value={ViewFormat.Table}
         key={ViewFormat.Table}
-        sx={{ width: "6.5rem", textTransform: "none" }}
+        sx={{ width: isSmallScreen ? "100%" : "6.5rem", textTransform: "none" }}
       >
         <Stack
           flexDirection="row"

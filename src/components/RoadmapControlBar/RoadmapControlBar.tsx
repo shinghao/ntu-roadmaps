@@ -22,8 +22,6 @@ const RoadmapControlBar = ({
 
   selectedElectives,
 }: Props) => {
-  // const isSmallScreen = useMediaQuery("(max-width: 640px)");
-
   return (
     <Stack
       direction={"row"}
