@@ -1,7 +1,6 @@
 import {
   Dialog,
   IconButton,
-  Box,
   DialogTitle,
   DialogContent,
   Typography,
@@ -29,16 +28,14 @@ function ConfirmationDialog({
   description,
   confirmText,
   cancelText,
-  icon,
 }: ConfirmationDialogProps) {
   return (
     <Dialog
       sx={{
         "& .MuiDialog-paper": {
-          width: "100%",
           maxHeight: 435,
-          padding: "10px",
           borderRadius: "16px",
+          padding: "1rem",
         },
       }}
       maxWidth="sm"
@@ -54,7 +51,6 @@ function ConfirmationDialog({
       >
         <CloseIcon color="disabled" />
       </IconButton>
-      {icon && <Box sx={{ margin: "0 auto" }}>{icon}</Box>}
       <DialogTitle textAlign="center" fontSize="1.5em">
         {title}
       </DialogTitle>
@@ -64,8 +60,7 @@ function ConfirmationDialog({
           direction="row"
           alignItems="center"
           justifyContent="center"
-          gap="24px"
-          maxWidth="400px"
+          gap="16px"
           margin="0 auto"
           marginTop="32px"
         >
@@ -75,7 +70,10 @@ function ConfirmationDialog({
             onClick={onClose}
             variant="outlined"
             color="primary"
-            sx={{ paddingY: "10px" }}
+            sx={{
+              borderRadius: "24px",
+              padding: "0.8rem 1rem",
+            }}
           >
             {cancelText}
           </Button>
@@ -83,8 +81,11 @@ function ConfirmationDialog({
             fullWidth
             onClick={onConfirm}
             variant="contained"
-            color="error"
-            sx={{ paddingY: "10px" }}
+            color="primary"
+            sx={{
+              borderRadius: "24px",
+              padding: "0.8rem 1rem",
+            }}
           >
             {confirmText}
           </Button>

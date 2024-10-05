@@ -43,11 +43,10 @@ export default function ResetButton({
         open={isConfirmDialogOpen}
         onClose={onCancelReset}
         onConfirm={onConfirmReset}
-        title="Are you sure you want to reset?"
+        title="🚨 Are you sure you want to reset? 🚨"
         description="All completed courses and selected electives data will be lost."
         confirmText="Reset"
         cancelText="Cancel"
-        icon={<RestartAltIcon color="warning" />}
       />
     </>
   );
