@@ -110,7 +110,6 @@ export default function RoadmapSelects({
           .filter((config) => !config.options || config.options.length > 0) // Filter out configs that have previous requirements
           .map((config) => (
             <Autocomplete
-              freeSolo
               key={`select-${config.label}`}
               disablePortal
               id={`select-${config.label}`}
