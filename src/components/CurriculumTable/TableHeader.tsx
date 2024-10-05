@@ -5,9 +5,9 @@ const TableHeader = () => {
   const headerBackgroundColor = "lightgrey";
 
   const HeaderData = [
-    { headerName: "Action" },
-    { headerName: "Course Code" },
-    { headerName: "Course Title" },
+    { headerName: "Status" },
+    { headerName: "Code" },
+    { headerName: "Title" },
     { headerName: "AU" },
     { headerName: "Prerequisites" },
   ];
