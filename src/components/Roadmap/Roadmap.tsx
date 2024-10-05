@@ -9,19 +9,7 @@ import "@xyflow/react/dist/style.css";
 import { type Roadmap } from "@customTypes/index";
 import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
 import useBuildRoadmap from "./hooks/useBuildRoadmap";
-
-const createTitleNode = (cohort: string, degree: string, career: string) => {
-  return {
-    id: "titleNode",
-    className: "node-title",
-    position: { x: 300, y: 30 },
-    data: {
-      label: <h1>{`AY${cohort} - ${degree} (${career})`}</h1>,
-    },
-    draggable: false,
-    selectable: false,
-  };
-};
+import { Typography } from "@mui/material";
 
 const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
   const { degree, career, cohort } = useRoadmapSelectsStore();
@@ -36,23 +24,28 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
     []
   );
 
-  const titleNode = useMemo(
-    () => createTitleNode(cohort, degree, career),
-    [career, cohort, degree]
-  );
-
   return (
     <div>
       <div className="flowchart">
         <ReactFlow
-          nodes={[titleNode, ...nodes]}
+          nodes={[...nodes]}
           edges={edges}
           nodeTypes={nodeTypes}
           zoomOnDoubleClick={false}
+          fitView
         >
           <Controls position="top-right" />
           <Panel>
             <ShowEdgesToggle />
+          </Panel>
+          <Panel position="top-center">
+            <Typography
+              variant="h1"
+              fontSize={"20px"}
+              fontWeight={"bold"}
+              align="center"
+              marginTop={"8px"}
+            >{`AY${cohort} - ${degree} (${career})`}</Typography>{" "}
           </Panel>
         </ReactFlow>
       </div>

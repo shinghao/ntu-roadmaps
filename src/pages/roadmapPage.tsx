@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import RoadmapView from "@components/Roadmap";
 import { Container } from "@mui/material";
-import "./roadmapPage.css";
 import CourseModal from "@components/Roadmap/CourseModal";
 import { ReactFlowProvider } from "@xyflow/react";
 import useFetchRoadmap from "@hooks/useFetchRoadmap";
@@ -56,7 +55,7 @@ export default function RoadmapPage() {
 
   return (
     <ReactFlowProvider>
-      <Container className="content">
+      <Container sx={{ height: "max-content", marginBottom: "3rem" }}>
         {roadmapData && (
           <CourseModal
             availableElectives={availableElectives}
