@@ -14,7 +14,7 @@ interface ExportButtonProps {
 export default function ExportButton({ selectedElectives }: ExportButtonProps) {
   const { completedCourses } = useCompletedCoursesStore();
   const { degree, career, degreeType, cohort } = useRoadmapSelectsStore();
-  const isSmallScreen = useMediaQuery("(max-width: 640px)");
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
   const onExport = () => {
     const dataToExport = {
@@ -36,7 +36,7 @@ export default function ExportButton({ selectedElectives }: ExportButtonProps) {
   };
   return (
     <TheTooltip title={TOOLTIP_TEXT}>
-      {isSmallScreen ? (
+      {isMobile ? (
         <IconButton
           sx={{ border: "1px solid lightgrey", padding: "0.5rem" }}
           size="small"

@@ -16,7 +16,8 @@ const ImportButton = memo(({ onImport }: ImportButtonProps) => {
   const { importCompletedCourses } = useCompletedCoursesStore();
   const { setDegree, setCohort, setDegreeType, setCareer } =
     useRoadmapSelectsStore();
-  const isSmallScreen = useMediaQuery("(max-width: 640px)");
+
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -41,39 +42,48 @@ const ImportButton = memo(({ onImport }: ImportButtonProps) => {
     reader.readAsText(file);
   };
 
+  const FileInput = () => (
+    <input
+      type="file"
+      accept="application/json"
+      hidden
+      onChange={handleFileChange}
+    />
+  );
+
+  const MobileButton = () => (
+    <IconButton
+      sx={{ border: "1px solid lightgrey", padding: "0.5rem" }}
+      size="small"
+      color="inherit"
+      component="label"
+    >
+      <FileUploadOutlinedIcon fontSize="small" />
+      <FileInput />
+    </IconButton>
+  );
+
+  const DesktopButton = () => (
+    <Button
+      variant="outlined"
+      disableElevation
+      component="label"
+      startIcon={<FileUploadOutlinedIcon sx={{ width: "0.9em" }} />}
+      size="small"
+      sx={{
+        textTransform: "none",
+        borderRadius: "0.9rem",
+        padding: "0.4rem 1rem",
+      }}
+    >
+      Import
+      <FileInput />
+    </Button>
+  );
+
   return (
     <TheTooltip title={TOOLTIP_TEXT}>
-      {isSmallScreen ? (
-        <IconButton
-          sx={{ border: "1px solid lightgrey", padding: "0.5rem" }}
-          size="small"
-          color="inherit"
-          onChange={handleFileChange}
-        >
-          <FileUploadOutlinedIcon fontSize="small" />
-        </IconButton>
-      ) : (
-        <Button
-          variant="outlined"
-          disableElevation
-          component="label"
-          startIcon={<FileUploadOutlinedIcon sx={{ width: "0.9em" }} />}
-          size="small"
-          sx={{
-            textTransform: "none",
-            borderRadius: "0.9rem",
-            padding: "0.4rem 1rem",
-          }}
-        >
-          Import
-          <input
-            type="file"
-            accept="application/json"
-            hidden
-            onChange={handleFileChange}
-          />
-        </Button>
-      )}
+      {isMobile ? <MobileButton /> : <DesktopButton />}
     </TheTooltip>
   );
 });

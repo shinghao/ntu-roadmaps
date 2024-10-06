@@ -24,7 +24,7 @@ function DownloadButton() {
   const { getNodes } = useReactFlow();
   const { degree, cohort, degreeType, career } = useRoadmapSelectsStore();
   const image_url = `${degree}-${cohort}-${degreeType}-${career}.png`;
-  const isSmallScreen = useMediaQuery("(max-width: 640px)");
+  const isMobile = useMediaQuery("(max-width: 640px)");
   const theme = useTheme();
 
   const onDownloadRoadmap = () => {
@@ -52,7 +52,7 @@ function DownloadButton() {
 
   return (
     <TheTooltip title={TOOLTIP_TEXT}>
-      {isSmallScreen ? (
+      {isMobile ? (
         <IconButton
           sx={{
             border: "1px solid lightgrey",
