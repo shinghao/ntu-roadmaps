@@ -91,17 +91,18 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
       )}
 
       <Box
-        className="courseNode"
         sx={{
           width: CHILD_NODE_WIDTH,
           maxWidth: "auto",
           height: CHILD_NODE_HEIGHT,
           backgroundColor: backgroundColor,
           "&:hover": { border: borderOnHover },
-          paddingLeft: !isUnselectedElective ? "0.6rem" : 0,
+          paddingLeft: !isUnselectedElective ? "12px" : 0,
           display: "flex",
-          gap: "0.4rem",
           border: "1px solid rgb(212, 212, 216)",
+          cursor: "pointer",
+          borderRadius: "8px",
+          alignItems: "center",
         }}
       >
         {isAvailable && !isUnselectedElective ? (
@@ -115,6 +116,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
               padding: "0",
               color: theme.palette.grey[400],
               "&.Mui-checked": { background: checkedCourseBg },
+              marginRight: "4px",
             }}
             checkedIcon={<Check sx={{ color: "white" }} />}
             icon={<CheckBoxOutlineBlankRounded />}
@@ -124,7 +126,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             <LockIcon
               color="disabled"
               fontSize="small"
-              sx={{ padding: "0.1rem" }}
+              sx={{ padding: "2px", marginRight: "4px" }}
             />
           )
         )}
@@ -160,7 +162,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
               "&:hover": { borderBottom: "none" },
               height: "100%",
               color: " rgba(0, 0, 0, 0.4)",
-              width: "3rem",
+              width: "48px",
             }}
           >
             <KeyboardArrowRightIcon fontSize="large" />
