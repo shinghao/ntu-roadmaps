@@ -121,7 +121,15 @@ export default function RoadmapSelects({
                 },
               }}
               renderInput={(params) => (
-                <TextField {...params} label={config.label} />
+                <TextField
+                  {...params}
+                  label={config.label}
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      height: "56px",
+                    },
+                  }}
+                />
               )}
               value={config.value}
               onChange={(_, value) => config.onChange(value)}
