@@ -94,9 +94,9 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
           flexDirection="row"
           alignItems="center"
           justifyContent="center"
-          gap="0.5rem"
+          gap="8px"
         >
-          <Typography variant="body2" width="4.2rem">
+          <Typography variant="body2" width="70px">
             {row.courseCode}
           </Typography>
           <OpenCourseModalBtn nodeId={row.id} courseType={row.type} />

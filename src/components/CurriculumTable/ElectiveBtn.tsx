@@ -15,8 +15,8 @@ const ElectiveBtn = ({ nodeId, electiveTitle, sx, ...props }: Props) => {
     <Button
       sx={{
         textTransform: "none",
+        fontSize: "1em",
         ...sx,
-        fontSize: "1.2em",
       }}
       onClick={() => openCourseModal(nodeId, CourseInRoadmapType.Elective)}
       {...props}

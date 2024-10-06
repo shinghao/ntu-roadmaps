@@ -149,7 +149,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
             <ElectiveBtn
               nodeId={id}
               electiveTitle={courseCode}
-              sx={{ width: "100%" }}
+              sx={{ width: "100%", fontSize: "1.2em" }}
             />
           )}
           {!isUnselectedElective && (
