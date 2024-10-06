@@ -14,7 +14,6 @@ import LockIcon from "@mui/icons-material/Lock";
 import { ChangeEvent } from "react";
 import ElectiveBtn from "@components/CurriculumTable/ElectiveBtn";
 import useCourseModalStore from "@store/useCourseModalStore";
-import useSelectCourseNode from "../hooks/useSelectCourseNode";
 import useOnCheckCourseNode from "../hooks/useOnCheckCourseNode";
 import { CourseInRoadmapType } from "@customTypes/roadmap";
 import { Check, CheckBoxOutlineBlankRounded } from "@mui/icons-material";
@@ -33,6 +32,7 @@ export type CourseNode = Node<{
   isSelected: boolean;
   courseType: CourseInRoadmapType;
   title: string;
+  onSelectCourseNode: (id: string, isSelected: boolean) => void;
 }>;
 
 export type CourseNodeData = CourseNode["data"];
@@ -49,10 +49,10 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
     isSelected = false,
     courseType = CourseInRoadmapType.Core,
     title = "",
+    onSelectCourseNode,
   } = data;
 
   const { openCourseModal } = useCourseModalStore();
-  const { onSelectCourseNode } = useSelectCourseNode();
   const { onNodeCheck } = useOnCheckCourseNode();
 
   const theme = useTheme();

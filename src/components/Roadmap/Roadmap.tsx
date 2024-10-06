@@ -5,8 +5,12 @@ import {
   useReactFlow,
   getNodesBounds,
   Rect,
+  Edge,
+  Node,
+  useEdgesState,
+  useNodesState,
 } from "@xyflow/react";
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import CourseNode from "./nodes/CourseNode";
 import SemesterNode from "./nodes/SemesterNode";
 import LegendNode from "./nodes/LegendNode";
@@ -15,8 +19,14 @@ import "./Roadmap.css";
 import "@xyflow/react/dist/style.css";
 import { type Roadmap } from "@customTypes/index";
 import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
-import useBuildRoadmap from "./hooks/useBuildRoadmap";
 import { Typography, useMediaQuery, useTheme } from "@mui/material";
+import useIsEdgesHiddenStore from "@store/useIsEdgesHiddenStore";
+import buildRoadmap from "./util/buildRoadmap";
+import { useCompletedCoursesStore } from "@store/useCompletedCoursesStore";
+import {
+  setEdgesOnUnselectCourse,
+  setEdgesOnSelectCourse,
+} from "./util/onSelectCourse";
 
 const createTitleNode = (cohort: string, degree: string, career: string) => {
   return {
@@ -37,8 +47,11 @@ const createTitleNode = (cohort: string, degree: string, career: string) => {
 
 const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
   const { degree, career, cohort } = useRoadmapSelectsStore();
-  const { nodes, edges } = useBuildRoadmap(roadmapData);
-  const { fitView, fitBounds, setViewport } = useReactFlow();
+  const [nodes, setNodes] = useNodesState<Node>([]);
+  const [edges, setEdges] = useEdgesState<Edge>([]);
+  const { isEdgesHidden } = useIsEdgesHiddenStore();
+  const { completedCourses } = useCompletedCoursesStore();
+  const { setViewport } = useReactFlow();
 
   const nodeTypes = useMemo(
     () => ({
@@ -53,6 +66,46 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
     () => createTitleNode(cohort, degree, career),
     [career, cohort, degree]
   );
+
+  const onSelectCourseNode = useCallback(
+    (id: string, isSelected: boolean) => {
+      const selectedCourse = isSelected ? id : "";
+      setNodes((currentNodes) =>
+        currentNodes.map((node) => ({
+          ...node,
+          data: {
+            ...node.data,
+            isSelected: node.data.id === selectedCourse,
+          },
+        }))
+      );
+
+      selectedCourse === ""
+        ? setEdgesOnUnselectCourse(setEdges, isEdgesHidden)
+        : setEdgesOnSelectCourse(setEdges, selectedCourse);
+    },
+    [setEdges, setNodes, isEdgesHidden]
+  );
+
+  useEffect(() => {
+    if (roadmapData?.coursesByYearSemester.length > 0) {
+      const { nodes, edges } = buildRoadmap(
+        roadmapData,
+        completedCourses,
+        isEdgesHidden,
+        onSelectCourseNode
+      );
+      setNodes(nodes);
+      setEdges(edges);
+    }
+  }, [
+    roadmapData,
+    setEdges,
+    setNodes,
+    isEdgesHidden,
+    completedCourses,
+    onSelectCourseNode,
+  ]);
 
   const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
   const theme = useTheme();
@@ -98,7 +151,7 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
         resizeObserver.unobserve(reactFlowWrapper.current);
       }
     };
-  }, [fitView, nodes, setViewport, fitBounds, isMobile]);
+  }, [nodes, setViewport, isMobile]);
 
   return (
     <div>
@@ -108,7 +161,6 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
           edges={edges}
           nodeTypes={nodeTypes}
           zoomOnDoubleClick={false}
-          fitView
           minZoom={0.2}
         >
           <Panel
