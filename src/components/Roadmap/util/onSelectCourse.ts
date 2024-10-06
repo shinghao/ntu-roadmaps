@@ -1,11 +1,8 @@
 import { Edge } from "@xyflow/react";
 
-function getAllConnectedEdges(
-  selectedCourse: string,
-  edges: Edge[]
-): Set<string> {
+function getAllConnectedEdges(selectedCourse: string, edges: Edge[]) {
   if (!selectedCourse) {
-    return new Set();
+    return { connectedEdges: new Set(), connectedNodes: new Set() };
   }
 
   const connectedNodes = new Set<string>();
@@ -32,7 +29,7 @@ function getAllConnectedEdges(
   traverse(selectedCourse, true);
   traverse(selectedCourse, false);
 
-  return connectedEdges;
+  return { connectedEdges, connectedNodes };
 }
 
 export const setEdgesOnUnselectCourse = (
@@ -53,15 +50,13 @@ export const setEdgesOnSelectCourse = (
   selectedCourse: string
 ) => {
   setEdges((currentEdges) => {
-    const edgesToHighlight = getAllConnectedEdges(selectedCourse, currentEdges);
-    const nodesInPlay = new Set<string>();
+    const { connectedEdges } = getAllConnectedEdges(
+      selectedCourse,
+      currentEdges
+    );
 
     const updatedEdges = currentEdges.map((edge) => {
-      const shouldShowEdge = edgesToHighlight.has(edge.id);
-      if (shouldShowEdge) {
-        nodesInPlay.add(edge.source);
-        nodesInPlay.add(edge.target);
-      }
+      const shouldShowEdge = connectedEdges.has(edge.id);
 
       return {
         ...edge,

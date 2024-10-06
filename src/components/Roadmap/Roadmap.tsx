@@ -76,6 +76,7 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
           data: {
             ...node.data,
             isSelected: node.data.id === selectedCourse,
+            isHandlesHidden: selectedCourse ? false : isEdgesHidden,
           },
         }))
       );
