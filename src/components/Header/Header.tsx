@@ -55,13 +55,13 @@ function Header() {
               flexDirection="row"
               alignItems="center"
               justifyContent="center"
-              gap="1rem"
+              gap="min(2vw, 16px)"
             >
               <img src="/logo.png" width="28px" height="28px" />
               NTUROADMAPS
             </Stack>
           </a>
-          <Stack flexDirection="row" gap="min(1vw, 16px)" alignItems={"center"}>
+          <Stack flexDirection="row" gap="min(3vw, 16px)" alignItems={"center"}>
             <FeedbackButton />
             <SurveyButton />
           </Stack>
