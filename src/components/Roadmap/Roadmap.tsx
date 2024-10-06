@@ -1,4 +1,11 @@
-import { ReactFlow, Controls, Panel, useReactFlow } from "@xyflow/react";
+import {
+  ReactFlow,
+  Controls,
+  Panel,
+  useReactFlow,
+  getNodesBounds,
+  Rect,
+} from "@xyflow/react";
 import { useEffect, useMemo, useRef } from "react";
 import CourseNode from "./nodes/CourseNode";
 import SemesterNode from "./nodes/SemesterNode";
@@ -9,7 +16,7 @@ import "@xyflow/react/dist/style.css";
 import { type Roadmap } from "@customTypes/index";
 import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
 import useBuildRoadmap from "./hooks/useBuildRoadmap";
-import { Typography } from "@mui/material";
+import { Typography, useMediaQuery, useTheme } from "@mui/material";
 
 const createTitleNode = (cohort: string, degree: string, career: string) => {
   return {
@@ -31,7 +38,7 @@ const createTitleNode = (cohort: string, degree: string, career: string) => {
 const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
   const { degree, career, cohort } = useRoadmapSelectsStore();
   const { nodes, edges } = useBuildRoadmap(roadmapData);
-  const { fitView } = useReactFlow();
+  const { fitView, fitBounds, setViewport } = useReactFlow();
 
   const nodeTypes = useMemo(
     () => ({
@@ -47,10 +54,39 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
     [career, cohort, degree]
   );
 
-  const reactFlowWrapper = useRef(null);
+  const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   useEffect(() => {
+    const bounds = getNodesBounds(nodes);
+    const calculateZoom = (width: number, height: number, bounds: Rect) => {
+      const MIN_ZOOM = 0.4;
+      const MAX_ZOOM = 0.7;
+
+      if (!bounds || !bounds.width || !bounds.height) return 1;
+
+      const zoomX = width / bounds.width; // Calculate zoom based on width
+      const zoomY = height / bounds.height; // Calculate zoom based on height
+      const zoom = Math.min(zoomX, zoomY); // Return the smaller zoom factor to fit
+
+      return Math.max(Math.min(zoom, MAX_ZOOM), MIN_ZOOM);
+    };
+
     const resizeObserver = new ResizeObserver(() => {
-      fitView({ duration: 800 });
+      if (reactFlowWrapper.current) {
+        const containerWidth = reactFlowWrapper.current.clientWidth;
+        const containerHeight = reactFlowWrapper.current.clientHeight;
+
+        // Set the viewport to move all nodes to the top of the layout
+        setViewport(
+          {
+            x: isMobile ? 15 : 30,
+            y: isMobile ? 15 : 30,
+            zoom: calculateZoom(containerWidth, containerHeight, bounds),
+          },
+          { duration: 800 }
+        );
+      }
     });
 
     if (reactFlowWrapper.current) {
@@ -62,7 +98,7 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
         resizeObserver.unobserve(reactFlowWrapper.current);
       }
     };
-  }, [fitView]);
+  }, [fitView, nodes, setViewport, fitBounds, isMobile]);
 
   return (
     <div>
