@@ -1,4 +1,4 @@
-export const CHILD_NODE_WIDTH = 180;
+export const CHILD_NODE_WIDTH = 185;
 export const CHILD_NODE_HEIGHT = 60;
 export const CHILD_YPOS_START = 45;
 export const CHILD_XPOS_START = 30;
@@ -10,7 +10,7 @@ export const PARENT_YPOS_START = 60;
 export const YPOS_BETWEEN_PARENTS = 40;
 
 export const DOWNLOAD_IMAGE = {
-  WIDTH: 2048,
+  WIDTH: 2200,
   HEIGHT: 2200,
   MINZOOM: 0.1,
   MAXZOOM: 1.2,
