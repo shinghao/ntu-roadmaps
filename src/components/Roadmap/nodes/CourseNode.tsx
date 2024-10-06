@@ -19,6 +19,7 @@ import useOnCheckCourseNode from "../hooks/useOnCheckCourseNode";
 import { CourseInRoadmapType } from "@customTypes/roadmap";
 import { Check, CheckBoxOutlineBlankRounded } from "@mui/icons-material";
 import { checkedCourseBg, completedCourseBg } from "../../../theme";
+import TheTooltip from "@components/Tooltip";
 
 export type CourseNode = Node<{
   id: string;
@@ -90,85 +91,87 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
         </Box>
       )}
 
-      <Box
-        sx={{
-          width: CHILD_NODE_WIDTH,
-          maxWidth: "auto",
-          height: CHILD_NODE_HEIGHT,
-          backgroundColor: backgroundColor,
-          "&:hover": { border: borderOnHover },
-          paddingLeft: !isUnselectedElective ? "12px" : 0,
-          display: "flex",
-          border: "1px solid rgb(212, 212, 216)",
-          cursor: "pointer",
-          borderRadius: "8px",
-          alignItems: "center",
-        }}
-      >
-        {isAvailable && !isUnselectedElective ? (
-          <Checkbox
-            aria-label={`checkbox for ${courseCode}`}
-            name={`checkbox-${id}`}
-            checked={isCompleted}
-            onChange={handleCheck}
-            disabled={!isAvailable}
-            sx={{
-              padding: "0",
-              color: theme.palette.grey[400],
-              "&.Mui-checked": { background: checkedCourseBg },
-              marginRight: "4px",
-            }}
-            checkedIcon={<Check sx={{ color: "white" }} />}
-            icon={<CheckBoxOutlineBlankRounded />}
-          />
-        ) : (
-          !isUnselectedElective && (
-            <LockIcon
-              color="disabled"
-              fontSize="small"
-              sx={{ padding: "2px", marginRight: "4px" }}
+      <TheTooltip title={`${title}`}>
+        <Box
+          sx={{
+            width: CHILD_NODE_WIDTH,
+            maxWidth: "auto",
+            height: CHILD_NODE_HEIGHT,
+            backgroundColor: backgroundColor,
+            "&:hover": { border: borderOnHover },
+            paddingLeft: !isUnselectedElective ? "12px" : 0,
+            display: "flex",
+            border: "1px solid rgb(212, 212, 216)",
+            cursor: "pointer",
+            borderRadius: "8px",
+            alignItems: "center",
+          }}
+        >
+          {isAvailable && !isUnselectedElective ? (
+            <Checkbox
+              aria-label={`checkbox for ${courseCode}`}
+              name={`checkbox-${id}`}
+              checked={isCompleted}
+              onChange={handleCheck}
+              disabled={!isAvailable}
+              sx={{
+                padding: "0",
+                color: theme.palette.grey[400],
+                "&.Mui-checked": { background: checkedCourseBg },
+                marginRight: "4px",
+              }}
+              checkedIcon={<Check sx={{ color: "white" }} />}
+              icon={<CheckBoxOutlineBlankRounded />}
             />
-          )
-        )}
-        {!isUnselectedElective ? (
-          <button
-            className="courseNode-btn"
-            onClick={() => onSelectCourseNode(id, !isSelected)}
-          >
-            <Typography
-              className="label"
-              style={{ color: color }}
-              fontSize="1.2em"
+          ) : (
+            !isUnselectedElective && (
+              <LockIcon
+                color="disabled"
+                fontSize="small"
+                sx={{ padding: "2px", marginRight: "4px" }}
+              />
+            )
+          )}
+          {!isUnselectedElective ? (
+            <button
+              className="courseNode-btn"
+              onClick={() => onSelectCourseNode(id, !isSelected)}
             >
-              {courseCode}
-            </Typography>
-          </button>
-        ) : (
-          <ElectiveBtn
-            nodeId={id}
-            electiveTitle="SELECT"
-            sx={{ width: "100%" }}
-          />
-        )}
-        {!isUnselectedElective && (
-          <IconButton
-            aria-label="view course details"
-            size="small"
-            onClick={() => openCourseModal(id, courseType)}
-            color="primary"
-            sx={{
-              borderLeft: iconButtonBorderLeft,
-              borderRadius: "0",
-              "&:hover": { borderBottom: "none" },
-              height: "100%",
-              color: " rgba(0, 0, 0, 0.4)",
-              width: "48px",
-            }}
-          >
-            <KeyboardArrowRightIcon fontSize="large" />
-          </IconButton>
-        )}
-      </Box>
+              <Typography
+                className="label"
+                style={{ color: color }}
+                fontSize="1.2em"
+              >
+                {courseCode}
+              </Typography>
+            </button>
+          ) : (
+            <ElectiveBtn
+              nodeId={id}
+              electiveTitle="SELECT"
+              sx={{ width: "100%" }}
+            />
+          )}
+          {!isUnselectedElective && (
+            <IconButton
+              aria-label="view course details"
+              size="small"
+              onClick={() => openCourseModal(id, courseType)}
+              color="primary"
+              sx={{
+                borderLeft: iconButtonBorderLeft,
+                borderRadius: "0",
+                "&:hover": { borderBottom: "none" },
+                height: "100%",
+                color: " rgba(0, 0, 0, 0.4)",
+                width: "48px",
+              }}
+            >
+              <KeyboardArrowRightIcon fontSize="large" />
+            </IconButton>
+          )}
+        </Box>
+      </TheTooltip>
 
       <Handle
         type="target"
