@@ -111,6 +111,11 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
   const reactFlowWrapper = useRef<HTMLDivElement | null>(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const prevDimensions = useRef<{ width: number; height: number }>({
+    width: 0,
+    height: 0,
+  });
+
   useEffect(() => {
     const bounds = getNodesBounds(nodes);
     const calculateZoom = (width: number, height: number, bounds: Rect) => {
@@ -130,6 +135,19 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
       if (reactFlowWrapper.current) {
         const containerWidth = reactFlowWrapper.current.clientWidth;
         const containerHeight = reactFlowWrapper.current.clientHeight;
+
+        // Return early if the dimensions have not changed
+        if (
+          containerWidth === prevDimensions.current.width &&
+          containerHeight === prevDimensions.current.height
+        ) {
+          return;
+        }
+        // Update previous demensions
+        prevDimensions.current = {
+          width: containerWidth,
+          height: containerHeight,
+        };
 
         // Set the viewport to move all nodes to the top of the layout
         setViewport(
@@ -152,7 +170,7 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
         resizeObserver.unobserve(reactFlowWrapper.current);
       }
     };
-  }, [setViewport, isMobile]);
+  }, [nodes, setViewport, isMobile]);
 
   return (
     <div>
