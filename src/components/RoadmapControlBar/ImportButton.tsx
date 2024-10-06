@@ -51,39 +51,35 @@ const ImportButton = memo(({ onImport }: ImportButtonProps) => {
     />
   );
 
-  const MobileButton = () => (
-    <IconButton
-      sx={{ border: "1px solid lightgrey", padding: "0.5rem" }}
-      size="small"
-      color="inherit"
-      component="label"
-    >
-      <FileUploadOutlinedIcon fontSize="small" color="primary" />
-      <FileInput />
-    </IconButton>
-  );
-
-  const DesktopButton = () => (
-    <Button
-      variant="outlined"
-      disableElevation
-      component="label"
-      startIcon={<FileUploadOutlinedIcon sx={{ width: "0.9em" }} />}
-      size="small"
-      sx={{
-        textTransform: "none",
-        borderRadius: "0.9rem",
-        padding: "0.4rem 1rem",
-      }}
-    >
-      Import
-      <FileInput />
-    </Button>
-  );
-
   return (
     <TheTooltip title={TOOLTIP_TEXT}>
-      {isMobile ? <MobileButton /> : <DesktopButton />}
+      {isMobile ? (
+        <IconButton
+          sx={{ border: "1px solid lightgrey", padding: "0.5rem" }}
+          size="small"
+          color="inherit"
+          component="label"
+        >
+          <FileUploadOutlinedIcon fontSize="small" color="primary" />
+          <FileInput />
+        </IconButton>
+      ) : (
+        <Button
+          variant="outlined"
+          disableElevation
+          component="label"
+          startIcon={<FileUploadOutlinedIcon sx={{ width: "0.9em" }} />}
+          size="small"
+          sx={{
+            textTransform: "none",
+            borderRadius: "0.9rem",
+            padding: "0.4rem 1rem",
+          }}
+        >
+          Import
+          <FileInput />
+        </Button>
+      )}
     </TheTooltip>
   );
 });

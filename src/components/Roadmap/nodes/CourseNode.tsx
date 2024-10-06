@@ -91,7 +91,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
         </Box>
       )}
 
-      <TheTooltip title={`${title}`}>
+      <TheTooltip title={`${title}`} enterNextDelay={100} leaveTouchDelay={100}>
         <Box
           sx={{
             width: CHILD_NODE_WIDTH,
