@@ -1,12 +1,6 @@
 import useFetchCareers from "@hooks/useFetchCareers";
 import useFetchDegreeProgrammes from "@hooks/useFetchDegreeProgrammes";
-import {
-  Stack,
-  Autocomplete,
-  TextField,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Stack, Autocomplete, TextField } from "@mui/material";
 import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
@@ -15,8 +9,6 @@ export default function RoadmapSelects({
 }: {
   setAvailableElectives: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const { fetchedDegreeProgrammes } = useFetchDegreeProgrammes();
   const {
     degree,
@@ -137,20 +129,11 @@ export default function RoadmapSelects({
                 },
               }}
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label={config.label}
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      height: "56px",
-                    },
-                  }}
-                />
+                <TextField {...params} label={config.label} />
               )}
               value={config.value}
               onChange={(_, value) => config.onChange(value)}
               disableClearable
-              size={isMobile ? "small" : "medium"}
             />
           ))}
       </Stack>
