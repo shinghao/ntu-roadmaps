@@ -152,7 +152,7 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
         resizeObserver.unobserve(reactFlowWrapper.current);
       }
     };
-  }, [nodes, setViewport, isMobile]);
+  }, [setViewport, isMobile]);
 
   return (
     <div>
@@ -163,6 +163,7 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
           nodeTypes={nodeTypes}
           zoomOnDoubleClick={false}
           minZoom={0.2}
+          fitView
         >
           <Panel
             position="top-right"
