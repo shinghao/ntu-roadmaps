@@ -1,5 +1,6 @@
 import { AppBar, Toolbar, Container, Button, Link, Stack } from "@mui/material";
 import "./Header.css";
+import FeedbackButton from "@components/FeedbackBtn/FeedbackBtn";
 
 // const pages = ["👣 Roadmap", "📚 Courses"];
 
@@ -12,12 +13,14 @@ const SurveyButton = () => (
     <Button
       variant="contained"
       disableElevation
-      color="primary"
       sx={{
+        "&:hover": {
+          borderBottom: "none",
+        },
         textTransform: "none",
         borderRadius: "0.9rem",
-        padding: "0.4rem 1rem",
-        fontSize: "0.8em",
+        paddingX: "16px",
+        height: "38px",
       }}
       size="small"
     >
@@ -54,11 +57,15 @@ function Header() {
               justifyContent="center"
               gap="1rem"
             >
-              <img src="/logo.png" width="32px" height="32px" />
+              <img src="/logo.png" width="28px" height="28px" />
               NTUROADMAPS
             </Stack>
           </a>
-          <SurveyButton />
+          <Stack flexDirection="row" gap="min(1vw, 16px)" alignItems={"center"}>
+            <FeedbackButton />
+            <SurveyButton />
+          </Stack>
+
           {/* {isMobile ? (
             <Box sx={{ display: "flex" }}>
               <IconButton
