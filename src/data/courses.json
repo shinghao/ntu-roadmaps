@@ -278,6 +278,17 @@
     "yearStanding": 3
   },
   {
+    "courseCode": "SC3040",
+    "au": 3,
+    "title": "Advanced Software Engineering",
+    "description": "",
+    "intendedLearningOutcomes": [],
+    "semesters": [1],
+    "prerequisites": [["SC2006"]],
+    "school": "School of Computer Science and Engineering",
+    "yearStanding": 3
+  },
+  {
     "courseCode": "SC4030",
     "au": 3,
     "title": "Wireless and Mobile Networks",
@@ -406,7 +417,7 @@
     "yearStanding": 3
   },
   {
-    "courseCode": "SC4001",
+    "courseCode": "SC4011",
     "au": 3,
     "title": "Security Management",
     "description": "This course aims to develop your ability to identify the problems associated with (cyber and information) security management and understand using case studies that to effectively address them, one needs to design solutions that encompass multiple dimensions, including technology, people, processes and (internal as well as external) regulations. This course provides an introductory but broad perspective of cyber and information security, and is relevant for anyone pursuing a career in the IT/ICT industry ? including those in product design and development, security engineering, penetration testing, network/system administration, as well as, given the proliferation of IT in all walks of our lives, in executive roles across industries and government.",

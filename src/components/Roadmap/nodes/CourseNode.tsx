@@ -148,7 +148,7 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
           ) : (
             <ElectiveBtn
               nodeId={id}
-              electiveTitle="SELECT"
+              electiveTitle={courseCode}
               sx={{ width: "100%" }}
             />
           )}
