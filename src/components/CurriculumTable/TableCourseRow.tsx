@@ -96,7 +96,9 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
           justifyContent="center"
           gap="0.5rem"
         >
-          <Typography width="4.2rem">{row.courseCode}</Typography>
+          <Typography variant="body2" width="4.2rem">
+            {row.courseCode}
+          </Typography>
           <OpenCourseModalBtn nodeId={row.id} courseType={row.type} />
         </Stack>
       </TableCell>
@@ -105,7 +107,9 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
         {isElective ? (
           <ElectiveBtn nodeId={row.id} electiveTitle={row.title} />
         ) : (
-          <Typography paddingLeft="8px">{row.title}</Typography>
+          <Typography variant="body2" paddingLeft="8px">
+            {row.title}
+          </Typography>
         )}
       </TableCell>
 
@@ -115,11 +119,11 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
           borderRight: "1px solid rgba(224, 224, 224)",
         }}
       >
-        <Typography>{row?.au || "?"}</Typography>
+        <Typography variant="body2">{row?.au || "?"}</Typography>
       </TableCell>
 
       <TableCell align="center">
-        <Typography>
+        <Typography variant="body2">
           {row.prerequisites.length > 0 ? row.prerequisites.join(", ") : "-"}
         </Typography>
       </TableCell>
