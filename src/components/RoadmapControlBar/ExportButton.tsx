@@ -42,7 +42,7 @@ export default function ExportButton({ selectedElectives }: ExportButtonProps) {
           size="small"
           onClick={onExport}
         >
-          <SaveIcon fontSize="small" />
+          <SaveIcon fontSize="small" color="primary" />
         </IconButton>
       ) : (
         <Button

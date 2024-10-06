@@ -58,7 +58,7 @@ const ImportButton = memo(({ onImport }: ImportButtonProps) => {
       color="inherit"
       component="label"
     >
-      <FileUploadOutlinedIcon fontSize="small" />
+      <FileUploadOutlinedIcon fontSize="small" color="primary" />
       <FileInput />
     </IconButton>
   );
