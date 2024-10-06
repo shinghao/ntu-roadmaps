@@ -3,6 +3,7 @@ import RoadmapPage from "@pages/roadmapPage";
 import "./App.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import AlertSnackBar from "@components/AlertSnackbar/AlertSnackbar";
+import { Analytics } from "@vercel/analytics/react";
 
 const queryClient = new QueryClient();
 
@@ -13,6 +14,7 @@ export default function App() {
         <AlertSnackBar />
         <Header />
         <RoadmapPage />
+        <Analytics />
       </div>
     </QueryClientProvider>
   );
