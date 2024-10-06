@@ -111,10 +111,19 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
           fitView
           minZoom={0.2}
         >
-          <Panel position="top-right">
+          <Panel
+            position="top-right"
+            style={{
+              marginTop: isMobile ? "8px" : "16px",
+              marginRight: isMobile ? "8px" : "16px",
+            }}
+          >
             <Controls
               position="top-right"
-              style={{ marginTop: "3rem", marginRight: "0" }}
+              style={{
+                marginTop: isMobile ? "40px" : "48px",
+                marginRight: "0",
+              }}
               showInteractive={false}
             />
             <ShowEdgesToggle />
