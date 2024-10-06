@@ -112,6 +112,11 @@ export default function CourseModal({
     setSelectedElective(elective);
   };
 
+  // Some electives do not have data yet such as 'HXxxx'
+  const electivesWithData = effectiveCourseCode.includes("SC");
+  const shouldShowComingSoon =
+    isBde || (!isElective && !title) || (isElective && !electivesWithData);
+
   return (
     <Drawer open={isCourseModalOpen} onClose={onCloseModal} anchor="right">
       <div className="modal-container">
@@ -124,7 +129,7 @@ export default function CourseModal({
           ESC
         </Button>
 
-        {isElective && (
+        {isElective && electivesWithData && (
           <SelectElective
             selectedElective={effectiveCourseCodeValue}
             onSelectElective={onSelectElective}
@@ -173,7 +178,7 @@ export default function CourseModal({
           </div>
         )}
 
-        {(isBde || (!isElective && !title)) && (
+        {shouldShowComingSoon && (
           <Box
             margin="0 auto"
             marginTop="3rem"
