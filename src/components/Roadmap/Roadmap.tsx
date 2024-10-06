@@ -115,8 +115,12 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
     width: 0,
     height: 0,
   });
-
+  const isNodesLoaded = useMemo(() => nodes.length > 0, [nodes]);
   useEffect(() => {
+    if (!isNodesLoaded) {
+      return;
+    }
+
     const bounds = getNodesBounds(nodes);
     const calculateZoom = (width: number, height: number, bounds: Rect) => {
       const MIN_ZOOM = 0.4;
@@ -124,9 +128,9 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
 
       if (!bounds || !bounds.width || !bounds.height) return 1;
 
-      const zoomX = width / bounds.width; // Calculate zoom based on width
-      const zoomY = height / bounds.height; // Calculate zoom based on height
-      const zoom = Math.min(zoomX, zoomY); // Return the smaller zoom factor to fit
+      const zoomX = width / bounds.width;
+      const zoomY = height / bounds.height;
+      const zoom = Math.min(zoomX, zoomY);
 
       return Math.max(Math.min(zoom, MAX_ZOOM), MIN_ZOOM);
     };
@@ -170,7 +174,8 @@ const RoadmapView = ({ roadmapData }: { roadmapData: Roadmap }) => {
         resizeObserver.unobserve(reactFlowWrapper.current);
       }
     };
-  }, [nodes, setViewport, isMobile]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isNodesLoaded, setViewport, isMobile]);
 
   return (
     <div>
