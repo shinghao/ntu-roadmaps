@@ -8,7 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import useRoadmapSelectsStore from "@store/useRoadmapSelectsStore";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 export default function RoadmapSelects({
   setAvailableElectives,
@@ -29,6 +29,21 @@ export default function RoadmapSelects({
     setCareer,
   } = useRoadmapSelectsStore();
   const { careerOptions, fetchedCareers } = useFetchCareers();
+
+  // Scroll roadmap selects out of view after user finish all selects
+  const ref = useRef<HTMLDivElement | null>(null);
+  const scrollOutOfView = useCallback(() => {
+    if (ref.current) {
+      const elementTop =
+        ref.current.getBoundingClientRect().top + window.scrollY;
+      const scrollTarget = elementTop - window.innerHeight;
+
+      window.scrollTo({
+        top: -scrollTarget,
+        behavior: "smooth",
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const selectedCareerElectives = fetchedCareers?.find(
@@ -71,8 +86,9 @@ export default function RoadmapSelects({
   const onChangeCareer = useCallback(
     (value: string) => {
       setCareer(value);
+      scrollOutOfView();
     },
-    [setCareer]
+    [setCareer, scrollOutOfView]
   );
 
   const selectsConfig = [
@@ -105,7 +121,7 @@ export default function RoadmapSelects({
 
   return (
     <>
-      <Stack spacing={3} direction="row" flexWrap="wrap" useFlexGap>
+      <Stack ref={ref} spacing={3} direction="row" flexWrap="wrap" useFlexGap>
         {selectsConfig
           .filter((config) => !config.options || config.options.length > 0) // Filter out configs that have previous requirements
           .map((config) => (
