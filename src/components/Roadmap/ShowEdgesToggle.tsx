@@ -19,7 +19,6 @@ export default function ShowEdgesToggle() {
           style={{ marginRight: 0 }}
           control={
             <Switch
-              defaultChecked
               value={isEdgesHidden}
               onChange={toggleShowAllEdges}
               size="small"

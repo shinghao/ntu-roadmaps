@@ -7,7 +7,7 @@ interface CourseModalState {
 }
 
 const useIsEdgesHiddenStore = create<CourseModalState>((set) => ({
-  isEdgesHidden: false,
+  isEdgesHidden: true,
   setIsEdgesHidden: (isEdgesHidden: boolean) => set({ isEdgesHidden }),
   toggleEdgesHidden: () =>
     set((state) => ({ isEdgesHidden: !state.isEdgesHidden })),
