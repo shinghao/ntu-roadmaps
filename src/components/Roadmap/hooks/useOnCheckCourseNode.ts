@@ -24,7 +24,7 @@ const useOnCheckCourseNode = () => {
           ...(node.type === "courseNode"
             ? {
                 isAvailable: isPrerequisitesCompleted(
-                  node.data.courseCode as string
+                  node.data.prerequisites as string[]
                 ),
                 isCompleted: updatedCompletedCourses.includes(
                   node.data.courseCode as string

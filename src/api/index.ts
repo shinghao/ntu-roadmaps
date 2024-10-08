@@ -10,16 +10,13 @@ import {
   type Roadmap,
 } from "@customTypes/index";
 
-export const fetchCourses = async (): Promise<Course[]> => {
-  return new Promise((resolve) => resolve(coursesData as Course[]));
-};
-
 export const fetchCourseDetails = async (
   courseCode: string
 ): Promise<Course | null> => {
   const courseData = coursesData as Course[];
   const courseFound =
     courseData.find((course) => course.courseCode === courseCode) || null;
+
   return new Promise((resolve) => resolve(courseFound));
 };
 
@@ -30,6 +27,18 @@ export const fetchRoadmap = async (
 ): Promise<Roadmap> => {
   const getPrerequisites = (courseCode: string): string[] => {
     const course = coursesData.find((c) => c.courseCode === courseCode);
+
+    // TODO: Temporary added hard coded implementation for MH1810, as it is not longer a prerequisite in AY2024
+    if (
+      course &&
+      cohort === "2024" &&
+      course?.prerequisites?.flat()?.includes("MH1810")
+    ) {
+      return course.prerequisites
+        .flat()
+        .filter((prereq) => prereq !== "MH1810");
+    }
+
     return course ? course.prerequisites.flat() : [];
   };
 

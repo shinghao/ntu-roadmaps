@@ -34,7 +34,7 @@ const TableCourseRow = ({ year, semester, index, row, sx }: Props) => {
       removeCompletedCourse(courseCode);
     }
   };
-  const isAvailable = isPrerequisitesCompleted(row.courseCode);
+  const isAvailable = isPrerequisitesCompleted(row.prerequisites);
   const isCompleted = isCourseCompleted(row.courseCode);
   const isElective = row.type === CourseInRoadmapType.Elective;
   const isUnselectedElective = isElective && !row.title;

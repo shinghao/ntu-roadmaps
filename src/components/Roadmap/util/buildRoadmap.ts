@@ -47,7 +47,7 @@ const buildRoadmap = (
     return nodes.map((node) => {
       if (node.type === "courseNode") {
         node.data.isAvailable = isPrerequisitesCompleted(
-          node.data.courseCode as string
+          node.data.prerequisites as string[]
         );
         node.data.isCompleted = completedCourses.includes(
           node.data.courseCode as string
