@@ -28,7 +28,7 @@ export default function ShowEdgesToggle() {
           label={
             <Typography
               style={{
-                color: isEdgesHidden ? "grey" : theme.palette.primary.main,
+                color: isEdgesHidden ? "black" : theme.palette.primary.main,
               }}
               fontSize="0.8em"
             >

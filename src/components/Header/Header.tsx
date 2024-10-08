@@ -57,7 +57,7 @@ function Header() {
               justifyContent="center"
               gap="min(2vw, 16px)"
             >
-              <img src="/logo.png" width="28px" height="28px" />
+              <img src="/logo.png" alt="logo" width="28px" height="28px" />
               NTUROADMAPS
             </Stack>
           </a>
