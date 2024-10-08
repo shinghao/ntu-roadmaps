@@ -1,4 +1,4 @@
-import { Box, Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField, Typography, Box } from "@mui/material";
 
 interface props {
   selectedElective: string;
@@ -30,6 +30,18 @@ export default function SelectElective({
         disableClearable
         defaultValue={""}
       />
+      <Typography
+        variant="body2"
+        color="grey"
+        marginTop="12px"
+        sx={{
+          padding: "0px 4px",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        Electives available are recommended based on your selected career
+      </Typography>
     </Box>
   );
 }

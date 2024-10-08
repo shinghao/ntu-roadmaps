@@ -2,7 +2,6 @@ import { Handle, NodeProps, Position, Node } from "@xyflow/react";
 import { CHILD_NODE_WIDTH, CHILD_NODE_HEIGHT } from "../Roadmap.constants";
 import "./CourseNode.css";
 import {
-  Badge,
   Box,
   Checkbox,
   Chip,
