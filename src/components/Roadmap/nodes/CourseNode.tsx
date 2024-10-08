@@ -5,6 +5,7 @@ import {
   Badge,
   Box,
   Checkbox,
+  Chip,
   IconButton,
   Typography,
   useTheme,
@@ -86,8 +87,8 @@ const CourseNode = ({ data }: NodeProps<CourseNode>) => {
   return (
     <>
       {isElective && (
-        <Box sx={{ position: "absolute", bottom: "40px", left: "25px" }}>
-          <Badge color="primary" badgeContent="Elective"></Badge>
+        <Box sx={{ position: "absolute", bottom: "50px" }}>
+          <Chip color="primary" label="Elective"></Chip>
         </Box>
       )}
 
