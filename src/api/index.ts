@@ -1,5 +1,5 @@
 import axios from "axios";
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = "ntu-roadmaps.azurewebsites.net/api";
 
 export const fetchCourseDetails = async (
   courseCode: string
