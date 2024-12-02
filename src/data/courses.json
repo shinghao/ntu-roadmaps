@@ -281,7 +281,7 @@
     "courseCode": "SC3040",
     "au": 3,
     "title": "Advanced Software Engineering",
-    "description": "",
+    "description": "Building upon software engineering and design concepts covered in Software Engineering (SC2006), this course aims to introduce advanced software engineering management topics to you including Quality Management, Project Management, Configuration Management, and Maintenance, according to the Software Engineering Body of Knowledge.",
     "intendedLearningOutcomes": [],
     "semesters": [1],
     "prerequisites": [["SC2006"]],
@@ -1198,5 +1198,29 @@
     "otherPrerequisites": "Refer to Class Schedule",
     "school": "",
     "yearStanding": 0
+  },
+  {
+    "courseCode": "SC4013",
+    "au": 3,
+    "title": "Application Security",
+    "description": "Web applications have become the cornerstone of our digital lives, yet they also represent a critical vulnerability on the ever-expanding cyber battlefield. Malicious actors relentlessly probe these applications for weaknesses, aiming to steal sensitive data, disrupt operations, or compromise user privacy. In this dynamic landscape, security professionals with expertise in web application security are the cyber sentinels - the highly skilled defenders who identify, assess, and mitigate threats before they can exploit critical vulnerabilities. This intensive course is designed to equip students with the comprehensive knowledge and practical skills necessary to thrive in this in-demand field. Students will gain a deep understanding of web application security principles, master industry-standard testing methodologies, and develop the expertise to identify and exploit vulnerabilities in simulated environments. By the end, students will be well-prepared to launch a successful career as a web application security professional, playing a vital role in protecting our digital infrastructure.",
+    "intendedLearningOutcomes": [],
+    "semesters": [1],
+    "prerequisites": [["SC2005"], ["SC2008"]],
+    "otherPrerequisites": "Refer to Class Schedule",
+    "school": "School of Computer Science and Engineering",
+    "yearStanding": 3
+  },
+  {
+    "courseCode": "SC3050",
+    "au": 3,
+    "title": "Advanced Computer Architecture",
+    "description": "Processor System Design: CPU interfaces, clock, control, data & address bus; System firmware. The CPU Architecture: including ISA, compiler relationship, control, pipelining, hazards, CISC/RISC/VLIW and issues of ILP. Memory Systems: cache, virtual memory systems and the MMU, access methods, reliability, error detection/correction. Performance Enhancements: superscalar; branching issues, multithreading, scalability, co-processors and enhancement units. Interfacing and Communications: I/O fundamentals, interrupts and interfacing, buses, protocols and arbitration. Computer Arithmetic: range, precision, real numbers, floating point and conversion, multi-precision arithmetic Multiprocessing: multiprocessing architectures and interconnections, shared memory and coherence, memory solutions Future directions: low power computing; testing, JTAG, system-on-chip and multi-core implementations, embedded systems issues, comparison of computational on CPU, DSP, FPGA and GPU.",
+    "intendedLearningOutcomes": [],
+    "semesters": [1],
+    "prerequisites": [["SC1006"]],
+    "otherPrerequisites": "Refer to Class Schedule",
+    "school": "School of Computer Science and Engineering",
+    "yearStanding": 3
   }
 ]
