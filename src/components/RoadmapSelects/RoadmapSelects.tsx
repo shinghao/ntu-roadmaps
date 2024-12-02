@@ -41,7 +41,7 @@ export default function RoadmapSelects({
     const selectedCareerElectives = fetchedCareers?.find(
       (fetchedCareer) => fetchedCareer.career === career
     )?.electives;
-    setAvailableElectives(selectedCareerElectives ?? []);
+    setAvailableElectives(selectedCareerElectives?.sort() ?? []);
   }, [career, fetchedCareers, setAvailableElectives]);
 
   const degreeOptions = useMemo(
