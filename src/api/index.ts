@@ -9,10 +9,19 @@ import {
   type GetDegreeProgrammesResp,
   type Roadmap,
 } from "@customTypes/index";
+import axios from "axios";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+// This flag is to toggle between using the backend data or the json files in frontend
+const IS_USE_BACKEND_DATA = import.meta.env.VITE_IS_USE_BACKEND_DATA;
 
 export const fetchCourseDetails = async (
   courseCode: string
 ): Promise<Course | null> => {
+  if (IS_USE_BACKEND_DATA) {
+    const { data } = await axios.get(`${BACKEND_URL}/course/${courseCode}`);
+    return data;
+  }
+
   const courseData = coursesData as Course[];
   const courseFound =
     courseData.find((course) => course.courseCode === courseCode) || null;
@@ -104,12 +113,21 @@ export const fetchRoadmap = async (
 
 export const fetchDegreeProgrammes =
   async (): Promise<GetDegreeProgrammesResp> => {
+    if (IS_USE_BACKEND_DATA) {
+      const { data } = await axios.get(`${BACKEND_URL}/degrees`);
+      return data;
+    }
     return new Promise((resolve) => {
       resolve(degreeProgrammes as GetDegreeProgrammesResp);
     });
   };
 
 export const fetchCareers = async (degree: string): Promise<Career[]> => {
+  if (IS_USE_BACKEND_DATA) {
+    const { data } = await axios.get(`${BACKEND_URL}/careers/${degree}`);
+    return data;
+  }
+
   const careersOfDegree = careers.filter((career) =>
     career.degrees.includes(degree)
   );
