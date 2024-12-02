@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import RoadmapView from "@components/Roadmap";
 import { Container } from "@mui/material";
 import CourseModal from "@components/Roadmap/CourseModal";
@@ -42,16 +42,13 @@ export default function RoadmapPage() {
     };
   }, [fetchedRoadmapData, selectedElectives]);
 
-  const onImport = useCallback(
-    () => (data: ExportData) => {
-      const selectedCareerElectives = fetchedCareers?.find(
-        ({ career }) => career === data.career
-      )?.electives;
-      setAvailableElectives(selectedCareerElectives ?? []);
-      setSelectedElectives(data.selectedElectives);
-    },
-    [fetchedCareers]
-  );
+  const onImport = (data: ExportData) => {
+    const selectedCareerElectives = fetchedCareers?.find(
+      ({ career }) => career === data.career
+    )?.electives;
+    setAvailableElectives(selectedCareerElectives ?? []);
+    setSelectedElectives(data.selectedElectives);
+  };
 
   return (
     <ReactFlowProvider>
